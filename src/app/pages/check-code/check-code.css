@@ -2,7 +2,6 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
-/* الكارت */
 .form-card {
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
@@ -13,7 +12,6 @@ body {
   animation: slideFadeBig 0.6s ease;
 }
 
-/* animation عند ظهور الجزء */
 @keyframes slideFadeBig {
   from {
     opacity: 0;

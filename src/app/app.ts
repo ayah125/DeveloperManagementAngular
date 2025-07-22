@@ -7,7 +7,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClient } from '@angular/common/http';
-import { RoleService } from './services/role/role-service';
 
 @Component({
   standalone: true,
@@ -27,15 +26,11 @@ import { RoleService } from './services/role/role-service';
 export class App {
   sidebarOpen = true;
 
-  constructor(private http: HttpClient, private roleService: RoleService) {}
+  constructor(private http: HttpClient) {}
   isSmallScreen(): boolean {
     return window.innerWidth < 768;
   }
   isDarkMode = false;
-
-  ngOnInit() {
-    this.roleService.loadRole();
-  }
 
   toggleDarkMode() {
     this.isDarkMode = !this.isDarkMode;

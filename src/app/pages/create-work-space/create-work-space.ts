@@ -35,8 +35,8 @@ export class CreateWorkSpace {
     const newWorkspace = {
       id: Date.now(),
       name: this.requestData.repositoryName,
-      type: 'default', // أي قيمة افتراضية
-      description: 'New workspace', // أو ممكن تخليها dynamic من input
+      type: 'default',
+      description: 'New workspace',
     };
 
     this.workspaceService.addWorkspace(newWorkspace);

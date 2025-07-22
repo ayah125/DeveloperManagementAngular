@@ -10,7 +10,6 @@ import {
   RouterModule,
 } from '@angular/router';
 
-import { RoleService } from '../../services/role/role-service';
 import { filter } from 'rxjs/internal/operators/filter';
 import { CreateWorkspaceService } from '../../services/createWorkSpace/createworkspace';
 
@@ -44,7 +43,7 @@ export class Navbar implements AfterViewInit, OnInit {
   constructor(
     public workspaceService: CreateWorkspaceService,
     public authService: AuthService,
-    private roleService: RoleService,
+
     private router: Router
   ) {}
 
@@ -53,9 +52,6 @@ export class Navbar implements AfterViewInit, OnInit {
       this.workspaces = ws;
     });
 
-    this.roleService.role$.subscribe((currentRole) => {
-      this.role = currentRole;
-    });
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
