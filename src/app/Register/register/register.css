@@ -1,0 +1,140 @@
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+}
+
+.full-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("https://t4.ftcdn.net/jpg/07/05/56/21/240_F_705562152_WFSrWPNw6TqrxQ3MJzWzaZ1oeH3jLtUu.jpg")
+    no-repeat center center;
+  background-size: cover;
+  background-color: #e7eaf6;
+  z-index: 0;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 63, 103, 0.6);
+  z-index: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 12px;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.65);
+  padding: 20px; /* مساحة داخلية */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* تحسين المظهر */
+}
+
+.input-custom {
+  border: 1px solid #a2a8d3;
+  border-radius: 8px;
+  background: #e7eaf6;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-custom:focus {
+  border-color: #38598b;
+  box-shadow: 0 0 0 3px rgba(56, 89, 139, 0.2);
+  outline: none;
+}
+
+.text-fourth {
+  color: #113f67;
+}
+
+.text-third {
+  color: #38598b;
+}
+
+.btn-third {
+  background: #38598b;
+  color: #fff;
+  border-radius: 8px;
+}
+
+.btn-third:hover {
+  background: #113f67;
+  color: #fff;
+}
+.error {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 2px;
+}
+.register-container {
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.error {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 2px;
+}
+
+.general-error {
+  text-align: center;
+  margin-top: 10px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0056b3;
+}

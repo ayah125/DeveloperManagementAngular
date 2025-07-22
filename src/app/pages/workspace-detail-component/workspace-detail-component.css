@@ -1,0 +1,61 @@
+.side-card {
+  position: fixed;
+  top: 150px;
+  left: 100px; /* بعيد عن الـ sidebar */
+  width: 300px;
+  height: 30vh;
+  background: linear-gradient(135deg, #092f51, #133c6c);
+  color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  /* ظل ناعم */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+  z-index: 900;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeSlideIn 0.5s forwards;
+}
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* عنوان داخل الكارت */
+.side-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* وصف مختصر */
+.description {
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  color: #e0e0e0;
+}
+
+/* أزرار */
+.side-btn {
+  background: #ffffff33;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  width: 100%;
+  text-align: left;
+  transition: background 0.3s ease;
+}
+
+.side-btn:hover {
+  background: #ffffff55;
+}

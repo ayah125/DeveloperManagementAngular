@@ -1,0 +1,18 @@
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+  <div class="form-card p-5 rounded-4 shadow-lg text-center">
+    <!-- قبل الضغط -->
+    <div *ngIf="!showResult" class="fade-in">
+      <h3 class="form-title mb-4">Check Your Code</h3>
+      <p class="subtitle mb-4">Press the button below to validate your code</p>
+      <button class="btn btn-submit w-100" (click)="checkCode()">
+        🚀 Check your code
+      </button>
+    </div>
+
+    <!-- بعد الضغط -->
+    <div *ngIf="showResult" class="fade-in">
+      <h3 class="form-title mb-3 text-success">✅ Your code looks good!</h3>
+      <p class="subtitle mb-3">All checks passed successfully.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+  <div class="form-card p-5 rounded-4 shadow-lg text-center">
+    <h3 class="form-title mb-4">Review Your Code</h3>
+    <p class="subtitle mb-4">
+      Press the button below to get feedback on your code
+    </p>
+
+    <button
+      class="btn btn-submit w-100"
+      (click)="toggleDetails()"
+      *ngIf="!showDetails"
+    >
+      🚀 Review your code
+    </button>
+
+    <div class="details mt-4" *ngIf="showDetails">
+      <div class="detail-card">
+        <h4>Score</h4>
+        <p>{{ score }}%</p>
+      </div>
+      <div class="detail-card">
+        <h4>Feedback</h4>
+        <p>{{ feedback }}</p>
+      </div>
+      <div class="detail-card">
+        <h4>Suggestions</h4>
+        <ul>
+          <li *ngFor="let suggestion of suggestions">{{ suggestion }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

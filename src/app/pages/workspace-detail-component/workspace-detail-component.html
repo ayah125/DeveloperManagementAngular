@@ -1,0 +1,16 @@
+<div class="workspace-detail-page d-flex">
+  <!-- الجزء الثابت -->
+  <div class="side-card p-3">
+    <h3>Code Review</h3>
+    <p class="description">
+      Submit your code for review and get instant feedback.
+    </p>
+    <button class="side-btn" (click)="goToReview()">Review</button>
+    <button class="side-btn" (click)="goToCheck()">Check</button>
+  </div>
+
+  <!-- الجزء اللي هيتغير -->
+  <div class="workspace-content flex-fill p-3">
+    <router-outlet></router-outlet>
+  </div>
+</div>

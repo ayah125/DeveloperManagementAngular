@@ -1,0 +1,117 @@
+<nav class="navbar navbar-expand-lg custom-navbar fixed-top">
+  <div class="container-fluid">
+    <button
+      class="btn sidebar-toggle-btn text-white me-2"
+      (click)="toggleSidebar()"
+    >
+      &#9776;
+    </button>
+
+    <a
+      class="navbar-brand d-flex align-items-center text-white fw-bold"
+      routerLink="/home"
+      style="gap: 0.5rem"
+    >
+      <img
+        src="https://img.freepik.com/premium-vector/people-rune-logo-design-template_18099-2098.jpg"
+        alt="Logo"
+      />
+      Run Task
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mb-2 mb-lg-0 gap-2 me-auto">
+        <li class="nav-item">
+          <a
+            routerLink="/home"
+            routerLinkActive="active-link"
+            class="nav-link text-white"
+            >Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            routerLink="/login"
+            routerLinkActive="active-link"
+            class="nav-link text-white"
+            >Login</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            routerLink="/register"
+            routerLinkActive="active-link"
+            class="nav-link text-white"
+            >Register</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            routerLink="/tasks"
+            routerLinkActive="active-link"
+            class="nav-link text-white"
+            >Tasks</a
+          >
+        </li>
+      </ul>
+
+      <div
+        class="d-flex align-items-center gap-2 text-white ms-auto"
+        *ngIf="authService.user$ | async as user"
+      >
+        <span>Welcome, {{ user.displayName }}</span>
+        <button class="logout-btn" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Sidebar -->
+<div class="custom-sidebar" [class.show]="isSidebarOpen">
+  <ul>
+    <li>
+      <div
+        class="d-flex align-items-center justify-content-between fw-semibold mb-1"
+        (click)="toggleProfile()"
+        style="cursor: pointer"
+      >
+        <a href="javascript:void(0)">Profile</a>
+        <i
+          [class]="profileExpanded ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"
+        ></i>
+      </div>
+      <div class="profile-collapse" [class.expanded]="profileExpanded">
+        <ul class="profile-list">
+          <li class="profile-item">✏️ Info</li>
+          <li class="profile-item">⚙️ Settings</li>
+        </ul>
+      </div>
+    </li>
+
+    <li><a routerLink="/home">Home</a></li>
+    <li><a routerLink="/tasks">Tasks</a></li>
+
+    <li><a routerLink="/code-check">Code Check</a></li>
+    <li><a routerLink="/work">WorkSpaces</a></li>
+    <li class="workspace-item">
+      <a routerLink="/create" class="add-icon">
+        <i class="fas fa-plus"></i>
+        Create new WorkSpace
+      </a>
+    </li>
+    <li *ngFor="let ws of workspaces" class="workspace-item">
+      <button class="workspace-btn" (click)="goToWorkspace(ws.id)">
+        {{ ws.name }}
+      </button>
+    </li>
+  </ul>
+</div>

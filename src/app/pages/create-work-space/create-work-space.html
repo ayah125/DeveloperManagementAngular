@@ -1,0 +1,53 @@
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+  <div class="form-card p-5 rounded-4 shadow-lg">
+    <h3 class="form-title text-center mb-3">Create WorkSpace</h3>
+    <p class="subtitle text-center mb-4">
+      Fill the details below to create your workspace
+    </p>
+
+    <div class="mb-3 input-group">
+      <span class="input-group-text"><i class="bi bi-person"></i></span>
+      <input
+        class="form-control"
+        placeholder="Owner Name"
+        [(ngModel)]="requestData.ownerName"
+      />
+    </div>
+    <div class="mb-3 input-group">
+      <span class="input-group-text"><i class="bi bi-github"></i></span>
+      <input
+        class="form-control"
+        placeholder="Repository Name"
+        [(ngModel)]="requestData.repositoryName"
+      />
+    </div>
+
+    <div class="mb-3 input-group">
+      <span class="input-group-text"><i class="bi bi-key"></i></span>
+      <input
+        class="form-control"
+        placeholder="User Token"
+        [(ngModel)]="requestData.userToken"
+      />
+    </div>
+    <div class="mb-4 input-group">
+      <span class="input-group-text"><i class="bi bi-browser-chrome"></i></span>
+      <input
+        class="form-control"
+        placeholder="User Agent"
+        [(ngModel)]="requestData.userAgent"
+      />
+    </div>
+
+    <button class="btn btn-submit w-100 mt-2" (click)="GotoDetails()">
+      Submit
+    </button>
+
+    <div class="mt-4" *ngIf="responseData">
+      <h5>Response:</h5>
+      <pre>{{ responseData | json }}</pre>
+    </div>
+
+    <p class="text-danger mt-2" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </div>
+</div>
