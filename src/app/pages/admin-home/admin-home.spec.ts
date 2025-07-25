@@ -1,16 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Createworkspace } from './create-work-space';
 
-describe('CreateWorkSpace', () => {
-  let component: Createworkspace;
-  let fixture: ComponentFixture<Createworkspace>;
+import { AdminHome } from './admin-home';
+
+describe('AdminHome', () => {
+  let component: AdminHome;
+  let fixture: ComponentFixture<AdminHome>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Createworkspace],
-    }).compileComponents();
+      imports: [AdminHome]
+    })
+    .compileComponents();
 
-    fixture = TestBed.createComponent(Createworkspace);
+    fixture = TestBed.createComponent(AdminHome);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -5,49 +5,70 @@
       Fill the details below to create your workspace
     </p>
 
-    <div class="mb-3 input-group">
-      <span class="input-group-text"><i class="bi bi-person"></i></span>
-      <input
-        class="form-control"
-        placeholder="Owner Name"
-        [(ngModel)]="requestData.ownerName"
-      />
-    </div>
-    <div class="mb-3 input-group">
-      <span class="input-group-text"><i class="bi bi-github"></i></span>
-      <input
-        class="form-control"
-        placeholder="Repository Name"
-        [(ngModel)]="requestData.repositoryName"
-      />
-    </div>
+    <form #workspaceForm="ngForm" (ngSubmit)="onSubmit(workspaceForm)">
+      <!-- Workspace Name -->
+      <div class="mb-3 input-group">
+        <span class="input-group-text"><i class="bi bi-folder-plus"></i></span>
+        <input
+          name="workspaceName"
+          class="form-control"
+          placeholder="Workspace Name"
+          required
+          [(ngModel)]="workspaceData.name"
+        />
+      </div>
 
-    <div class="mb-3 input-group">
-      <span class="input-group-text"><i class="bi bi-key"></i></span>
-      <input
-        class="form-control"
-        placeholder="User Token"
-        [(ngModel)]="requestData.userToken"
-      />
-    </div>
-    <div class="mb-4 input-group">
-      <span class="input-group-text"><i class="bi bi-browser-chrome"></i></span>
-      <input
-        class="form-control"
-        placeholder="User Agent"
-        [(ngModel)]="requestData.userAgent"
-      />
-    </div>
+      <!-- Owner Name -->
+      <div class="mb-3 input-group">
+        <span class="input-group-text"><i class="bi bi-person"></i></span>
+        <input
+          name="ownerName"
+          class="form-control"
+          placeholder="Owner Name"
+          required
+          [(ngModel)]="workspaceTokens.OwnerName"
+        />
+      </div>
 
-    <button class="btn btn-submit w-100 mt-2" (click)="GotoDetails()">
-      Submit
-    </button>
+      <!-- GitHub Repo -->
+      <div class="mb-3 input-group">
+        <span class="input-group-text"><i class="bi bi-github"></i></span>
+        <input
+          name="githubRepo"
+          class="form-control"
+          placeholder="Repository Name"
+          required
+          [(ngModel)]="workspaceTokens.GithubRepo"
+        />
+      </div>
 
-    <div class="mt-4" *ngIf="responseData">
-      <h5>Response:</h5>
-      <pre>{{ responseData | json }}</pre>
-    </div>
+      <!-- GitHub Token -->
+      <div class="mb-3 input-group">
+        <span class="input-group-text"><i class="bi bi-key"></i></span>
+        <input
+          name="githubToken"
+          class="form-control"
+          placeholder="User Token"
+          required
+          [(ngModel)]="workspaceTokens.GithubToken"
+        />
+      </div>
 
-    <p class="text-danger mt-2" *ngIf="errorMessage">{{ errorMessage }}</p>
+      <!-- User Agent -->
+      <div class="mb-4 input-group">
+        <span class="input-group-text"
+          ><i class="bi bi-browser-chrome"></i
+        ></span>
+        <input
+          name="userAgent"
+          class="form-control"
+          placeholder="User Agent"
+          required
+          [(ngModel)]="workspaceTokens.UserAgent"
+        />
+      </div>
+
+      <button class="btn btn-submit w-100 mt-2" type="submit">Submit</button>
+    </form>
   </div>
 </div>

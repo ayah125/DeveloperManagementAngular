@@ -6,34 +6,43 @@ import { Home } from './pages/home/home';
 import { Layout } from './Shared Component/layout/layout';
 import { CurrentTask } from './components/current-task/current-task';
 import { PreviousTasks } from './components/previous-tasks/previous-tasks';
-import { CreateWorkSpace } from './pages/create-work-space/create-work-space';
 
-import { WorkspaceDetailComponent } from './pages/workspace-detail-component/workspace-detail-component';
 import { CodeReview } from './review/review';
 import { CheckCode } from './pages/check-code/check-code';
+import { AdminHome } from './pages/admin-home/admin-home';
+import { Createworkspace } from './pages/create-work-space/create-work-space';
+import { WorkspaceDetailComponent } from './pages/workspace-developer-component/workspace-detail-component';
+import { WorkspacePageComponent } from './components/workspace/workspace';
+
+import { AuthGuard } from './auth-guard';
 
 export const routes: Routes = [
   {
     path: '',
     component: Layout,
     children: [
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: Home },
-
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      { path: 'home', component: Home, canActivate: [AuthGuard] },
       { path: 'tasks', component: TaskList },
+
+      { path: 'admin', component: AdminHome },
       { path: 'prev', component: PreviousTasks },
       { path: 'current-task', component: CurrentTask },
-      { path: 'create', component: CreateWorkSpace },
+      { path: 'create', component: Createworkspace },
       { path: 'login', component: Login },
       { path: 'register', component: Register },
-
-      // هنا بنخلي workspace details كـ parent
       {
-        path: 'workspace/:id',
-        component: WorkspaceDetailComponent,
+        path: 'workspace',
         children: [
-          { path: 'review', component: CodeReview },
-          { path: 'check', component: CheckCode },
+          {
+            path: '',
+            component: WorkspaceDetailComponent,
+            children: [
+              { path: 'review', component: CodeReview },
+              { path: 'check', component: CheckCode },
+            ],
+          },
+          { path: ':id', component: WorkspacePageComponent },
         ],
       },
     ],

@@ -34,7 +34,7 @@ export class AuthService {
     onAuthStateChanged(this.auth, (user) => {
       this.ngZone.run(() => {
         this.user = user;
-        this.userSubject.next(user); // ⭐ مهم
+        this.userSubject.next(user);
         console.log('Auth state changed:', user);
       });
     });
@@ -44,7 +44,7 @@ export class AuthService {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account' });
 
-    await this.logout(); // ⭐ sign out الأول لضمان choose account
+    await this.logout();
 
     await setPersistence(
       this.auth,
@@ -56,7 +56,7 @@ export class AuthService {
         this.ngZone.run(() => {
           this.user = result.user;
           console.log('Logged in user:', this.user);
-          this.router.navigate(['/home']); // ⭐ هنا بيروّحك على home فورًا
+          this.router.navigate(['/home']);
         });
       })
       .catch((error) => {
@@ -75,19 +75,19 @@ export class AuthService {
         this.user = null;
         this.router.navigate(['/login']);
         this.user = null;
-        this.userSubject.next(null); // ⭐ مهم
+        this.userSubject.next(null);
       });
     });
   }
   setToken(token: string) {
-    sessionStorage.setItem('userToken', token);
+    localStorage.setItem('userToken', token);
   }
 
   getToken(): string | null {
-    return sessionStorage.getItem('userToken');
+    return localStorage.getItem('userToken');
   }
 
   removeToken() {
-    sessionStorage.removeItem('userToken');
+    localStorage.removeItem('userToken');
   }
 }
