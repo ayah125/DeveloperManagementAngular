@@ -21,7 +21,7 @@ import { LoginDTO } from '../../DTO/LoginDTO';
 })
 export class AuthService {
   user: User | null = null;
-  private ApiUrl = 'http://localhost:5023';
+  private ApiUrl = 'https://localhost:7293';
   private userSubject = new BehaviorSubject<User | null>(null);
   user$ = this.userSubject.asObservable();
 

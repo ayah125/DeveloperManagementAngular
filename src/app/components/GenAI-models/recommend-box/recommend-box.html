@@ -1,0 +1,25 @@
+<div class="card p-3">
+  <h2>Get Recommended Developer</h2>
+
+  <form (submit)="getRecommendation(); $event.preventDefault()">
+    <div class="mb-3">
+      <label for="description" class="form-label">Task Description</label>
+      <textarea [(ngModel)]="description" name="description" id="description" class="form-control" rows="4" required></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="loading">
+      {{ loading ? 'Loading...' : 'Get Recommendation' }}
+    </button>
+  </form>
+
+  <div *ngIf="error" class="alert alert-danger mt-3">
+    {{ error }}
+  </div>
+
+  <div *ngIf="result" class="mt-4 border p-3 rounded bg-light">
+    <h5>Recommended Developer:</h5>
+    <p><strong>Name:</strong> {{ result.recommendedDeveloper.name }}</p>
+    <p><strong>Score:</strong> {{ result.recommendedDeveloper.score }}</p>
+    <p><strong>Reason:</strong> {{ result.recommendedDeveloper.explain }}</p>
+  </div>
+</div>
