@@ -1,7 +1,7 @@
 .side-card {
   position: fixed;
   top: 150px;
-  left: 100px; /* بعيد عن الـ sidebar */
+  left: 100px;
   width: 300px;
   height: 30vh;
   background: linear-gradient(135deg, #092f51, #133c6c);
@@ -9,7 +9,7 @@
   padding: 20px;
   box-sizing: border-box;
   border-radius: 8px;
-  /* ظل ناعم */
+
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
@@ -28,21 +28,18 @@
   }
 }
 
-/* عنوان داخل الكارت */
 .side-card h3 {
   margin: 0 0 8px;
   font-size: 1.2rem;
   font-weight: 600;
 }
 
-/* وصف مختصر */
 .description {
   margin-bottom: 15px;
   font-size: 0.9rem;
   color: #e0e0e0;
 }
 
-/* أزرار */
 .side-btn {
   background: #ffffff33;
   color: #fff;

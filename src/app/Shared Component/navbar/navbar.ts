@@ -9,9 +9,8 @@ import {
   RouterLinkActive,
   RouterModule,
 } from '@angular/router';
-
-import { filter } from 'rxjs/internal/operators/filter';
-import { CreateWorkspaceService } from '../../services/createWorkSpace/createworkspace';
+import { filter } from 'rxjs/operators'; // ✅ صح بدل internal
+import { Workspace } from '../../services/createWorkSpace/createworkspace';
 
 declare var bootstrap: any;
 
@@ -41,22 +40,17 @@ export class Navbar implements AfterViewInit, OnInit {
   role: string = 'User';
 
   constructor(
-    public workspaceService: CreateWorkspaceService,
+    public workspaceService: Workspace,
     public authService: AuthService,
-
     private router: Router
   ) {}
 
   ngOnInit() {
+    this.workspaceService.loadUserWorkspacesFromApi();
+
     this.workspaceService.workspaces$.subscribe((ws) => {
       this.workspaces = ws;
     });
-
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.isSidebarOpen = false;
-      });
   }
 
   ngAfterViewInit() {
@@ -77,6 +71,7 @@ export class Navbar implements AfterViewInit, OnInit {
   logout() {
     this.authService.logout();
   }
+
   goToWorkspace(id: number) {
     this.router.navigate(['/workspace', id]);
   }
