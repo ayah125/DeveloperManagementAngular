@@ -8,13 +8,14 @@ import { CurrentTask } from './components/current-task/current-task';
 import { PreviousTasks } from './components/previous-tasks/previous-tasks';
 
 import { CodeReview } from './review/review';
-import { CheckCode } from './pages/check-code/check-code';
 import { AdminHome } from './pages/admin-home/admin-home';
 import { Createworkspace } from './pages/create-work-space/create-work-space';
 import { WorkspaceDetailComponent } from './pages/workspace-developer-component/workspace-detail-component';
 import { WorkspacePageComponent } from './components/workspace/workspace';
 
 import { AuthGuard } from './auth-guard';
+import { RecommendBox } from './components/GenAI-models/recommend-box/recommend-box';
+import { CodeChecker } from './components/GenAI-models/code-check/code-check';
 
 export const routes: Routes = [
   {
@@ -39,7 +40,8 @@ export const routes: Routes = [
             component: WorkspaceDetailComponent,
             children: [
               { path: 'review', component: CodeReview },
-              { path: 'check', component: CheckCode },
+              { path: 'check', component: CodeChecker },
+              { path: 'recommend', component: RecommendBox },
             ],
           },
           { path: ':id', component: WorkspacePageComponent },

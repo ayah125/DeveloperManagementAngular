@@ -1,19 +1,33 @@
-<div class="container mt-4">
-  <h3>Check GitHub Build Status</h3>
-
-  <button class="btn btn-primary" (click)="checkStatus()" [disabled]="loading">
-    {{ loading ? 'Loading...' : 'Check Status' }}
-  </button>
-
-  <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
-
-  <div *ngIf="result as res" class="mt-3">
-    <p><strong>Status:</strong> {{ res.status }}</p>
-    <p *ngIf="res.message"><strong>Message:</strong> {{ res.message }}</p>
-    <p *ngIf="res.url">
-      <strong>URL:</strong>
-      <a [href]="res.url" >{{ res.url }}</a>
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+  <div class="form-card p-5 rounded-4 shadow-lg text-center">
+    <h3 class="form-title mb-4">Check GitHub Build Status</h3>
+    <p class="subtitle mb-4">
+      Click the button below to check the current build status from GitHub.
     </p>
-    <p *ngIf="res.updatedAt"><strong>Updated At:</strong> {{ res.updatedAt }}</p>
+
+    <button class="btn btn-submit w-100" (click)="checkStatus()" [disabled]="loading">
+      {{ loading ? 'Loading...' : 'Check Status' }}
+    </button>
+
+    <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+
+    <div *ngIf="result as res" class="details mt-4">
+      <div class="detail-card">
+        <h4>Status</h4>
+        <p>{{ res.status }}</p>
+      </div>
+      <div class="detail-card" *ngIf="res.message">
+        <h4>Message</h4>
+        <p>{{ res.message }}</p>
+      </div>
+      <div class="detail-card" *ngIf="res.url">
+        <h4>URL</h4>
+        <a [href]="res.url" target="_blank">{{ res.url }}</a>
+      </div>
+      <div class="detail-card" *ngIf="res.updatedAt">
+        <h4>Updated At</h4>
+        <p>{{ res.updatedAt }}</p>
+      </div>
+    </div>
   </div>
 </div>

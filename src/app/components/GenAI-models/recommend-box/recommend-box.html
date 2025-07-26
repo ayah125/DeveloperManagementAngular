@@ -1,25 +1,42 @@
-<div class="card p-3">
-  <h2>Get Recommended Developer</h2>
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+  <div class="form-card p-5 rounded-4 shadow-lg text-center">
+    <h3 class="form-title mb-4">Recommend Developer</h3>
+    <p class="subtitle mb-4">
+      Describe the task to get a recommended developer
+    </p>
 
-  <form (submit)="getRecommendation(); $event.preventDefault()">
-    <div class="mb-3">
-      <label for="description" class="form-label">Task Description</label>
-      <textarea [(ngModel)]="description" name="description" id="description" class="form-control" rows="4" required></textarea>
+    <form (submit)="getRecommendation(); $event.preventDefault()">
+      <div class="mb-3">
+        <textarea
+          [(ngModel)]="description"
+          name="description"
+          class="form-control"
+          rows="4"
+          placeholder="Enter task description"
+          required
+        ></textarea>
+      </div>
+
+      <button class="btn btn-submit w-100" [disabled]="loading">
+        {{ loading ? 'Loading...' : 'Get Recommendation' }}
+      </button>
+    </form>
+
+    <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+
+    <div *ngIf="result" class="details mt-4">
+      <div class="detail-card">
+        <h4>Developer</h4>
+        <p><strong>Name:</strong> {{ result.recommendedDeveloper.name }}</p>
+      </div>
+      <div class="detail-card">
+        <h4>Score</h4>
+        <p>{{ result.recommendedDeveloper.score }}</p>
+      </div>
+      <div class="detail-card">
+        <h4>Reason</h4>
+        <p>{{ result.recommendedDeveloper.explain }}</p>
+      </div>
     </div>
-
-    <button type="submit" class="btn btn-primary" [disabled]="loading">
-      {{ loading ? 'Loading...' : 'Get Recommendation' }}
-    </button>
-  </form>
-
-  <div *ngIf="error" class="alert alert-danger mt-3">
-    {{ error }}
-  </div>
-
-  <div *ngIf="result" class="mt-4 border p-3 rounded bg-light">
-    <h5>Recommended Developer:</h5>
-    <p><strong>Name:</strong> {{ result.recommendedDeveloper.name }}</p>
-    <p><strong>Score:</strong> {{ result.recommendedDeveloper.score }}</p>
-    <p><strong>Reason:</strong> {{ result.recommendedDeveloper.explain }}</p>
   </div>
 </div>

@@ -19,4 +19,7 @@ export class WorkspaceDetailComponent {
   goToCheck() {
     this.router.navigate(['check'], { relativeTo: this.route });
   }
+   goToRecommend() {
+    this.router.navigate(['recommend'], { relativeTo: this.route });
+  }
 }

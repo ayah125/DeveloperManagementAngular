@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { Recommend } from '../../../services/recommend/recommend';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-recommend-box',
-  imports: [],
+  imports: [FormsModule, CommonModule],
   templateUrl: './recommend-box.html',
-  styleUrl: './recommend-box.css'
+  styleUrls: ['./recommend-box.css']
 })
 export class RecommendBox {
-
   description: string = '';
   result: any = null;
   loading: boolean = false;

@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { GitHubBuildResult } from '../../../interfaces/git-hub-build-result';
 import { CodeCheck } from '../../../services/codeCheck/code-check';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-code-check',
-  imports: [],
+  imports: [FormsModule,CommonModule],
   templateUrl: './code-check.html',
   styleUrl: './code-check.css'
 })
