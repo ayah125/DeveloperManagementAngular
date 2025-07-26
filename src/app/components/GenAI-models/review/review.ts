@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { CodeReviewService } from '../services/codeReview/codereview';
-import { reviewResult } from '../interfaces/reviewResult';
+import { CodeReviewService } from '../../../services/codeReview/codereview';
+import { reviewResult } from '../../../interfaces/reviewResult';
 import { FormsModule } from '@angular/forms';
-import { RequestBody } from '../models/CodeReviewModel';
+import { RequestBody } from '../../../models/CodeReviewModel';
 
 @Component({
   selector: 'app-code-review',

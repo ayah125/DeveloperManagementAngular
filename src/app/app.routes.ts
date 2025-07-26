@@ -7,7 +7,7 @@ import { Layout } from './Shared Component/layout/layout';
 import { CurrentTask } from './components/current-task/current-task';
 import { PreviousTasks } from './components/previous-tasks/previous-tasks';
 
-import { CodeReview } from './review/review';
+import { CodeReview } from './components/GenAI-models/review/review';
 import { AdminHome } from './pages/admin-home/admin-home';
 import { Createworkspace } from './pages/create-work-space/create-work-space';
 import { WorkspaceDetailComponent } from './pages/workspace-developer-component/workspace-detail-component';
