@@ -16,6 +16,7 @@ import { WorkspacePageComponent } from './components/workspace/workspace';
 import { AuthGuard } from './auth-guard';
 import { RecommendBox } from './components/GenAI-models/recommend-box/recommend-box';
 import { CodeChecker } from './components/GenAI-models/code-check/code-check';
+import { DevelopersComponent } from './components/developers/developers';
 
 export const routes: Routes = [
   {
@@ -32,6 +33,8 @@ export const routes: Routes = [
       { path: 'create', component: Createworkspace },
       { path: 'login', component: Login },
       { path: 'register', component: Register },
+      { path: 'developers', component: DevelopersComponent },
+
       {
         path: 'workspace',
         children: [
@@ -39,6 +42,7 @@ export const routes: Routes = [
             path: '',
             component: WorkspaceDetailComponent,
             children: [
+              
               { path: 'review', component: CodeReview },
               { path: 'check', component: CodeChecker },
               { path: 'recommend', component: RecommendBox },
