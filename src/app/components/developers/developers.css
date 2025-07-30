@@ -1,0 +1,43 @@
+/* Make the list look clean and modern */
+.developer-list {
+  padding: 0;
+  margin-top: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.container {
+  padding-top: 80px; 
+}
+.developer-item {
+  border: none;
+  border-bottom: 1px solid #eee;
+  padding: 1rem;
+  transition: background-color 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.developer-item:last-child {
+  border-bottom: none;
+}
+
+.developer-item:hover {
+  background-color: #f8f9fa;
+  cursor: pointer;
+}
+
+/* Header */
+h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: red;
+}
+
+/* Empty state alert */
+.alert-warning {
+  font-size: 1rem;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+}
