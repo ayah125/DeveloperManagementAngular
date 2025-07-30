@@ -9,7 +9,7 @@ import { reviewResult } from '../../interfaces/reviewResult';
   providedIn: 'root',
 })
 export class CodeReviewService {
-  private apiUrl = 'https://localhost:7293/api/GenAIModels/CodeReview'; // عدلي الرابط حسب API بتاعك
+  private apiUrl = 'http://localhost:5023/api/GenAIModels/CodeReview'; // عدلي الرابط حسب API بتاعك
 
   constructor(private http: HttpClient) {}
 

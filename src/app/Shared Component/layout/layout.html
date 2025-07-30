@@ -1,5 +1,5 @@
-<div class="full-bg"></div>
-<div class="overlay"></div>
+<div *ngIf="!hideBackground" class="full-bg"></div>
+<div *ngIf="!hideBackground" class="overlay"></div>
 
 <div class="content">
   <app-navbar></app-navbar>

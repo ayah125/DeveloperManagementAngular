@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class Recommend {
-  private APIUrl = "https://localhost:7293/api/GenAIModels/Recommend";
+  private APIUrl = "http://localhost:5023/api/GenAIModels/Recommend";
 
   constructor(private http: HttpClient) {}
 

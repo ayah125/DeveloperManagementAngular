@@ -1,32 +1,83 @@
-<div
-  *ngIf="workspace"
-  class="d-flex justify-content-center align-items-center min-vh-100"
->
-  <div
-    class="card shadow-lg rounded-4 p-4"
-    style="max-width: 500px; width: 100%; border: none"
-  >
-    <div class="card-body text-center">
-      <h2 class="card-title mb-3 fw-bold text-primary">{{ workspace.name }}</h2>
-      <p class="card-text text-muted mb-3">{{ workspace.description }}</p>
-      <div class="text-muted small mb-2">
-        <i class="bi bi-hash"></i> ID: {{ workspace.id }}
+<div class="developer-container">
+
+  <!-- ✅ Lottie animation container -->
+  <div class="lottie-wrapper" [class.hidden]="isVisible || activeDeveloper">
+    <div #lottieContainer class="lottie-animation"></div>
+  </div>
+<div class="recommend-container">
+  <div class="recommend-row">
+    <div class="recommend-text">
+      ✨ Get smart recommendations tailored for your workspace!
+    </div>
+    <button 
+      class="side-btn" 
+      [routerLink]="['/workspace', workspaceId, 'recommend']">
+      Recommend
+    </button>
+  </div>
+</div>
+
+
+
+  <div class="sidebar">
+    <button class="toggle-btn" (click)="isVisible = !isVisible">
+      <span>All Developers</span>
+      <i [ngClass]="isVisible ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
+    </button>
+
+    <div [ngClass]="{ 'developer-list-container': true, open: isVisible, closed: !isVisible }">
+      <div
+        *ngFor="let dev of developers"
+        class="developer-item"
+        [class.active]="dev === activeDeveloper"
+        (click)="selectDeveloper(dev)">
+        <div class="developer-avatar">{{ dev.avatar }}</div>
+        <div class="developer-name">{{ dev.name }}</div>
       </div>
+    </div>
 
-      <input
-        type="text"
-        class="form-control mt-3"
-        [(ngModel)]="customNoteInput"
-        placeholder="اكتب وصف مميز لهذا Workspace"
-      />
 
-      <button class="btn btn-primary mt-2" (click)="saveNote()">
-        Save Description
-      </button>
+   
+  </div>
 
-      <div class="mt-3 text-secondary">
-        <span class="fw-semibold">{{ savedNote }}</span>
+
+  <div *ngIf="isVisible && activeDeveloper" class="developer-details-card bounce-in">
+
+    <div class="tabs">
+      <div class="tab" [class.active]="activeTab === 'score'" (click)="activeTab = 'score'">Score</div>
+      <div class="tab" [class.active]="activeTab === 'tasks'" (click)="activeTab = 'tasks'">Tasks</div>
+      <div class="tab" [class.active]="activeTab === 'history'" (click)="activeTab = 'history'">History</div>
+    </div>
+
+    <!-- Score tab -->
+    <div *ngIf="activeTab === 'score'" class="score-tab">
+      <div class="circular-progress">
+        <svg viewBox="0 0 36 36">
+          <path class="circle-bg"
+            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+          <path class="circle"
+            [attr.stroke-dasharray]="activeDeveloper.score + ', 100'"
+            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+        </svg>
+        <div class="percentage">{{ activeDeveloper.score }}%</div>
       </div>
+      <div class="details">Developer: {{ activeDeveloper.name }}</div>
+    </div>
+
+    <!-- Tasks tab -->
+    <div *ngIf="activeTab === 'tasks'">
+      <p class="details">Current Tasks:</p>
+      <ul>
+        <li *ngFor="let task of activeDeveloper.tasks">{{ task }}</li>
+      </ul>
+    </div>
+
+    <!-- History tab -->
+    <div *ngIf="activeTab === 'history'">
+      <p class="details">Previous scores:</p>
+      <ul>
+        <li *ngFor="let h of activeDeveloper.history">{{ h }}%</li>
+      </ul>
     </div>
   </div>
 </div>

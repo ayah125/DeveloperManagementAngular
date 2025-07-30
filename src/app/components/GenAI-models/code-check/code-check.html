@@ -5,9 +5,16 @@
       Click the button below to check the current build status from GitHub.
     </p>
 
-    <button class="btn btn-submit w-100" (click)="checkStatus()" [disabled]="loading">
-      {{ loading ? 'Loading...' : 'Check Status' }}
-    </button>
+ <button class="btn btn-submit w-100 d-flex justify-content-center align-items-center"
+        (click)="checkStatus()" [disabled]="loading">
+  <ng-container *ngIf="loading; else text">
+    <span class="loader"></span>
+  </ng-container>
+  <ng-template #text>
+    Check Status
+  </ng-template>
+</button>
+
 
     <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
 
@@ -20,14 +27,8 @@
         <h4>Message</h4>
         <p>{{ res.message }}</p>
       </div>
-      <div class="detail-card" *ngIf="res.url">
-        <h4>URL</h4>
-        <a [href]="res.url" target="_blank">{{ res.url }}</a>
-      </div>
-      <div class="detail-card" *ngIf="res.updatedAt">
-        <h4>Updated At</h4>
-        <p>{{ res.updatedAt }}</p>
-      </div>
+ 
+   
     </div>
   </div>
 </div>

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth';
-import { Workspace } from '../../services/createWorkSpace/createworkspace'; // ✅ استيراد Workspace
+import { Workspace } from '../../services/createWorkSpace/createworkspace';
 import { LoginDTO } from '../../DTO/LoginDTO';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -27,12 +27,10 @@ export class Login {
   };
   rememberMe: boolean = false;
   loginErrors: { [key: string]: string } = {};
-  token: string = '';
-  userID: string = '';
 
   constructor(
     private authService: AuthService,
-    private workspaceService: Workspace, // ✅ حقن Workspace service
+    private workspaceService: Workspace,
     private router: Router
   ) {}
 
@@ -41,18 +39,21 @@ export class Login {
 
     this.authService.login(this.logindate).subscribe({
       next: (res) => {
-        if (res.isSuccess) {
+        if (res.isSuccess && res.userToken) {
+          // حفظ التوكن (الخدمة نفسها بتعمل setToken)
           localStorage.setItem('userToken', res.userToken);
+
+          // فك التوكن لو محتاجة userId
           const decode: DecodedToken = jwt_decode.jwtDecode(res.userToken);
-          const userIdFromToken =
-            decode[
-              'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'
-            ];
+          const userIdFromToken = decode[
+            'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'
+          ];
           localStorage.setItem('userID', userIdFromToken);
 
-          // ✅ بعد الحفظ على طول نجيب الـ Workspaces
+          // تحميل الـ Workspaces الخاصة بالمستخدم
           this.workspaceService.loadUserWorkspacesFromApi();
 
+          // إظهار رسالة نجاح
           Swal.fire({
             icon: 'success',
             title: 'Login Successful',
@@ -61,7 +62,10 @@ export class Login {
           }).then(() => {
             this.router.navigate(['/home']);
           });
+
+          // مش محتاج نعمل next هنا، AuthService عملها بالفعل
         } else {
+          // التعامل مع الأخطاء القادمة من السيرفر
           if (res.errors && Array.isArray(res.errors)) {
             res.errors.forEach((errorMsg: string) => {
               if (errorMsg.toLowerCase().includes('email')) {
@@ -99,7 +103,7 @@ export class Login {
     });
   }
 
-  loginWithGoogle() {
-    this.authService.loginWithGoogle(this.rememberMe);
-  }
+  // loginWithGoogle() {
+  //   this.authService.login(this.rememberMe);
+  // }
 }

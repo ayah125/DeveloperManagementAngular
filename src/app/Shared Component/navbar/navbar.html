@@ -1,8 +1,13 @@
+<!-- Overlay -->
+<div class="overlay" [class.show]="isSidebarOpen" (click)="toggleSidebar()"></div>
+
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg custom-navbar fixed-top">
   <div class="container-fluid">
     <button
       class="btn sidebar-toggle-btn text-white me-2"
       (click)="toggleSidebar()"
+      [class.active]="isSidebarOpen"
     >
       &#9776;
     </button>
@@ -38,22 +43,7 @@
             >Home</a
           >
         </li>
-        <li class="nav-item">
-          <a
-            routerLink="/login"
-            routerLinkActive="active-link"
-            class="nav-link text-white"
-            >Login</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            routerLink="/register"
-            routerLinkActive="active-link"
-            class="nav-link text-white"
-            >Register</a
-          >
-        </li>
+       
         <li class="nav-item">
           <a
             routerLink="/tasks"
@@ -64,19 +54,30 @@
         </li>
       </ul>
 
-      <div
-        class="d-flex align-items-center gap-2 text-white ms-auto"
-        *ngIf="authService.user$ | async as user"
-      >
-        <span>Welcome, {{ user.displayName }}</span>
-        <button class="logout-btn" (click)="logout()">Logout</button>
-      </div>
+    <div class="d-flex align-items-center gap-2 text-white ms-auto"
+     *ngIf="authService.user$ | async as user">
+  <span>Welcome, {{ user.displayName }}</span>
+  <button class="logout-btn" (click)="authService.logout()">Logout</button>
+</div>
+
     </div>
   </div>
 </nav>
 
 <!-- Sidebar -->
-<div class="custom-sidebar" [class.show]="isSidebarOpen">
+<div
+  class="custom-sidebar"
+  [ngClass]="{ 'show': isSidebarOpen, 'hide': !isSidebarOpen }"
+>
+  <div class="sidebar-header text-center">
+    <img
+      src="https://img.freepik.com/premium-vector/people-rune-logo-design-template_18099-2098.jpg"
+      alt="Logo"
+      class="sidebar-logo"
+    />
+    <div class="sidebar-subtitle">Manage your team easily</div>
+  </div>
+
   <ul>
     <li>
       <div
@@ -91,21 +92,19 @@
       </div>
       <div class="profile-collapse" [class.expanded]="profileExpanded">
         <ul class="profile-list">
-          <li class="profile-item">✏️ Info</li>
-          <li class="profile-item">⚙️ Settings</li>
+          <li class="profile-item" (click)="closeSidebar()">✏️ Info</li>
+          <li class="profile-item" >⚙️ Settings</li>
         </ul>
       </div>
     </li>
 
-    <li><a routerLink="/home">Home</a></li>
-    <li><a routerLink="/workspace">Workspace</a></li>
-    <li><a routerLink="/tasks">Tasks</a></li>
-
-    <li><a routerLink="/work">WorkSpaces</a></li>
+    <li><a routerLink="/home" (click)="closeSidebar()">Home</a></li>
+    
+    <li><a routerLink="/tasks" (click)="closeSidebar()">Tasks</a></li>
+    <li><a routerLink="/work" (click)="closeSidebar()">WorkSpaces</a></li>
     <li class="workspace-item">
       <a routerLink="/create" class="add-icon">
-        <i class="fas fa-plus"></i>
-        Create new WorkSpace
+        <i class="fas fa-plus"></i> Create new WorkSpace
       </a>
     </li>
     <li *ngFor="let ws of workspaces" class="workspace-item">
@@ -114,4 +113,12 @@
       </button>
     </li>
   </ul>
+  
+    <div class="d-flex align-items-center gap-2 text-white ms-auto"
+     *ngIf="authService.user$ | async as user">
+<!-- 
+  <button class="logout-btn" (click)="authService.logout()">Logout</button> -->
+</div>
+
+   
 </div>

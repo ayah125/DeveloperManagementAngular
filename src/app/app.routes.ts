@@ -16,22 +16,29 @@ import { WorkspacePageComponent } from './components/workspace/workspace';
 import { AuthGuard } from './auth-guard';
 import { RecommendBox } from './components/GenAI-models/recommend-box/recommend-box';
 import { CodeChecker } from './components/GenAI-models/code-check/code-check';
+import { WelcomePageComponent } from './pages/welcome-page/welcome-page';
 
 export const routes: Routes = [
+  // Welcome page route (برّه Layout)
+  { path: 'welcome', component: WelcomePageComponent },
+
+  // route الجذر (redirect)
+  { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+
+  // باقي الـ routes جوّه Layout
   {
     path: '',
     component: Layout,
     children: [
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'home', component: Home, canActivate: [AuthGuard] },
-      { path: 'tasks', component: TaskList },
-
+      { path: 'tasks', component: TaskList ,canActivate: [AuthGuard]},
       { path: 'admin', component: AdminHome },
       { path: 'prev', component: PreviousTasks },
       { path: 'current-task', component: CurrentTask },
       { path: 'create', component: Createworkspace },
       { path: 'login', component: Login },
       { path: 'register', component: Register },
+      { path: 'workspace/:id/recommend', component: RecommendBox },
       {
         path: 'workspace',
         children: [
@@ -41,7 +48,7 @@ export const routes: Routes = [
             children: [
               { path: 'review', component: CodeReview },
               { path: 'check', component: CodeChecker },
-              { path: 'recommend', component: RecommendBox },
+   
             ],
           },
           { path: ':id', component: WorkspacePageComponent },
@@ -50,3 +57,4 @@ export const routes: Routes = [
     ],
   },
 ];
+

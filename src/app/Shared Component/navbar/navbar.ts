@@ -18,6 +18,7 @@ declare var bootstrap: any;
   selector: 'app-navbar',
   standalone: true,
   imports: [
+    
     CommonModule,
     FormsModule,
     RouterLink,
@@ -51,6 +52,9 @@ export class Navbar implements AfterViewInit, OnInit {
     this.workspaceService.workspaces$.subscribe((ws) => {
       this.workspaces = ws;
     });
+     this.authService.user$.subscribe((user) => {
+    console.log('USER IN NAVBAR:', user);
+  });
   }
 
   ngAfterViewInit() {
@@ -58,6 +62,20 @@ export class Navbar implements AfterViewInit, OnInit {
       document.querySelectorAll('[data-bs-toggle="tooltip"]')
     );
     tooltipTriggerList.map((el) => new bootstrap.Tooltip(el));
+  const toggleBtn = document.querySelector('.sidebar-toggle-btn');
+  const sidebar = document.querySelector('.custom-sidebar');
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('mouseenter', () => {
+      this.isSidebarOpen = true;
+    });
+  }
+
+  if (sidebar) {
+    sidebar.addEventListener('mouseleave', () => {
+      this.isSidebarOpen = false;
+    });
+  }
   }
 
   toggleSidebar() {
@@ -74,5 +92,10 @@ export class Navbar implements AfterViewInit, OnInit {
 
   goToWorkspace(id: number) {
     this.router.navigate(['/workspace', id]);
+      this.isSidebarOpen = false;
   }
+  closeSidebar() {
+  this.isSidebarOpen = false;
+}
+
 }

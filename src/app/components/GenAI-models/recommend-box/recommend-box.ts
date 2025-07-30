@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-recommend-box',
+  standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './recommend-box.html',
   styleUrls: ['./recommend-box.css']
@@ -37,5 +38,10 @@ export class RecommendBox {
         this.loading = false;
       }
     });
+  }
+
+  reset() {
+    this.result = null;
+    this.description = '';
   }
 }

@@ -1,27 +1,40 @@
 body {
   font-family: "Poppins", sans-serif;
 }
+:host {
+  display: block;
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(-45deg, #092d4d, #0f3d6f, #092d4d, #0f3d6f);
+  background-size: 400% 400%;
+  animation: gradientBG 8s ease infinite;
+  font-family: 'Montserrat', sans-serif;
+}
 
 /* الكارت الأساسي */
 .form-card {
-  background: rgb(255, 255, 255);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   width: 450px;
   max-width: 95%;
   border-radius: 16px;
-  animation: slideFadeBig 0.6s ease;
   padding: 2rem;
+  animation: fadeSlideIn 0.6s ease forwards;
 }
 
-@keyframes slideFadeBig {
+/* Animation */
+.fade-slide {
+  animation: fadeSlideIn 0.6s ease forwards;
+}
+
+@keyframes fadeSlideIn {
   from {
     opacity: 0;
-    transform: translateY(30px) scale(0.95);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
@@ -42,20 +55,19 @@ body {
   background-color: #38598b;
   color: #fff;
   border: none;
-  transition: background 0.3s ease;
   border-radius: 6px;
   padding: 12px 24px;
   font-size: 1.1rem;
   width: 100%;
+  transition: background 0.3s ease;
 }
 
 .btn-submit:hover {
   background-color: #2e4a75;
 }
 
-/* زرار ثانوي */
 .btn-secondary {
-  background-color: #6c757d;
+  background-color: #a4adb4;
   color: white;
   border: none;
   border-radius: 6px;
@@ -66,11 +78,6 @@ body {
 
 .btn-secondary:hover {
   background-color: #5a6268;
-}
-
-/* ظل */
-.shadow-lg {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2) !important;
 }
 
 /* فورم التحكم */
@@ -90,21 +97,7 @@ body {
   box-shadow: 0 0 0 0.15rem rgba(56, 89, 139, 0.25);
 }
 
-/* الليبل */
-.form-label {
-  font-weight: 500;
-  color: #38598b;
-  margin-bottom: 6px;
-  display: inline-block;
-}
 
-/* الفورم داخل الكارت */
-.form-card form {
-  text-align: left;
-  margin-top: 1rem;
-}
-
-/* تفاصيل النتيجة */
 .details {
   display: flex;
   flex-direction: column;
@@ -113,34 +106,25 @@ body {
   align-items: center;
 }
 
-/* كروت التفاصيل تطلع واحدة واحدة */
-.detail-card:nth-child(1) {
-  animation: fadeSlideIn 0.6s ease forwards;
-  animation-delay: 0.1s;
-}
-.detail-card:nth-child(2) {
-  animation: fadeSlideIn 0.6s ease forwards;
-  animation-delay: 0.3s;
-}
-.detail-card:nth-child(3) {
-  animation: fadeSlideIn 0.6s ease forwards;
-  animation-delay: 0.5s;
-}
 
-/* شكل الكارت */
 .detail-card {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
+  background: white;
   color: #333;
   padding: 15px 20px;
   border-radius: 10px;
   width: 300px;
   text-align: center;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   opacity: 0;
   transform: translateY(20px);
+  animation: fadeSlideIn 0.6s ease forwards;
 }
+
+/* ترتيب الانيميشن */
+.detail-card:nth-child(1) { animation-delay: 0.1s; }
+.detail-card:nth-child(2) { animation-delay: 0.3s; }
+.detail-card:nth-child(3) { animation-delay: 0.5s; }
 
 /* عنوان الكارت */
 .detail-card h4 {
@@ -148,22 +132,19 @@ body {
   font-size: 1.1rem;
 }
 
-/* قائمة الاقتراحات */
-.detail-card ul {
-  text-align: left;
-  margin: 0;
-  padding-left: 20px;
+/* اللودر */
+.loader {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: block;
+  margin: 15px auto;
+  position: relative;
+  background: #FFF;
+  animation: shadowExpandX 2s linear infinite alternate;
 }
 
-.detail-card li {
-  font-size: 0.9rem;
-  margin-bottom: 4px;
-}
-
-/* انيميشن الظهور */
-@keyframes fadeSlideIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes shadowExpandX {
+  0% { box-shadow: 0 0, 0 0; }
+  100% { box-shadow: -24px 0, 24px 0; }
 }

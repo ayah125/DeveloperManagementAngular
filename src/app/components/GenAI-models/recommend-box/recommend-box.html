@@ -1,42 +1,57 @@
 <div class="d-flex justify-content-center align-items-center min-vh-100">
-  <div class="form-card p-5 rounded-4 shadow-lg text-center">
-    <h3 class="form-title mb-4">Recommend Developer</h3>
-    <p class="subtitle mb-4">
-      Describe the task to get a recommended developer
-    </p>
+  <ng-container *ngIf="!result; else showResultBlock">
+    <div class="form-card p-5 rounded-4 shadow-lg text-center fade-slide">
+      <h3 class="form-title mb-4">Recommend Developer</h3>
+      <p class="subtitle mb-4">
+        Describe the task to get a recommended developer
+      </p>
 
-    <form (submit)="getRecommendation(); $event.preventDefault()">
-      <div class="mb-3">
-        <textarea
-          [(ngModel)]="description"
-          name="description"
-          class="form-control"
-          rows="4"
-          placeholder="Enter task description"
-          required
-        ></textarea>
-      </div>
+      <form (submit)="getRecommendation(); $event.preventDefault()">
+        <div class="mb-3">
+          <textarea
+            [(ngModel)]="description"
+            name="description"
+            class="form-control"
+            rows="4"
+            placeholder="Enter task description"
+            required
+          ></textarea>
+        </div>
 
-      <button class="btn btn-submit w-100" [disabled]="loading">
-        {{ loading ? 'Loading...' : 'Get Recommendation' }}
-      </button>
-    </form>
+        <button class="btn btn-submit w-100 d-flex justify-content-center align-items-center" [disabled]="loading">
+          <ng-container *ngIf="loading; else btnText">
+            <span class="loader"></span>
+          </ng-container>
+          <ng-template #btnText>
+            Get Recommendation
+          </ng-template>
+        </button>
+      </form>
 
-    <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
-
-    <div *ngIf="result" class="details mt-4">
-      <div class="detail-card">
-        <h4>Developer</h4>
-        <p><strong>Name:</strong> {{ result.recommendedDeveloper.name }}</p>
-      </div>
-      <div class="detail-card">
-        <h4>Score</h4>
-        <p>{{ result.recommendedDeveloper.score }}</p>
-      </div>
-      <div class="detail-card">
-        <h4>Reason</h4>
-        <p>{{ result.recommendedDeveloper.explain }}</p>
-      </div>
+      <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
     </div>
-  </div>
+  </ng-container>
+
+  <ng-template #showResultBlock>
+    <div class="form-card result-card p-5 rounded-4 shadow-lg text-center fade-slide">
+      <h3 class="form-title mb-4">Recommended Developer</h3>
+
+      <div class="details mt-4">
+        <div class="detail-card">
+          <h4>Developer</h4>
+          <p><strong>Name:</strong> {{ result.recommendedDeveloper.name }}</p>
+        </div>
+        <div class="detail-card">
+          <h4>Score</h4>
+          <p>{{ result.recommendedDeveloper.score }}</p>
+        </div>
+        <div class="detail-card">
+          <h4>Reason</h4>
+          <p>{{ result.recommendedDeveloper.explain }}</p>
+        </div>
+      </div>
+
+      <button class="btn btn-secondary mt-4" (click)="reset()"> Try Again 🔄</button>
+    </div>
+  </ng-template>
 </div>
