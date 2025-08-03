@@ -12,6 +12,7 @@ export class Workspace {
   httpclient = inject(HttpClient);
   private workspacesSubject = new BehaviorSubject<any[]>([]);
   public workspaces$ = this.workspacesSubject.asObservable();
+  
 
   constructor() {
     const savedWorkspaces = localStorage.getItem('workspaces');
@@ -29,7 +30,7 @@ export class Workspace {
 
     return this.httpclient
       .post<any>(
-        'http://localhost:5023/api/WorkSpaces/CreateWorkspace',
+        'https://localhost:7293/api/WorkSpaces/CreateWorkspace',
         {
           name: workspaceData.name,
           adminUserID: workspaceData.adminUserID,
@@ -63,7 +64,7 @@ export class Workspace {
     });
 
     return this.httpclient.post(
-      'http://localhost:5023/api/WorkSpaces/CreateWorkspaceTokens',
+      'https://localhost:7293/api/WorkSpaces/CreateWorkspaceTokens',
       {
         WorkspaceID: workspaceID,
         GithubToken: tokens.GithubToken,
@@ -75,6 +76,51 @@ export class Workspace {
     );
   }
 
+  deleteWorkspace(workspaceID: number) {
+    const token = localStorage.getItem('userToken');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+    return this.httpclient.delete(`https://localhost:7293/api/WorkSpaces/DeleteWorkspaceTokens/${workspaceID}`,{headers})
+  }
+
+  updateWorkspace(workspaceID: number, tokens: WorkspaceToken){
+    const token = localStorage.getItem('userToken');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+    return this.httpclient.put("https://localhost:7293/api/WorkSpaces/UpdateWorkspaceTokens",{
+      WorkspaceID: workspaceID,
+      GithubToken: tokens.GithubToken,
+      OwnerName: tokens.OwnerName,
+      GithubRepo: tokens.GithubRepo,
+      UserAgent: tokens.UserAgent,
+    },{headers})
+  }
+
+
+ getAllWorkspaceTokens(){
+    const token = localStorage.getItem('userToken');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.httpclient.get<any[]>('https://localhost:7293/api/WorkSpaces/GetAllWorkspaceTokens', { headers })
+      .pipe(
+        tap(tokens => {
+          console.log('Fetched all workspace tokens:', tokens);
+        })
+      );
+ }
+
+
+
+
+
+
   // (اختياري) تجيب Workspaces من الـ backend وتحدثهم
   loadUserWorkspacesFromApi() {
     const token = localStorage.getItem('userToken');
@@ -83,7 +129,7 @@ export class Workspace {
     });
 
     this.httpclient
-      .get<any[]>('http://localhost:5023/api/WorkSpaces/user', { headers })
+      .get<any[]>('https://localhost:7293/api/WorkSpaces/user', { headers })
       .subscribe(
         (wsList) => {
           this.workspacesSubject.next(wsList);
