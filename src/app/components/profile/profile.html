@@ -1,0 +1,33 @@
+<div class="container mx-auto mt-6 px-4">
+  <!-- Welcome Section -->
+<div class="flex items-center gap-4 mb-6">
+  <img src="https://ui-avatars.com/api/?name={{ profiles[0]?.profile?.userName }}" class="w-16 h-16 rounded-full" alt="User Avatar">
+  <div>
+    <h1 class="text-3xl font-bold text-gray-800">
+      Welcome, <span class="text-blue-600">{{ profiles[0]?.profile?.userName }}</span>
+    </h1>
+    <p class="text-gray-600">Email: {{ profiles[0]?.profile?.email }}</p>
+  </div>
+</div>
+
+
+  <!-- Workspaces Section -->
+  <h2 class="text-2xl font-semibold text-gray-800 mb-4">My Workspaces</h2>
+
+  <div *ngFor="let ws of profiles" class="bg-white shadow-md rounded-2xl p-6 mb-6 border border-gray-200">
+    <div class="bg-blue-600 text-white rounded-t-xl px-4 py-2 mb-4 text-lg font-bold">
+      {{ ws.workspaceName }}
+    </div>
+
+    <div class="space-y-2 text-gray-700">
+      <p><span class="font-semibold">Role:</span> {{ ws.profile.role }}</p>
+      <p><span class="font-semibold">Total Score:</span> {{ ws.profile.totalScore }}</p>
+      <p><span class="font-semibold">Tasks:</span> {{ ws.profile.taskCount }} 
+        <span class="text-sm text-gray-500">(Completed: {{ ws.profile.completedTasks }})</span>
+      </p>
+      <p><span class="font-semibold">Branch:</span> {{ ws.profile.branch }}</p>
+      <p><span class="font-semibold">Skills:</span> {{ ws.profile.skillTags }}</p>
+      <p><span class="font-semibold">Status:</span> {{ ws.profile.avilability }}</p>
+    </div>
+  </div>
+</div>

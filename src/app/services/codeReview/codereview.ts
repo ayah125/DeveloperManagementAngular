@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RequestBody } from '../../models/CodeReviewModel';
 import { reviewResult } from '../../interfaces/reviewResult';
 // import { RequestBody } from '../../models/CodeReviewModel';
 
@@ -13,7 +12,7 @@ export class CodeReviewService {
 
   constructor(private http: HttpClient) {}
 
-  reviewCode(requestBody: RequestBody): Observable<reviewResult> {
-    return this.http.post<reviewResult>(this.apiUrl, requestBody);
+  reviewCode(workspaceId: number): Observable<reviewResult> {
+    return this.http.post<reviewResult>(this.apiUrl, { workspaceId });
   }
 }

@@ -11,6 +11,11 @@
   z-index: 0;
 }
 
+.no-bg-page .full-bg,
+.no-bg-page .overlay {
+  display: none !important;
+}
+
 /* طبقة لونية فوق الخلفية */
 .overlay {
   position: fixed;
@@ -20,6 +25,7 @@
   height: 100%;
   background-color: rgba(17, 63, 103, 0.6); /* كحلي شفاف */
   z-index: 1;
+  
 }
 
 /* طبقة gradient animation شفافة */

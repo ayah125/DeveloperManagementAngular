@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Navbar } from '../navbar/navbar'; // اسم كومبوننت navbar بتاعك
 
 @Component({
@@ -9,9 +9,19 @@ import { Navbar } from '../navbar/navbar'; // اسم كومبوننت navbar ب�
   imports: [CommonModule, RouterOutlet, Navbar],
   templateUrl: './layout.html',
   styleUrls: ['./layout.css'],
+  
 })
 export class Layout {
-  constructor(private router: Router) {}
+    hideBackground = false;
+  constructor(private router: Router) {
+
+     this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        // لو ال URL فيه /workspace → اخفي الخلفية
+        this.hideBackground = event.urlAfterRedirects.includes('/workspace');
+      }
+    });
+  }
 
   isLoginOrRegister(): boolean {
     return this.router.url === '/login' || this.router.url === '/register';

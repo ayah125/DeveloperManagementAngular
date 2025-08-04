@@ -1,84 +1,67 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
-import {
-  Auth,
-  signInWithPopup,
-  GoogleAuthProvider,
-  signOut,
-  User,
-  onAuthStateChanged,
-  setPersistence,
-  browserLocalPersistence,
-  browserSessionPersistence,
-} from '@angular/fire/auth';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { SignupDTO } from '../../DTO/RegisterDTO';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { LoginDTO } from '../../DTO/LoginDTO';
+import { SignupDTO } from '../../DTO/RegisterDTO';
+import { jwtDecode } from 'jwt-decode';
+import { AppUser } from '../../interfaces/appuser';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  user: User | null = null;
-  private ApiUrl = 'https://localhost:7293';
-  private userSubject = new BehaviorSubject<User | null>(null);
+  private apiUrl = 'https://localhost:7293';
+  private userSubject = new BehaviorSubject<AppUser | null>(null);
   user$ = this.userSubject.asObservable();
 
-  constructor(
-    private auth: Auth,
-    private router: Router,
-    private ngZone: NgZone,
-    private http: HttpClient
-  ) {
-    onAuthStateChanged(this.auth, (user) => {
-      this.ngZone.run(() => {
-        this.user = user;
-        this.userSubject.next(user);
-        console.log('Auth state changed:', user);
-      });
-    });
+  constructor(private http: HttpClient, private router: Router, private ngZone: NgZone) {
+    const token = this.getToken();
+    if (token) {
+      this.updateUserFromToken(token);
+    }
   }
 
-  async loginWithGoogle(rememberMe: boolean) {
-    const provider = new GoogleAuthProvider();
-    provider.setCustomParameters({ prompt: 'select_account' });
-
-    await this.logout();
-
-    await setPersistence(
-      this.auth,
-      rememberMe ? browserLocalPersistence : browserSessionPersistence
-    );
-
-    return signInWithPopup(this.auth, provider)
-      .then((result) => {
-        this.ngZone.run(() => {
-          this.user = result.user;
-          console.log('Logged in user:', this.user);
-          this.router.navigate(['/home']);
-        });
-      })
-      .catch((error) => {
-        console.error('Error during login:', error);
-      });
+  private updateUserFromToken(token: string) {
+    try {
+      const decoded: any = jwtDecode(token);
+      const usernameFromToken =
+        decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] ||
+        decoded['unique_name'] ||
+        'User';
+      this.userSubject.next({ displayName: usernameFromToken });
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      this.userSubject.next(null);
+    }
   }
-  signup(SD: SignupDTO): Observable<any> {
-    return this.http.post(`${this.ApiUrl}/api/Authentication/signup`, SD);
+
+  signup(signupDto: SignupDTO): Observable<any> {
+    return this.http.post(`${this.apiUrl}/api/Authentication/signup`, signupDto);
   }
-  login(logindto: LoginDTO): Observable<any> {
-    return this.http.post(`${this.ApiUrl}/api/Authentication/Login`, logindto);
+
+  login(loginDto: LoginDTO): Observable<any> {
+    return this.http.post(`${this.apiUrl}/api/Authentication/Login`, loginDto)
+      .pipe(
+        tap((response: any) => {
+          if (response.token) {
+            this.setToken(response.token);
+            this.updateUserFromToken(response.token); // ⬅️ أهم خطوة لتحديث البيانات مباشرة
+          }
+        })
+      );
   }
+
   logout() {
-    return signOut(this.auth).then(() => {
-      this.ngZone.run(() => {
-        this.user = null;
-        this.router.navigate(['/login']);
-        this.user = null;
-        this.userSubject.next(null);
-      });
+    this.removeToken();
+    
+    this.userSubject.next(null);
+    this.ngZone.run(() => {
+      this.router.navigate(['/login']);
     });
   }
+
   setToken(token: string) {
     localStorage.setItem('userToken', token);
   }
@@ -89,5 +72,9 @@ export class AuthService {
 
   removeToken() {
     localStorage.removeItem('userToken');
+    localStorage.removeItem('userID');
+    localStorage.removeItem('workspaces');
+
+
   }
 }

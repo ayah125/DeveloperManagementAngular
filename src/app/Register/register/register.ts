@@ -24,96 +24,62 @@ export class Register {
     confirmPassword: '',
   };
 
-  register() {
-    console.log('Trying to register with: ', this.registerData);
-    this.registrationErrors = {}; // reset
+register() {
+  console.log('Trying to register with: ', this.registerData);
+  this.registrationErrors = {}; // reset
 
-    this.authservices.signup(this.registerData).subscribe({
-      next: (res) => {
-        console.log('Response from server:', res);
-        if (res.isSuccess) {
-          // ✅ SweetAlert بدلاً من alert العادية
-          Swal.fire({
-            icon: 'success',
-            title: 'Registration Successful!',
-            text: 'You can now log in.',
-            confirmButtonColor: '#38598b',
-          }).then(() => {
-            this.router.navigate(['/login']);
-          });
-        } else {
-          if (res.errors && Array.isArray(res.errors)) {
-            res.errors.forEach((errorMsg: string) => {
-              if (errorMsg.toLowerCase().includes('username')) {
-                this.registrationErrors['username'] = errorMsg;
-              } else if (errorMsg.toLowerCase().includes('email')) {
-                this.registrationErrors['email'] = errorMsg;
-              } else if (errorMsg.toLowerCase().includes('password')) {
-                if (errorMsg.toLowerCase().includes('confirm')) {
-                  this.registrationErrors['confirmPassword'] = errorMsg;
-                } else {
-                  this.registrationErrors['password'] = errorMsg;
-                }
-              } else {
-                this.registrationErrors['general'] = errorMsg;
-              }
-            });
-            // ✅ إظهار Alert عام لو في أخطاء
-            Swal.fire({
-              icon: 'error',
-              title: 'Registration Failed',
-              text: res.errors.join('\n'),
-              confirmButtonColor: '#d33',
-            });
+  this.authservices.signup(this.registerData).subscribe({
+    next: (res) => {
+      console.log('Response from server:', res);
+      Swal.fire({
+        icon: 'success',
+        title: 'Registration Successful!',
+        text: 'You can now log in.',
+        confirmButtonColor: '#38598b',
+      }).then(() => {
+        this.router.navigate(['/login']);
+      });
+    },
+    error: (err) => {
+      console.error('Registration failed', err);
+      this.registrationErrors = {}; // reset
+
+      // لو السيرفر بيرجع errors جوه err.error.errors
+      const errorsArray = err.error?.errors;
+      if (errorsArray && Array.isArray(errorsArray)) {
+        errorsArray.forEach((errorMsg: string) => {
+          const lower = errorMsg.toLowerCase();
+          if (lower.includes('username')) {
+            this.registrationErrors['username'] = errorMsg;
+          } else if (lower.includes('email')) {
+            this.registrationErrors['email'] = errorMsg;
+          } else if (lower.includes('confirm')) {
+            this.registrationErrors['confirmPassword'] = errorMsg;
+          } else if (lower.includes('password')) {
+            this.registrationErrors['password'] = errorMsg;
           } else {
-            this.registrationErrors['general'] =
-              res.message || 'Registration failed.';
-            Swal.fire({
-              icon: 'error',
-              title: 'Registration Failed',
-              text: res.message || 'Registration failed.',
-              confirmButtonColor: '#d33',
-            });
+            this.registrationErrors['general'] = errorMsg;
           }
-        }
-      },
-      error: (err) => {
-        console.error('Registration failed', err);
-        this.registrationErrors = {}; // reset
+        });
+        Swal.fire({
+          icon: 'error',
+          title: 'Registration Failed',
+          html: errorsArray.join('<br>'), // عرض كل الأخطاء
+          confirmButtonColor: '#d33',
+        });
+      } else {
+        // لو السيرفر بيرجع message واحد بس أو رسالة غير متوقعة
+        const message = err.error?.message || 'An unknown error occurred.';
+        this.registrationErrors['general'] = message;
+        Swal.fire({
+          icon: 'error',
+          title: 'Registration Failed',
+          text: message,
+          confirmButtonColor: '#d33',
+        });
+      }
+    }
+  });
+}
 
-        if (err.error?.errors && Array.isArray(err.error.errors)) {
-          err.error.errors.forEach((errorMsg: string) => {
-            if (errorMsg.toLowerCase().includes('username')) {
-              this.registrationErrors['username'] = errorMsg;
-            } else if (errorMsg.toLowerCase().includes('email')) {
-              this.registrationErrors['email'] = errorMsg;
-            } else if (errorMsg.toLowerCase().includes('password')) {
-              if (errorMsg.toLowerCase().includes('confirm')) {
-                this.registrationErrors['confirmPassword'] = errorMsg;
-              } else {
-                this.registrationErrors['password'] = errorMsg;
-              }
-            } else {
-              this.registrationErrors['general'] = errorMsg;
-            }
-          });
-          Swal.fire({
-            icon: 'error',
-            title: 'Registration Failed',
-            text: err.error.errors.join('\n'),
-            confirmButtonColor: '#d33',
-          });
-        } else {
-          this.registrationErrors['general'] =
-            err.error?.message || 'Error occurred while registering.';
-          Swal.fire({
-            icon: 'error',
-            title: 'Registration Failed',
-            text: err.error?.message || 'Error occurred while registering.',
-            confirmButtonColor: '#d33',
-          });
-        }
-      },
-    });
-  }
 }
