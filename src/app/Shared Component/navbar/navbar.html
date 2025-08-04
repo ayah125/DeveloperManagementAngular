@@ -89,17 +89,7 @@
 
   <ul>
     <li>
-      <div
-  class="d-flex align-items-center justify-content-between fw-semibold mb-1"
-  style="cursor: pointer"
-  (click)="goToProfile()"
->
-  <button class="btn btn-outline-primary w-100 text-start">
-    👤 Profile
-  </button>
-</div>
-
-    </li>
+       <li><a routerLink="/profile" (click)="closeSidebar()">Profile</a></li>
 
     <li><a routerLink="/home" (click)="closeSidebar()">Home</a></li>
     

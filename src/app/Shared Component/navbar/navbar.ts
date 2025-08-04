@@ -98,9 +98,7 @@ export class Navbar implements AfterViewInit, OnInit {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 
-  goToProfile() {
-    this.router.navigate(['/profile']); 
-  }
+ 
 
   logout() {
     this.authService.logout();
