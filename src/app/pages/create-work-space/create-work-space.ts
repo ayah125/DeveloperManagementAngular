@@ -62,7 +62,7 @@ export class Createworkspace {
             next: (tokenResponse: any) => {
               console.log('Token created successfully:', tokenResponse);
 
-              // ✅ هنا نوديه لصفحة الـ workspace
+ 
               this.router.navigate(['/workspace', workspaceID]);
             },
             error: (tokenError: any) => {

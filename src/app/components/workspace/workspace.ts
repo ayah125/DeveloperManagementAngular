@@ -42,10 +42,20 @@ import { trigger, transition, style, animate } from '@angular/animations';
         animate('200ms ease-in', style({ opacity: 0, transform: 'translateY(10px)' }))
       ]),
     ]),
-  
-  ],
-  
+    
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('200ms ease-in', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('200ms ease-out', style({ opacity: 0 }))
+      ])
+    ])
+  ]
 })
+  
+
 
 export class WorkspacePageComponent implements OnInit  {
     activeTab = 'developers';
@@ -111,8 +121,55 @@ goToRecommend() {
 this.router.navigate([`/workspace/${this.workspaceId}/recommend`]);
 
 }
-
+onAddMember() {
+  // هنا تفتحي Dialog أو تروحي صفحة تانية أو تفتحي فورم
+  console.log('Add Member Clicked');
 }
+ showForm = false;
+
+ 
+  newMember = {
+    DeveloperEmail: '',
+    Role: '',
+    Branch: ''
+  };
+
+  submitMember() {
+    console.log('Submitted:', this.newMember);
+    // هنا تقدر تبعت البيانات للباك اند أو تضيفها لقائمة
+    this.showForm = false;
+  }
+   showModal = false;
+  loading = false;
+
+  member = {
+    DeveloperEmail: '',
+    Role: '',
+    Branch: ''
+  };
+
+  openModal() {
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+  }
+
+  save() {
+    if (!this.member.DeveloperEmail || !this.member.Role || !this.member.Branch) return;
+
+    this.loading = true;
+
+    setTimeout(() => {
+      this.loading = false;
+      this.closeModal();
+      alert('Member added successfully!');
+    }, 2000);
+  }
+}
+
+
 interface Developer {
   name: string;
   avatar: string; // URL أو حتى حرف
