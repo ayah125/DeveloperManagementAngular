@@ -12,6 +12,7 @@ export class Workspace {
   httpclient = inject(HttpClient);
   private workspacesSubject = new BehaviorSubject<any[]>([]);
   public workspaces$ = this.workspacesSubject.asObservable();
+  
 
   constructor() {
     const savedWorkspaces = localStorage.getItem('workspaces');
@@ -70,10 +71,57 @@ export class Workspace {
         OwnerName: tokens.OwnerName,
         GithubRepo: tokens.GithubRepo,
         UserAgent: tokens.UserAgent,
+         Name: tokens.Name
       },
       { headers }
     );
   }
+
+  deleteWorkspace(workspaceID: number) {
+    const token = localStorage.getItem('userToken');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+    return this.httpclient.delete(`http://localhost:5023/api/WorkSpaces/DeleteWorkspaceTokens/${workspaceID}`,{headers})
+  }
+
+  updateWorkspace(workspaceID: number, tokens: WorkspaceToken){
+    const token = localStorage.getItem('userToken');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+    return this.httpclient.put("http://localhost:5023/api/WorkSpaces/UpdateWorkspaceTokens",{
+      WorkspaceID: workspaceID,
+      GithubToken: tokens.GithubToken,
+      OwnerName: tokens.OwnerName,
+      GithubRepo: tokens.GithubRepo,
+      UserAgent: tokens.UserAgent,
+      Name:tokens.Name
+    },{headers})
+  }
+
+
+ getAllWorkspaceTokens(){
+    const token = localStorage.getItem('userToken');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.httpclient.get<any[]>('http://localhost:5023/api/WorkSpaces/GetAllWorkspaceTokens', { headers })
+      .pipe(
+        tap(tokens => {
+          console.log('Fetched all workspace tokens:', tokens);
+        })
+      );
+ }
+
+
+
+
+
 
   // (اختياري) تجيب Workspaces من الـ backend وتحدثهم
   loadUserWorkspacesFromApi() {

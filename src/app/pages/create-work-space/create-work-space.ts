@@ -2,10 +2,11 @@ import { Router } from '@angular/router'; // لازم تستورده
 import { Component, inject } from '@angular/core';
 import { Workspace } from '../../services/createWorkSpace/createworkspace';
 import { workspaceData } from '../../models/workspaceData';
-import { WorkspaceToken } from '../../models/workspace-token';
+
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { WorkspaceToken } from '../../models/workspace-token';
 // ...
 @Component({
   selector: 'app-create-workspace',
@@ -30,6 +31,7 @@ export class Createworkspace {
     GithubRepo: '',
     OwnerName: '',
     UserAgent: '',
+    Name:'',
   };
 
   onSubmit(form: NgForm) {
@@ -49,6 +51,7 @@ export class Createworkspace {
           GithubRepo: this.workspaceTokens.GithubRepo,
           OwnerName: this.workspaceTokens.OwnerName,
           UserAgent: this.workspaceTokens.UserAgent,
+          Name:this.workspaceData.name
         };
 
         console.log('Sending token data:', tokenData);

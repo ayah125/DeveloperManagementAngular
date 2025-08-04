@@ -4,173 +4,95 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg custom-navbar fixed-top">
   <div class="container-fluid">
-    <button
-      class="btn sidebar-toggle-btn text-white me-2"
-      (click)="toggleSidebar()"
-      [class.active]="isSidebarOpen"
-    >
-      &#9776;
-    </button>
-
-    <a
-      class="navbar-brand d-flex align-items-center text-white fw-bold"
-      routerLink="/home"
-      style="gap: 0.5rem"
-    >
-      <img
-        src="https://img.freepik.com/premium-vector/people-rune-logo-design-template_18099-2098.jpg"
-        alt="Logo"
-      />
+    <button class="btn sidebar-toggle-btn text-white me-2" (click)="toggleSidebar()">&#9776;</button>
+    <a class="navbar-brand d-flex align-items-center text-white fw-bold" routerLink="/home">
+      <img src="https://img.freepik.com/premium-vector/people-rune-logo-design-template_18099-2098.jpg" alt="Logo" />
       Run Task
     </a>
-
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse">
       <ul class="navbar-nav mb-2 mb-lg-0 gap-2 me-auto">
-        <li class="nav-item">
-          <a
-            routerLink="/home"
-            routerLinkActive="active-link"
-            class="nav-link text-white"
-            >Home</a
-          >
-        </li>
-       
-        <li class="nav-item">
-          <a
-            routerLink="/tasks"
-            routerLinkActive="active-link"
-            class="nav-link text-white"
-            >Tasks</a
-          >
-        </li>
-        <li class="nav-item">
-              <a
-                routerLink="/developers"
-                routerLinkActive="active-link"
-                class="nav-link text-white"
-                >Developers</a
-              >
-  </li>
-
+        <li class="nav-item"><a routerLink="/home" routerLinkActive="active-link" class="nav-link text-white">Home</a></li>
+        <li class="nav-item"><a routerLink="/tasks" routerLinkActive="active-link" class="nav-link text-white">Tasks</a></li>
+        <li class="nav-item"><a routerLink="/developers" routerLinkActive="active-link" class="nav-link text-white">Developers</a></li>
       </ul>
-
-    <div class="d-flex align-items-center gap-2 text-white ms-auto"
-     *ngIf="authService.user$ | async as user">
-  <span>Welcome, {{ user.displayName }}</span>
-  <button class="logout-btn" (click)="authService.logout()">Logout</button>
-</div>
-
+      <div class="d-flex align-items-center gap-2 text-white ms-auto" *ngIf="authService.user$ | async as user">
+        <span>Welcome, {{ user.displayName }}</span>
+        <button class="logout-btn" (click)="logout()">Logout</button>
+      </div>
     </div>
   </div>
 </nav>
 
-<!-- Sidebar -->
-<div
-  class="custom-sidebar"
-  [ngClass]="{ 'show': isSidebarOpen, 'hide': !isSidebarOpen }"
->
+
+<div class="custom-sidebar" [class.show]="isSidebarOpen">
   <div class="sidebar-header text-center">
-    <img
-      src="https://img.freepik.com/premium-vector/people-rune-logo-design-template_18099-2098.jpg"
-      alt="Logo"
-      class="sidebar-logo"
-    />
+    <img src="https://img.freepik.com/premium-vector/people-rune-logo-design-template_18099-2098.jpg" alt="Logo" class="sidebar-logo" />
     <div class="sidebar-subtitle">Manage your team easily</div>
   </div>
 
   <ul>
     <li>
-      <div
-        class="d-flex align-items-center justify-content-between fw-semibold mb-1"
-        (click)="toggleProfile()"
-        style="cursor: pointer"
-      >
+      <div class="d-flex align-items-center justify-content-between fw-semibold mb-1" (click)="toggleProfile()" style="cursor: pointer">
         <a href="javascript:void(0)">Profile</a>
-        <i
-          [class]="profileExpanded ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"
-        ></i>
+        <i [class]="profileExpanded ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
       </div>
       <div class="profile-collapse" [class.expanded]="profileExpanded">
-        <ul class="profile-list">
+        <ul>
           <li class="profile-item" (click)="closeSidebar()">✏️ Info</li>
-          <li class="profile-item" >⚙️ Settings</li>
+          <li class="profile-item">⚙️ Settings</li>
         </ul>
       </div>
     </li>
 
     <li><a routerLink="/home" (click)="closeSidebar()">Home</a></li>
-    
     <li><a routerLink="/tasks" (click)="closeSidebar()">Tasks</a></li>
     <li><a routerLink="/work" (click)="closeSidebar()">WorkSpaces</a></li>
-    <li class="workspace-item">
+    <li>
       <a routerLink="/create" class="add-icon">
         <i class="fas fa-plus"></i> Create new WorkSpace
       </a>
     </li>
-  <li *ngFor="let ws of workspaces" class="workspace-item position-relative" [@fadeSlide]>
-  <div class="d-flex justify-content-between align-items-center">
-    <button class="workspace-btn flex-grow-1 text-start" (click)="goToWorkspace(ws.id)">
-      {{ ws.name }}
-    </button>
-    <div class="dropdown">
-      <button
-        class="btn btn-sm text-light"
-        type="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false">
-        ⋮
-      </button>
-      <ul class="dropdown-menu dropdown-menu-end">
-        <li>
-          <a class="dropdown-item text-danger" href="#" (click)="openEditModal(ws)"> Edit</a>
-        </li>
-        <li>
-          <a class="dropdown-item text-danger" href="#" (click)="openDeleteModal(ws)">🗑 Delete</a>
-        </li>
-      </ul>
+
+    <li>
+      <div class="all-workspaces-btn" (click)="toggleAllWorkspaces()">
+        <span>All Workspaces</span>
+        <i [class]="allWorkspacesExpanded ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
+      </div>
+    </li>
+
+    <ul class="workspace-list" [class.expanded]="allWorkspacesExpanded">
+ <li *ngFor="let workspace of workspaces" class="workspace-item">
+  <button class="workspace-btn" (click)="goToWorkspace(workspace.id)">
+    {{ workspace.name }}
+  </button>
+
+  <div class="dropdown-wrapper">
+    <button class="options-button" (click)="toggleOptions(workspace.id); $event.stopPropagation()">⋮</button>
+    <div *ngIf="activeMenu === workspace.id" class="dropdown-menu-custom">
+      <button (click)="onEdit(workspace.id)">Edit</button>
+      <button (click)="confirmDelete(workspace.id)">Delete</button>
     </div>
   </div>
 </li>
 
-
-<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content edit-modal">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit Workspace</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <input type="text" class="form-control" [(ngModel)]="editedName" placeholder="New name">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="confirmEdit()">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="snackbar" [class.show]="showSnackbar">
-  Workspace deleted successfully!
-</div>
-
+    </ul>
   </ul>
-  
-    <div class="d-flex align-items-center gap-2 text-white ms-auto"
-     *ngIf="authService.user$ | async as user">
-
 </div>
 
-   
+<!-- ✅ Edit Popup -->
+<div class="popup-overlay" *ngIf="showEditPopup">
+  <div class="popup-form">
+    <h5>Edit Workspace Token</h5>
+    <form (ngSubmit)="onSaveEdit()">
+      <input type="text" [(ngModel)]="selectedToken!.Name" name="Name" placeholder="Workspace Name" required>
+      <input type="text" [(ngModel)]="selectedToken!.GithubToken" name="GithubToken" placeholder="GitHub Token" required>
+      <input type="text" [(ngModel)]="selectedToken!.GithubRepo" name="GithubRepo" placeholder="GitHub Repo" required>
+      <input type="text" [(ngModel)]="selectedToken!.OwnerName" name="OwnerName" placeholder="Owner Name" required>
+      <input type="text" [(ngModel)]="selectedToken!.UserAgent" name="UserAgent" placeholder="User Agent" required>
+      <div class="popup-actions">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-secondary" (click)="closeEditPopup()">Cancel</button>
+      </div>
+    </form>
+  </div>
 </div>
