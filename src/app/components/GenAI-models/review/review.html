@@ -7,60 +7,18 @@
 
     <!-- Form -->
     <form (ngSubmit)="Review()" #reviewForm="ngForm" *ngIf="!showDetails">
+     
       <div class="mb-3 text-start">
-        <label class="form-label">Owner Name</label>
+        <label class="form-label">Workspace ID</label>
         <input
-          type="text"
+          type="number"
           class="form-control"
-          [(ngModel)]="requestData.ownerName"
-          name="ownerName"
+          [(ngModel)]="workspaceId"
+          name="workspaceId"
           required
         />
       </div>
 
-      <div class="mb-3 text-start">
-        <label class="form-label">Repository Name</label>
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="requestData.repositoryName"
-          name="repositoryName"
-          required
-        />
-      </div>
-
-      <div class="mb-3 text-start">
-        <label class="form-label">Branch</label>
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="requestData.branch"
-          name="branch"
-          required
-        />
-      </div>
-
-      <div class="mb-3 text-start">
-        <label class="form-label">User Token</label>
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="requestData.userToken"
-          name="userToken"
-          required
-        />
-      </div>
-
-      <div class="mb-3 text-start">
-        <label class="form-label">User Agent</label>
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="requestData.userAgent"
-          name="userAgent"
-          required
-        />
-      </div>
 
       <button
         class="btn btn-submit w-100"
