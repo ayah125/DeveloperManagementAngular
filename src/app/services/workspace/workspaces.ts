@@ -29,4 +29,6 @@ export class WorkspaceService {
     const current = this.workspacesSource.getValue();
     this.workspacesSource.next([...current, workspace]);
   }
+
+  
 }
