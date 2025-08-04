@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import lottie from 'lottie-web';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 
 import { trigger, transition, style, animate } from '@angular/animations';
@@ -70,7 +72,8 @@ isVisible = true;
   constructor(
     private router: Router,
   private route: ActivatedRoute,
-  private workspaceService: Workspace
+  private workspaceService: Workspace,
+  private snackBar: MatSnackBar
 
   ) {}
  @ViewChild('lottieContainer', { static: false }) lottieContainer!: ElementRef;
@@ -100,10 +103,10 @@ isVisible = true;
 
   developers: Developer[] = [
     { name: 'Ayah', avatar: 'A', score: 85, pendingTasks: 3,tasks: ['Task 1', 'Task 2', 'Task 3'], },
-    { name: 'Ahmed', avatar: 'B', score: 60, pendingTasks: 1 , tasks: ['Task 1', 'Task 2', 'Task 3'],},
-     { name: 'Mustafa', avatar: 'C', score: 35, pendingTasks: 3, tasks: ['Task 1', 'Task 2', 'Task 3'], },
-      { name: 'Wessam', avatar: 'A', score: 25, pendingTasks: 5,tasks: ['Task 1', 'Task 2', 'Task 3'], },
-    { name: 'Mayar', avatar: 'C', score: 95, pendingTasks: 0 ,tasks: ['Task 1', 'Task 2', 'Task 3'],},
+    { name: 'Ahmed', avatar: 'A', score: 100, pendingTasks: 1 , tasks: ['Task 1', 'Task 2', 'Task 3'],},
+     { name: 'Mustafa', avatar: 'M', score: 75, pendingTasks: 3, tasks: ['Task 1', 'Task 2', 'Task 3'], },
+      { name: 'Wessam', avatar: 'W', score: 25, pendingTasks: 5,tasks: ['Task 1', 'Task 2', 'Task 3'], },
+    { name: 'Mayar', avatar: 'M', score: 95, pendingTasks: 0 ,tasks: ['Task 1', 'Task 2', 'Task 3'],},
   ];
  activeDeveloper: any = null;
 
@@ -167,6 +170,21 @@ onAddMember() {
       alert('Member added successfully!');
     }, 2000);
   }
+  deleteDeveloper(dev: any, event: MouseEvent): void {
+  event.stopPropagation(); // علشان ما يختارش الـ developer
+
+  const confirmed = confirm(`Are you sure you want to delete ${dev.name}?`);
+  if (confirmed) {
+    // نفذ الحذف من الـ array أو من السيرفر لو مربوطة
+    this.developers = this.developers.filter(d => d !== dev);
+    if (this.activeDeveloper === dev) {
+      this.activeDeveloper = null;
+    }
+    // ممكن تضيف Toast هنا
+    this.snackBar.open('Developer deleted', 'Close', { duration: 2000 });
+  }
+}
+
 }
 
 

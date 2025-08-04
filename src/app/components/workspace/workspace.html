@@ -78,16 +78,25 @@
       <i [ngClass]="isVisible ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
     </button>
 
-    <div [ngClass]="{ 'developer-list-container': true, open: isVisible, closed: !isVisible }">
-      <div
-        *ngFor="let dev of developers"
-        class="developer-item"
-        [class.active]="dev === activeDeveloper"
-        (click)="selectDeveloper(dev)">
-        <div class="developer-avatar">{{ dev.avatar }}</div>
-        <div class="developer-name">{{ dev.name }}</div>
-      </div>
-    </div>
+ <div [ngClass]="{ 'developer-list-container': true, open: isVisible, closed: !isVisible }">
+  <div
+    *ngFor="let dev of developers"
+    class="developer-item"
+    [class.active]="dev === activeDeveloper"
+    (click)="selectDeveloper(dev)">
+    
+    <div class="developer-avatar">{{ dev.avatar }}</div>
+    <div class="developer-name">{{ dev.name }}</div>
+
+    <!-- زر الحذف هنا داخل الـ *ngFor -->
+    <button 
+      class="delete-dev-btn" 
+      (click)="deleteDeveloper(dev, $event)">
+      <i class="bi bi-trash"></i>
+    </button>
+
+  </div>
+</div>
 
 
    

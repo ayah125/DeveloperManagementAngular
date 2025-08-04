@@ -406,6 +406,7 @@
   cursor: pointer;
 }
 
+
 /* Form Fields */
 .form-group {
   margin-bottom: 1rem;
@@ -429,4 +430,18 @@ input[type="email"] {
     opacity: 1;
     transform: translate(-50%, -50%);
   }
+}
+
+.delete-dev-btn {
+  background: transparent;
+  border: none;
+  color: #dc3545;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-left: auto;
+  transition: color 0.3s ease;
+}
+
+.delete-dev-btn:hover {
+  color: #a71d2a;
 }
