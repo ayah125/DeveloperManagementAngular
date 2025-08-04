@@ -18,6 +18,7 @@ import { RecommendBox } from './components/GenAI-models/recommend-box/recommend-
 import { CodeChecker } from './components/GenAI-models/code-check/code-check';
 import { DevelopersComponent } from './components/developers/developers';
 import { WelcomePageComponent } from './pages/welcome-page/welcome-page';
+import { Profile } from './components/profile/profile';
 
 export const routes: Routes = [
   // Welcome page route (برّه Layout)
@@ -40,6 +41,7 @@ export const routes: Routes = [
       { path: 'login', component: Login },
       { path: 'register', component: Register },
       { path: 'developers', component: DevelopersComponent },
+      { path: 'profile', component: Profile },
 
       { path: 'workspace/:id/recommend', component: RecommendBox },
       {

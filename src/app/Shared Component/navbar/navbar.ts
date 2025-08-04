@@ -98,8 +98,8 @@ export class Navbar implements AfterViewInit, OnInit {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 
-  toggleProfile() {
-    this.profileExpanded = !this.profileExpanded;
+  goToProfile() {
+    this.router.navigate(['/profile']); 
   }
 
   logout() {
