@@ -1,0 +1,63 @@
+/* developer-profile.component.css */
+
+body {
+  background-color: #1a202c;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card {
+  background-color: #2d3748;
+  color: #f7fafc;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 400px;
+  margin: 50px auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.card h2 {
+  color: #f6e05e;
+  font-size: 24px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #4a5568;
+  padding-bottom: 8px;
+}
+
+.card p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.card h3 {
+  margin-top: 24px;
+  color: #ecc94b;
+  font-size: 18px;
+  border-bottom: 1px solid #4a5568;
+  padding-bottom: 6px;
+}
+
+.card ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.card li {
+  background-color: #4a5568;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card li strong {
+  color: #faf089;
+}
+
+.card li::after {
+  content: attr(data-status);
+  font-size: 12px;
+  color: #a0aec0;
+}
