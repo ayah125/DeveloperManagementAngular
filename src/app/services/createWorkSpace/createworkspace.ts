@@ -14,6 +14,8 @@ export class Workspace {
   public workspaces$ = this.workspacesSubject.asObservable();
   
 
+  
+
   constructor() {
     const savedWorkspaces = localStorage.getItem('workspaces');
     if (savedWorkspaces) {
@@ -71,6 +73,7 @@ export class Workspace {
         OwnerName: tokens.OwnerName,
         GithubRepo: tokens.GithubRepo,
         UserAgent: tokens.UserAgent,
+         Name: tokens.Name
       },
       { headers }
     );

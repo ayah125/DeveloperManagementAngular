@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import lottie from 'lottie-web';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 
 import { trigger, transition, style, animate } from '@angular/animations';
@@ -42,10 +44,20 @@ import { trigger, transition, style, animate } from '@angular/animations';
         animate('200ms ease-in', style({ opacity: 0, transform: 'translateY(10px)' }))
       ]),
     ]),
-  
-  ],
-  
+    
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('200ms ease-in', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('200ms ease-out', style({ opacity: 0 }))
+      ])
+    ])
+  ]
 })
+  
+
 
 export class WorkspacePageComponent implements OnInit  {
     activeTab = 'developers';
@@ -60,7 +72,8 @@ isVisible = true;
   constructor(
     private router: Router,
   private route: ActivatedRoute,
-  private workspaceService: Workspace
+  private workspaceService: Workspace,
+  private snackBar: MatSnackBar
 
   ) {}
  @ViewChild('lottieContainer', { static: false }) lottieContainer!: ElementRef;
@@ -90,10 +103,10 @@ isVisible = true;
 
   developers: Developer[] = [
     { name: 'Ayah', avatar: 'A', score: 85, pendingTasks: 3,tasks: ['Task 1', 'Task 2', 'Task 3'], },
-    { name: 'Ahmed', avatar: 'B', score: 60, pendingTasks: 1 , tasks: ['Task 1', 'Task 2', 'Task 3'],},
-     { name: 'Mustafa', avatar: 'C', score: 35, pendingTasks: 3, tasks: ['Task 1', 'Task 2', 'Task 3'], },
-      { name: 'Wessam', avatar: 'A', score: 25, pendingTasks: 5,tasks: ['Task 1', 'Task 2', 'Task 3'], },
-    { name: 'Mayar', avatar: 'C', score: 95, pendingTasks: 0 ,tasks: ['Task 1', 'Task 2', 'Task 3'],},
+    { name: 'Ahmed', avatar: 'A', score: 100, pendingTasks: 1 , tasks: ['Task 1', 'Task 2', 'Task 3'],},
+     { name: 'Mustafa', avatar: 'M', score: 75, pendingTasks: 3, tasks: ['Task 1', 'Task 2', 'Task 3'], },
+      { name: 'Wessam', avatar: 'W', score: 25, pendingTasks: 5,tasks: ['Task 1', 'Task 2', 'Task 3'], },
+    { name: 'Mayar', avatar: 'M', score: 95, pendingTasks: 0 ,tasks: ['Task 1', 'Task 2', 'Task 3'],},
   ];
  activeDeveloper: any = null;
 
@@ -111,8 +124,70 @@ goToRecommend() {
 this.router.navigate([`/workspace/${this.workspaceId}/recommend`]);
 
 }
+onAddMember() {
+  // هنا تفتحي Dialog أو تروحي صفحة تانية أو تفتحي فورم
+  console.log('Add Member Clicked');
+}
+ showForm = false;
+
+ 
+  newMember = {
+    DeveloperEmail: '',
+    Role: '',
+    Branch: ''
+  };
+
+  submitMember() {
+    console.log('Submitted:', this.newMember);
+    // هنا تقدر تبعت البيانات للباك اند أو تضيفها لقائمة
+    this.showForm = false;
+  }
+   showModal = false;
+  loading = false;
+
+  member = {
+    DeveloperEmail: '',
+    Role: '',
+    Branch: ''
+  };
+
+  openModal() {
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+  }
+
+  save() {
+    if (!this.member.DeveloperEmail || !this.member.Role || !this.member.Branch) return;
+
+    this.loading = true;
+
+    setTimeout(() => {
+      this.loading = false;
+      this.closeModal();
+      alert('Member added successfully!');
+    }, 2000);
+  }
+  deleteDeveloper(dev: any, event: MouseEvent): void {
+  event.stopPropagation(); // علشان ما يختارش الـ developer
+
+  const confirmed = confirm(`Are you sure you want to delete ${dev.name}?`);
+  if (confirmed) {
+    // نفذ الحذف من الـ array أو من السيرفر لو مربوطة
+    this.developers = this.developers.filter(d => d !== dev);
+    if (this.activeDeveloper === dev) {
+      this.activeDeveloper = null;
+    }
+    // ممكن تضيف Toast هنا
+    this.snackBar.open('Developer deleted', 'Close', { duration: 2000 });
+  }
+}
 
 }
+
+
 interface Developer {
   name: string;
   avatar: string; // URL أو حتى حرف
