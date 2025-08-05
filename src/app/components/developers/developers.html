@@ -1,12 +1,24 @@
-<div class="container mt-3">
-  <h3 >Developers in Workspace #{{ workspaceId }}</h3>
-  <ul class="list-group developer-list">
-    <li *ngFor="let dev of developers" class="list-group-item developer-item">
-      <strong>{{ dev.branch }}</strong> – {{ dev.totalScore }}
+<div class="container">
+  <h3>Developers in Workspace #{{ workspaceId }}</h3>
+
+  <ul class="developer-list">
+    <li
+      *ngFor="let dev of developers"
+      class="developer-item"
+      (click)="goToProfile(dev.userId)"
+    >
+      <div class="dev-info">
+        <strong>{{ dev.userName }}</strong>
+        <br />
+        <small>ID: {{ dev.userId }}</small>
+      </div>
+      <button class="view-btn" (click)="goToProfile(dev.userId); $event.stopPropagation()">
+        View
+      </button>
     </li>
   </ul>
 
-  <div *ngIf="developers.length === 0" class="alert alert-warning mt-3">
+  <div *ngIf="developers.length === 0" class="alert-empty">
     No developers found.
   </div>
 </div>

@@ -17,6 +17,7 @@ import { AuthGuard } from './auth-guard';
 import { RecommendBox } from './components/GenAI-models/recommend-box/recommend-box';
 import { CodeChecker } from './components/GenAI-models/code-check/code-check';
 import { DevelopersComponent } from './components/developers/developers';
+import { DeveloperProfileComponent } from './components/developer-profile/developer-profile';
 
 export const routes: Routes = [
   {
@@ -34,6 +35,8 @@ export const routes: Routes = [
       { path: 'login', component: Login },
       { path: 'register', component: Register },
       { path: 'developers', component: DevelopersComponent },
+      { path: 'developer-profile/:id', component: DeveloperProfileComponent },
+
 
       {
         path: 'workspace',

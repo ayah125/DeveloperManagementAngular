@@ -29,7 +29,7 @@ export class Workspace {
 
     return this.httpclient
       .post<any>(
-        'http://localhost:5023/api/WorkSpaces/CreateWorkspace',
+        'https://localhost:7293/api/WorkSpaces/CreateWorkspace',
         {
           name: workspaceData.name,
           adminUserID: workspaceData.adminUserID,
@@ -63,7 +63,7 @@ export class Workspace {
     });
 
     return this.httpclient.post(
-      'http://localhost:5023/api/WorkSpaces/CreateWorkspaceTokens',
+      'https://localhost:7293/api/WorkSpaces/CreateWorkspaceTokens',
       {
         WorkspaceID: workspaceID,
         GithubToken: tokens.GithubToken,
@@ -83,7 +83,7 @@ export class Workspace {
     });
 
     this.httpclient
-      .get<any[]>('http://localhost:5023/api/WorkSpaces/user', { headers })
+      .get<any[]>('https://localhost:7293/api/WorkSpaces/user', { headers })
       .subscribe(
         (wsList) => {
           this.workspacesSubject.next(wsList);

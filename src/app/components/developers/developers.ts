@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { DeveloperService } from '../../services/developers/developer';
 import { Developer } from '../../interfaces/developer';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router'; 
 
 @Component({
-   standalone: true,
+  standalone: true,
   imports: [CommonModule],
   selector: 'app-developers-list',
   templateUrl: './developers.html',
@@ -12,9 +13,12 @@ import { CommonModule } from '@angular/common';
 })
 export class DevelopersComponent implements OnInit {
   developers: Developer[] = [];
-  workspaceId = 1; 
+  workspaceId = 1;
 
-  constructor(private developerService: DeveloperService) {}
+  constructor(
+    private developerService: DeveloperService,
+    private router: Router // 👈 Inject Router
+  ) {}
 
   ngOnInit(): void {
     this.loadDevelopers();
@@ -30,5 +34,9 @@ export class DevelopersComponent implements OnInit {
           console.error('Error fetching developers:', err);
         }
       });
+  }
+
+  goToProfile(userId: string): void {
+    this.router.navigate(['/developer-profile', userId]);
   }
 }
