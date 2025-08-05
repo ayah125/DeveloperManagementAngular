@@ -33,9 +33,7 @@ export class Navbar implements AfterViewInit, OnInit {
   showEditPopup = false;
 
 
-  activeMenu: number | null = null;
-  selectedToken: WorkspaceToken | null = null;
-  showEditPopup: boolean = false;
+
 
   constructor(
     public workspaceService: Workspace,
