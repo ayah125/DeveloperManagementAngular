@@ -108,7 +108,7 @@ toggleAllWorkspaces() {
 onEdit(workspaceId: number) {
   console.log('Edit clicked for workspaceId:', workspaceId);
   
-  // تأكد إن tokens اتحملت
+
   if (!this.workspaceTokens || this.workspaceTokens.length === 0) {
     console.error('Workspace tokens not loaded yet');
     this.snackBar.open('Please wait, data is still loading', 'Close', { duration: 2000 });
@@ -125,7 +125,7 @@ onEdit(workspaceId: number) {
       GithubRepo: token.GithubRepo,
       OwnerName: token.OwnerName,
       UserAgent: token.UserAgent,
-        Name: workspace.name ?? ''   // ✅ ضروري تبعت الاسم كمان
+        Name: workspace.name ?? ''  
     };
     this.showEditPopup = true;
   } else {
@@ -135,23 +135,30 @@ onEdit(workspaceId: number) {
 }
 
 
-  onSaveEdit() {
-    if (!this.selectedToken) return;
+onSaveEdit() {
+  if (!this.selectedToken) return;
 
-    this.workspaceService.updateWorkspace(this.selectedToken.workspaceID, this.selectedToken)
-      .subscribe({
-        next: () => {
-          this.snackBar.open('Workspace updated successfully', 'Close', { duration: 2000 });
-          this.showEditPopup = false;
-          this.workspaceService.getAllWorkspaceTokens().subscribe(tokens => this.workspaceTokens = tokens);
-          this.workspaceService.loadUserWorkspacesFromApi();
-        },
-        error: (err) => {
-          console.error('Update failed:', err);
-          this.snackBar.open('Update failed: ' + (err.error?.message || ''), 'Close', { duration: 3000 });
-        }
-      });
+  if (!this.selectedToken.Name?.trim()) {
+    this.snackBar.open('Workspace name is required', 'Close', { duration: 2000 });
+    return;
   }
+
+  this.workspaceService.updateWorkspace(this.selectedToken.workspaceID, this.selectedToken)
+    .subscribe({
+      next: () => {
+        this.snackBar.open('Workspace updated successfully', 'Close', { duration: 2000 });
+        this.showEditPopup = false;
+        this.workspaceService.getAllWorkspaceTokens().subscribe(tokens => this.workspaceTokens = tokens);
+        this.workspaceService.loadUserWorkspacesFromApi();
+      },
+      error: (err) => {
+        console.error('Update failed:', err);
+        this.snackBar.open('Update failed: ' + (err.error?.message || ''), 'Close', { duration: 3000 });
+      }
+    });
+}
+
+
 onDeleteConfirmed(workspaceID: number) {
   this.workspaceService.deleteWorkspace(workspaceID).subscribe({
     next: () => {

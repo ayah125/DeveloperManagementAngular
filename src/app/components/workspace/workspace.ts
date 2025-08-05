@@ -171,16 +171,16 @@ onAddMember() {
     }, 2000);
   }
   deleteDeveloper(dev: any, event: MouseEvent): void {
-  event.stopPropagation(); // علشان ما يختارش الـ developer
+  event.stopPropagation(); 
 
   const confirmed = confirm(`Are you sure you want to delete ${dev.name}?`);
   if (confirmed) {
-    // نفذ الحذف من الـ array أو من السيرفر لو مربوطة
+    
     this.developers = this.developers.filter(d => d !== dev);
     if (this.activeDeveloper === dev) {
       this.activeDeveloper = null;
     }
-    // ممكن تضيف Toast هنا
+ 
     this.snackBar.open('Developer deleted', 'Close', { duration: 2000 });
   }
 }

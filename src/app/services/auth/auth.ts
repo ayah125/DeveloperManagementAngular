@@ -12,7 +12,7 @@ import { AppUser } from '../../interfaces/appuser';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'https://localhost:7293';
+  private apiUrl = 'http://localhost:5023';
   private userSubject = new BehaviorSubject<AppUser | null>(null);
   user$ = this.userSubject.asObservable();
 
