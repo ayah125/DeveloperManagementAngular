@@ -4,4 +4,5 @@ export interface WorkspaceToken {
     GithubRepo:string,
     OwnerName:string,
     UserAgent:string,
+    Name:string,
 }
