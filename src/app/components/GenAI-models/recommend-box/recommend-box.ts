@@ -37,8 +37,6 @@ export class RecommendBox {
       this.workspaceService.workspaces$.subscribe((list) => {
         this.workspace = list.find((ws) => ws.id === this.workspaceId);
       });
-      
-
     });
     this.GetDevelopersForTask(this.workspaceId);
     

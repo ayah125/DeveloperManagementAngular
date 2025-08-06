@@ -10,7 +10,7 @@ export class DeveloperTasks {
   constructor(private http: HttpClient) {}
 
   getTasksByDeveloperId(id: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/by-developer/${id}`);
+    return this.http.get(`${this.baseUrl}/developer/${id}`);
   }
  getTaskPerformance(devId: string, taskId: number): Observable<DeveloperPerformanceDTO> {
   return this.http.get<DeveloperPerformanceDTO>(`${this.baseUrl.replace('DeveloperTasks', 'Developer')}/${devId}/performance/${taskId}`);

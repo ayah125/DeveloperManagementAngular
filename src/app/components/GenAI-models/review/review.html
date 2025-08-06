@@ -7,18 +7,33 @@
 
     <!-- Form -->
     <form (ngSubmit)="Review()" #reviewForm="ngForm" *ngIf="!showDetails">
-     
+      
+      <!-- Workspace Info (Read-only) -->
       <div class="mb-3 text-start">
-        <label class="form-label">Workspace ID</label>
+        <label class="form-label">Workspace</label>
         <input
-          type="number"
+          type="text"
           class="form-control"
-          [(ngModel)]="workspaceId"
-          name="workspaceId"
-          required
+          [value]="workspace?.name || 'N/A'"
+          disabled
         />
       </div>
 
+      <!-- Task Dropdown -->
+      <div class="mb-3 text-start">
+        <label class="form-label">Choose Task</label>
+        <select
+          class="form-control"
+          [(ngModel)]="taskId"
+          name="taskId"
+          required
+        >
+          <option value="" disabled selected>Select a task</option>
+          <option *ngFor="let task of tasks" [value]="task.id">
+            {{ task.description }}
+          </option>
+        </select>
+      </div>
 
       <button
         class="btn btn-submit w-100"
