@@ -85,8 +85,9 @@
     [class.active]="dev === activeDeveloper"
     (click)="selectDeveloper(dev)">
     
-    <div class="developer-avatar">{{ dev.avatar }}</div>
-    <div class="developer-name">{{ dev.name }}</div>
+    <!-- <div class="developer-avatar">{{ dev.avatar }}</div> -->
+     <span class="material-icons">account_circle</span>
+    <div class="developer-name">{{ dev.userName }}</div>
 
     <!-- زر الحذف هنا داخل الـ *ngFor -->
     <button 
