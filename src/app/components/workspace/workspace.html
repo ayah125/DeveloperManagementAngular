@@ -64,7 +64,7 @@
     <button 
       class="side-btn" 
       [routerLink]="['/workspace', workspaceId, 'recommend']">
-      Recommend
+      Assign Task
     </button>
   </div>
 </div>
@@ -88,7 +88,7 @@
     <div class="developer-avatar">{{ dev.avatar }}</div>
     <div class="developer-name">{{ dev.name }}</div>
 
-    <!-- زر الحذف هنا داخل الـ *ngFor -->
+
     <button 
       class="delete-dev-btn" 
       (click)="deleteDeveloper(dev, $event)">

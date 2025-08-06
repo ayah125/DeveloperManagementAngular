@@ -62,7 +62,7 @@ export class Navbar implements AfterViewInit, OnInit {
     sidebar?.addEventListener('mouseleave', () => this.isSidebarOpen = false);
   }
 
-  allWorkspacesExpanded = false; // يبدأ مفتوح
+  allWorkspacesExpanded = false; 
 toggleAllWorkspaces() {
   this.allWorkspacesExpanded = !this.allWorkspacesExpanded;
 }
