@@ -1,51 +1,167 @@
-<div class="d-flex justify-content-center align-items-center min-vh-100" style="background-image: url('/assets/background.png'); background-size: cover; background-position: center; margin: 100px;">
-  <div class="card shadow-lg p-4" style="max-width: 700px; width: 100%; background-color: rgba(255, 255, 255, 0.95); border-radius: 20px;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Welcome Section -->
-    <div class="d-flex align-items-center mb-4">
-      <img src="https://ui-avatars.com/api/?name={{ profiles[0]?.profile?.userName }}" class="rounded-circle me-3" style="width: 64px; height: 64px;" alt="User Avatar">
-      <div>
-        <h1 class="h4 fw-bold text-dark mb-1">
-          Welcome, <span class="text-primary">{{ profiles[0]?.profile?.userName }}</span>
-        </h1>
-        <p class="text-muted mb-0">Email: {{ profiles[0]?.profile?.email }}</p>
-      </div>
-    </div>
-
-    <!-- Workspaces Section -->
-    <h2 class="h5 fw-semibold text-dark mb-3">My Workspaces</h2>
-
-    <div *ngFor="let ws of profiles" class="border rounded-3 p-3 mb-4 bg-white">
-      <div class="bg-primary text-white rounded-top px-3 py-2 fw-bold">
-        {{ ws.workspaceName }}
-      </div>
-      <div class="pt-2 text-secondary">
-        <p><strong>Role:</strong> {{ ws.profile.role }}</p>
-        <p><strong>Total Score:</strong> {{ ws.profile.totalScore }}</p>
-        <p><strong>Tasks:</strong> {{ ws.profile.taskCount }} <span class="text-muted small">(Completed: {{ ws.profile.completedTasks }})</span></p>
-        <p><strong>Branch:</strong> {{ ws.profile.branch }}</p>
-        <p><strong>Skills:</strong> {{ ws.profile.skillTags }}</p>
-        <p><strong>Status:</strong> {{ ws.profile.avilability }}</p>
-      </div>
-    </div>
-
-    <!-- Tasks Section -->
-    <h2 class="h5 fw-semibold text-dark mb-3">My Tasks</h2>
-
-    <div *ngIf="tasks.length > 0; else noTasks">
-      <div *ngFor="let task of tasks" class="border rounded-3 p-3 mb-3 bg-light">
-        <h5 class="mb-1 text-dark">{{ task.title }}</h5>
-        <p class="text-muted small mb-2">{{ task.description | slice:0:100 }}...</p>
-        <div class="row text-secondary">
-          <div class="col-6"><strong>Status:</strong> {{ task.status }}</div>
-          <div class="col-6"><strong>Deadline:</strong> {{ task.deadline | date }}</div>
-          <div class="col-12"><strong>Workspace:</strong> {{ task.workspaceName }}</div>
+</head>
+<body>
+    <div class="dashboard-container">
+        
+        <div class="welcome-section">
+            <div class="d-flex align-items-center mb-3">
+                <img src="https://ui-avatars.com/api/?name={{ profiles[0]?.profile?.userName }}&background=1e3c72&color=fff&size=80" 
+                     class="user-avatar me-4" alt="User Avatar">
+                <div>
+                    <h1 class="h3 fw-bold text-dark mb-1">
+                        Welcome, <span style="color: #11205f;">{{ profiles[0]?.profile?.userName }}</span>
+                        <i class="fas fa-hand-wave icon"></i>
+                    </h1>
+                    <p class="text-muted mb-0">
+                        <i class="fas fa-envelope icon"></i>
+                        Email: {{ profiles[0]?.profile?.email }}
+                    </p>
+                </div>
+            </div>
+            
+           
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="circular-progress" style="--progress: 216deg;">
+                        <div class="progress-text">3</div>
+                    </div>
+                    <div class="stat-label">Workspaces</div>
+                </div>
+                <div class="stat-card">
+                    <div class="circular-progress" style="--progress: 288deg;">
+                        <div class="progress-text">{{ profiles[0]?.profile?.totalScore }}</div>
+                    </div>
+                    <div class="stat-label">Total Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="circular-progress" style="--progress: 240deg;">
+                        <div class="progress-text">{{ profiles[0]?.profile?.taskCount }}</div>
+                    </div>
+                    <div class="stat-label">Total Tasks</div>
+                </div>
+                <div class="stat-card">
+                    <div class="circular-progress" style="--progress: 190deg;">
+                        <div class="progress-text">{{ profiles[0]?.profile?.completedTasks }}</div>
+                    </div>
+                    <div class="stat-label">Completed</div>
+                </div>
+            </div>
         </div>
+
+    
+        <h2 class="section-title">
+            <i class="fas fa-briefcase icon"></i>
+            My Workspaces
+        </h2>
+        
+<div *ngFor="let ws of profiles; let i = index" class="workspace-card"> 
+ 
+  <div class="workspace-header d-flex justify-content-between align-items-center"
+       (click)="toggleWorkspace(i)" style="cursor: pointer;">
+    <span>
+      <i class="fas fa-code me-2"></i>
+      {{ ws.workspaceName }}
+    </span>
+    <i class="fas"
+       [ngClass]="workspaceStates[i] ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+  </div>
+
+
+  <div class="info-grid" *ngIf="workspaceStates[i]">
+    <div class="info-item">
+      <div class="info-label">
+        <i class="fas fa-user-tag me-2"></i>
+        Role
+      </div>
+      <div class="info-value">{{ ws.profile.role }}</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">
+        <i class="fas fa-star me-2"></i>
+        Total Score
+      </div>
+      <div class="info-value">{{ ws.profile.totalScore }}</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">
+        <i class="fas fa-tasks me-2"></i>
+        Tasks
+      </div>
+      <div class="info-value">{{ ws.profile.taskCount }} (Completed: {{ ws.profile.completedTasks }})</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">
+        <i class="fas fa-code-branch me-2"></i>
+        Branch
+      </div>
+      <div class="info-value">{{ ws.profile.branch }}</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">
+        <i class="fas fa-cogs me-2"></i>
+        Skills
+      </div>
+      <div class="info-value">{{ ws.profile.skillTags }}</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">
+        <i class="fas fa-circle me-2"></i>
+        Status
+      </div>
+      <div class="info-value">
+        <span class="status-badge"
+              [ngClass]="ws.profile.avilability === 'Available' ? 'status-active' : 'status-pending'">
+          {{ ws.profile.avilability }}
+        </span>
       </div>
     </div>
-    <ng-template #noTasks>
-      <p class="text-muted">You have no tasks assigned.</p>
-    </ng-template>
-
   </div>
 </div>
+
+
+       
+        <h2 class="section-title">
+             <i class="fas fa-clipboard-list icon"></i>
+            My Tasks
+           
+        </h2>
+        
+        <div *ngIf="tasks.length > 0; else noTasks">
+            <div *ngFor="let task of tasks" class="task-card">
+                <h5 class="task-title">{{ task.title }}</h5>
+                <p class="task-description">{{ task.description | slice:0:100 }}...</p>
+                <div class="task-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Status:</span>
+                        <span class="meta-value">{{ task.status }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Deadline:</span>
+                        <span class="meta-value">{{ task.deadline | date }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Workspace:</span>
+                        <span class="meta-value">{{ task.workspaceName }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-template #noTasks>
+            <div class="no-tasks">
+                <p class="text-muted">You have no tasks assigned.</p>
+            </div>
+        </ng-template>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

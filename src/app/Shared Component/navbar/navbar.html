@@ -31,19 +31,8 @@
   </div>
 
   <ul>
-    <li>
-      <div class="d-flex align-items-center justify-content-between fw-semibold mb-1" (click)="toggleProfile()" style="cursor: pointer">
-        <a href="javascript:void(0)">Profile</a>
-        <i [class]="profileExpanded ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
-      </div>
-      <div class="profile-collapse" [class.expanded]="profileExpanded">
-        <ul>
-          <li class="profile-item" (click)="closeSidebar()">✏️ Info</li>
-          <li class="profile-item">⚙️ Settings</li>
-        </ul>
-      </div>
-    </li>
-
+  
+    <li><a routerLink="/profile" (click)="closeSidebar()">Profle</a></li>
     <li><a routerLink="/home" (click)="closeSidebar()">Home</a></li>
     <li><a routerLink="/tasks" (click)="closeSidebar()">Tasks</a></li>
     <li><a routerLink="/work" (click)="closeSidebar()">WorkSpaces</a></li>

@@ -22,7 +22,9 @@ export class AuthService {
       this.updateUserFromToken(token);
     }
   }
-
+  checkLogin() {
+    return !!localStorage.getItem('token');
+  }
   private updateUserFromToken(token: string) {
     try {
       const decoded: any = jwtDecode(token);

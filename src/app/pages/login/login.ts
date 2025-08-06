@@ -60,12 +60,13 @@ export class Login {
             text: 'Welcome back!',
             confirmButtonColor: '#38598b',
           }).then(() => {
-            this.router.navigate(['/home']);
+          this.router.navigateByUrl('/home', { replaceUrl: true });
+
           });
 
-          // مش محتاج نعمل next هنا، AuthService عملها بالفعل
+          
         } else {
-          // التعامل مع الأخطاء القادمة من السيرفر
+       
           if (res.errors && Array.isArray(res.errors)) {
             res.errors.forEach((errorMsg: string) => {
               if (errorMsg.toLowerCase().includes('email')) {
