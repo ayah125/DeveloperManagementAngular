@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import lottie from 'lottie-web';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DeveloperService } from '../../services/developers/developer';
 
 
 
@@ -64,16 +65,18 @@ export class WorkspacePageComponent implements OnInit  {
 isListOpen = true;
 isVisible = true;
 
-  workspaceId: number = 0;
+  workspaceId!: number ;
   workspace: any;
-
+  developers: any[] = []; ///editttttt
     showDevelopers = true;
 
   constructor(
     private router: Router,
-  private route: ActivatedRoute,
-  private workspaceService: Workspace,
-  private snackBar: MatSnackBar
+    private route: ActivatedRoute,
+    private workspaceService: Workspace,
+    private snackBar: MatSnackBar,
+    private developerService: DeveloperService ///
+
 
   ) {}
  @ViewChild('lottieContainer', { static: false }) lottieContainer!: ElementRef;
@@ -98,16 +101,20 @@ isVisible = true;
         this.workspace = list.find((ws) => ws.id === this.workspaceId);
       });
    
+      //  Get developers for this workspace 
+      this.developerService.getDevelopersByWorkspace(this.workspaceId).subscribe((devs) => {
+        this.developers = devs;
+      });
     });
   }
 
-  developers: Developer[] = [
-    { name: 'Ayah', avatar: 'A', score: 85, pendingTasks: 3,tasks: ['Task 1', 'Task 2', 'Task 3'], },
-    { name: 'Ahmed', avatar: 'A', score: 100, pendingTasks: 1 , tasks: ['Task 1', 'Task 2', 'Task 3'],},
-     { name: 'Mustafa', avatar: 'M', score: 75, pendingTasks: 3, tasks: ['Task 1', 'Task 2', 'Task 3'], },
-      { name: 'Wessam', avatar: 'W', score: 25, pendingTasks: 5,tasks: ['Task 1', 'Task 2', 'Task 3'], },
-    { name: 'Mayar', avatar: 'M', score: 95, pendingTasks: 0 ,tasks: ['Task 1', 'Task 2', 'Task 3'],},
-  ];
+  // developers: Developer[] = [
+  //   { name: 'Ayah', avatar: 'A', score: 85, pendingTasks: 3,tasks: ['Task 1', 'Task 2', 'Task 3'], },
+  //   { name: 'Ahmed', avatar: 'A', score: 100, pendingTasks: 1 , tasks: ['Task 1', 'Task 2', 'Task 3'],},
+  //    { name: 'Mustafa', avatar: 'M', score: 75, pendingTasks: 3, tasks: ['Task 1', 'Task 2', 'Task 3'], },
+  //     { name: 'Wessam', avatar: 'W', score: 25, pendingTasks: 5,tasks: ['Task 1', 'Task 2', 'Task 3'], },
+  //   { name: 'Mayar', avatar: 'M', score: 95, pendingTasks: 0 ,tasks: ['Task 1', 'Task 2', 'Task 3'],},
+  // ];
  activeDeveloper: any = null;
 
   listVisible = true;
