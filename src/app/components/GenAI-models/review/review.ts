@@ -13,13 +13,7 @@ import { RequestBody } from '../../../models/CodeReviewModel';
 })
 export class CodeReview {
   showDetails = false;
-   requestData: RequestBody = {
-    ownerName: '',
-    repositoryName: '',
-    branch: '',
-    userToken: '',
-    userAgent: '',
-  };
+   workspaceId : number = 1; // يمكنك تعديل هذا حسب الحاجة  
 
   reviewresult: reviewResult | null = null;
   loading = false;
@@ -32,7 +26,7 @@ export class CodeReview {
     this.error = null;
     this.reviewresult = null;
 
-    this.codereviewservice.reviewCode(this.requestData).subscribe({
+    this.codereviewservice.reviewCode(this.workspaceId).subscribe({
       next: (response: reviewResult) => {
         this.reviewresult = response;
         this.loading = false;
