@@ -144,7 +144,7 @@ onSaveEdit() {
       next: () => {
         console.log('Updated!');
         this.showEditPopup = false;
-      
+
         this.workspaceService.getAllWorkspaceTokens().subscribe(tokens => {
           this.workspaceTokens = tokens;
         });
