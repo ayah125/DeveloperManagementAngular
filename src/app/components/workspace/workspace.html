@@ -19,21 +19,24 @@
         <div class="mb-3">
           <label class="form-label">Email</label>
           <input type="email" class="form-control" placeholder="Enter developer email" name="DeveloperEmail"
-            [(ngModel)]="member.DeveloperEmail" required />
+            [(ngModel)]="newMember.developerEmail" required />
           <div class="form-text">We'll never share the email with anyone else.</div>
         </div>
 
         <div class="mb-3">
           <label class="form-label">Role</label>
-          <input type="text" class="form-control" placeholder="Enter role" name="Role"
-            [(ngModel)]="member.Role" required />
+          <select class="form-control" name="Role" [(ngModel)]="newMember.role" required>
+            <option [value]="Roles.Null" disabled selected>Select role</option>
+            <option [value]="0">Developer</option>
+            <option [value]="1">Admin</option>
+          </select>
           <div class="form-text">e.g., Frontend, Backend, Full Stack</div>
         </div>
 
         <div class="mb-3">
           <label class="form-label">Branch</label>
           <input type="text" class="form-control" placeholder="Enter branch name" name="Branch"
-            [(ngModel)]="member.Branch" required />
+            [(ngModel)]="newMember.branch" required />
           <div class="form-text">e.g., Cairo, Alexandria, Remote</div>
         </div>
 
