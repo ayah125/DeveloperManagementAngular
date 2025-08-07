@@ -1,6 +1,58 @@
+<!--زرار الاضافة بتاعة الديفيلوبر-->
+<button class="add-member-floating-btn" (click)="openModal()">
+  <i class="bi bi-person-plus"></i>
+  Add New Member
+</button>
+
+
+<div class="modal-backdrop" *ngIf="showModal" (click)="closeModal()"></div>
+
+<!--من اول هنا يامصطفي دي الفورم بتاعة الاضافة-->
+<div class="modal-backdrop-blur" *ngIf="showModal" [@fadeInOut]>
+  <div class="modal-wrapper d-flex justify-content-center align-items-center">
+    <div class="modal-content-custom p-4">
+      <button type="button" class="btn-close float-end" aria-label="Close" (click)="closeModal()"></button>
+      
+      <form (ngSubmit)="save()" #memberForm="ngForm" class="mt-4">
+        <h4 class="mb-4 text-center">Add New Member</h4>
+
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" placeholder="Enter developer email" name="DeveloperEmail"
+            [(ngModel)]="member.DeveloperEmail" required />
+          <div class="form-text">We'll never share the email with anyone else.</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Role</label>
+          <input type="text" class="form-control" placeholder="Enter role" name="Role"
+            [(ngModel)]="member.Role" required />
+          <div class="form-text">e.g., Frontend, Backend, Full Stack</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Branch</label>
+          <input type="text" class="form-control" placeholder="Enter branch name" name="Branch"
+            [(ngModel)]="member.Branch" required />
+          <div class="form-text">e.g., Cairo, Alexandria, Remote</div>
+        </div>
+
+        <div class="d-grid mt-4">
+          <button type="submit" class="btn btn-primary" [disabled]="loading">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+            Save Member
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
 <div class="developer-container">
 
-  <!-- ✅ Lottie animation container -->
+
   <div class="lottie-wrapper" [class.hidden]="isVisible || activeDeveloper">
     <div #lottieContainer class="lottie-animation"></div>
   </div>
@@ -20,21 +72,32 @@
 
 
   <div class="sidebar">
+    
     <button class="toggle-btn" (click)="isVisible = !isVisible">
       <span>All Developers</span>
       <i [ngClass]="isVisible ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
     </button>
 
-    <div [ngClass]="{ 'developer-list-container': true, open: isVisible, closed: !isVisible }">
-      <div
-        *ngFor="let dev of developers"
-        class="developer-item"
-        [class.active]="dev === activeDeveloper"
-        (click)="selectDeveloper(dev)">
-        <div class="developer-avatar">{{ dev.avatar }}</div>
-        <div class="developer-name">{{ dev.name }}</div>
-      </div>
-    </div>
+ <div [ngClass]="{ 'developer-list-container': true, open: isVisible, closed: !isVisible }">
+  <div
+    *ngFor="let dev of developers"
+    class="developer-item"
+    [class.active]="dev === activeDeveloper"
+    (click)="selectDeveloper(dev)">
+    
+    <!-- <div class="developer-avatar">{{ dev.avatar }}</div> -->
+     <span class="material-icons">account_circle</span>
+    <div class="developer-name">{{ dev.userName }}</div>
+
+    <!-- زر الحذف هنا داخل الـ *ngFor -->
+    <button 
+      class="delete-dev-btn" 
+      (click)="deleteDeveloper(dev, $event)">
+      <i class="bi bi-trash"></i>
+    </button>
+
+  </div>
+</div>
 
 
    
@@ -49,7 +112,6 @@
       <div class="tab" [class.active]="activeTab === 'history'" (click)="activeTab = 'history'">History</div>
     </div>
 
-    <!-- Score tab -->
     <div *ngIf="activeTab === 'score'" class="score-tab">
       <div class="circular-progress">
         <svg viewBox="0 0 36 36">
@@ -64,7 +126,6 @@
       <div class="details">Developer: {{ activeDeveloper.name }}</div>
     </div>
 
-    <!-- Tasks tab -->
     <div *ngIf="activeTab === 'tasks'">
       <p class="details">Current Tasks:</p>
       <ul>
@@ -72,7 +133,7 @@
       </ul>
     </div>
 
-    <!-- History tab -->
+ 
     <div *ngIf="activeTab === 'history'">
       <p class="details">Previous scores:</p>
       <ul>

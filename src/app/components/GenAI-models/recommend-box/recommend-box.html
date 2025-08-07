@@ -1,16 +1,16 @@
-<div class="d-flex justify-content-center align-items-center min-vh-100">
+<div class="d-flex justify-content-center align-items-center min-vh-100" >
   <ng-container *ngIf="!result; else showResultBlock">
-    <div class="form-card p-5 rounded-4 shadow-lg text-center fade-slide">
+    <div class="form-card p-5 rounded-4 shadow-lg text-center fade-slide w-100" style="max-width: 600px;">
       <h3 class="form-title mb-4">Recommend Developer</h3>
-      <p class="subtitle mb-4">
-        Describe the task to get a recommended developer
-      </p>
+      <p class="subtitle mb-4">Describe the task to get a recommended developer</p>
 
       <form (submit)="getRecommendation(); $event.preventDefault()">
-        <div class="mb-3">
+        <div class="mb-3 text-start">
+          <label for="description" class="form-label">Task Description</label>
           <textarea
             [(ngModel)]="description"
             name="description"
+            id="description"
             class="form-control"
             rows="4"
             placeholder="Enter task description"
@@ -18,13 +18,15 @@
           ></textarea>
         </div>
 
-        <button class="btn btn-submit w-100 d-flex justify-content-center align-items-center" [disabled]="loading">
+        <button
+          type="submit"
+          class="btn btn-submit w-100 d-flex justify-content-center align-items-center"
+          [disabled]="loading"
+        >
           <ng-container *ngIf="loading; else btnText">
-            <span class="loader"></span>
+            <span class="loader me-2"></span> Loading...
           </ng-container>
-          <ng-template #btnText>
-            Get Recommendation
-          </ng-template>
+          <ng-template #btnText>Get Recommendation</ng-template>
         </button>
       </form>
 
@@ -33,25 +35,70 @@
   </ng-container>
 
   <ng-template #showResultBlock>
-    <div class="form-card result-card p-5 rounded-4 shadow-lg text-center fade-slide">
-      <h3 class="form-title mb-4">Recommended Developer</h3>
+    <div class="form-card result-card p-5 rounded-4 shadow-lg text-start fade-slide w-100" style="max-width: 700px;">
+      <h3 class="form-title mb-4 text-center">Recommended Developer for Your Task</h3>
 
-      <div class="details mt-4">
-        <div class="detail-card">
-          <h4>Developer</h4>
-          <p><strong>Name:</strong> {{ result.recommendedDeveloper.name }}</p>
+      <div class="details mb-4">
+        <div class="mb-3">
+          <strong>Name:</strong> {{ result.recommendedDeveloper.name }}
         </div>
-        <div class="detail-card">
-          <h4>Score</h4>
-          <p>{{ result.recommendedDeveloper.score }}</p>
+        <div class="mb-3">
+          <strong>Score:</strong> {{ result.recommendedDeveloper.score }}
         </div>
-        <div class="detail-card">
-          <h4>Reason</h4>
-          <p>{{ result.recommendedDeveloper.explain }}</p>
+        <div class="mb-3">
+          <strong>Reason:</strong>
+          <p class="mb-0">{{ result.recommendedDeveloper.explain }}</p>
         </div>
       </div>
 
-      <button class="btn btn-secondary mt-4" (click)="reset()"> Try Again 🔄</button>
+      <div class="mb-3">
+        <label for="developerSelect" class="form-label">Select Developer</label>
+        <select
+          id="developerSelect"
+          class="form-select"
+          [(ngModel)]="selectedDeveloperId"
+          name="developerId"
+          required
+        >
+          <option value="">-- Choose a Developer --</option>
+          <option *ngFor="let dev of developers; trackBy: trackById" [value]="dev.userId">
+            {{ dev.userName }}
+          </option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="deadline" class="form-label">Deadline</label>
+        <input
+          type="date"
+          class="form-control"
+          id="deadline"
+          name="deadline"
+          [(ngModel)]="deadline"
+          required
+        />
+      </div>
+
+      <button
+        class="btn btn-primary w-100"
+        (click)="assignDeveloper()"
+        [disabled]="loading"
+      >
+        <ng-container *ngIf="loading; else assignText">
+          <span class="loader me-2"></span> Assigning...
+        </ng-container>
+        <ng-template #assignText>Assign Developer</ng-template>
+      </button>
+
+      <div *ngIf="assignResult" class="alert alert-success mt-3">
+        Developer assigned successfully!
+      </div>
+
+      <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+
+      <button class="btn btn-secondary w-100 mt-3" (click)="reset()">
+        🔄 Try Again
+      </button>
     </div>
   </ng-template>
 </div>
