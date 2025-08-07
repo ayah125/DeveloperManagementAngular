@@ -4,6 +4,10 @@ import { CodeReviewService } from '../../../services/codeReview/codereview';
 import { reviewResult } from '../../../interfaces/reviewResult';
 import { FormsModule } from '@angular/forms';
 import { RequestBody } from '../../../models/CodeReviewModel';
+import { DeveloperTaskDTO } from '../../../interfaces/DeveloperTaskDTO';
+import { DeveloperTasks } from '../../../services/developers/developer-task';
+import { ActivatedRoute } from '@angular/router';
+import { WorkspaceService } from '../../../services/workspace/workspaces';
 
 @Component({
   selector: 'app-code-review',
@@ -13,20 +17,23 @@ import { RequestBody } from '../../../models/CodeReviewModel';
 })
 export class CodeReview {
   showDetails = false;
-   workspaceId : number = 1; // يمكنك تعديل هذا حسب الحاجة  
-
+   workspaceId : number = 1; // يمكنك تعديل هذا حسب الحاجة
+    workspace: any;
+   taskId: number = 1; 
+  developerId: string = localStorage.getItem('developerId') || '1'; 
+  tasks: DeveloperTaskDTO[] = [];
   reviewresult: reviewResult | null = null;
   loading = false;
   error: string | null = null;
 
-  constructor(private codereviewservice: CodeReviewService) {}
+  constructor(private codereviewservice: CodeReviewService, private developertasks: DeveloperTasks,private route: ActivatedRoute,private workspaceService: WorkspaceService) {}
 
   Review() {
     this.loading = true;
     this.error = null;
     this.reviewresult = null;
 
-    this.codereviewservice.reviewCode(this.workspaceId).subscribe({
+    this.codereviewservice.reviewCode(this.workspaceId, this.taskId).subscribe({
       next: (response: reviewResult) => {
         this.reviewresult = response;
         this.loading = false;
@@ -35,6 +42,28 @@ export class CodeReview {
       error: (err) => {
         this.error = 'An error occurred during review.';
         this.loading = false;
+      }
+    });
+  }
+   ngOnInit(): void {
+    this.showTasks();
+       this.route.paramMap.subscribe((params) => {
+      this.workspaceId = Number(params.get('id'));
+
+      this.workspaceService.workspaces$.subscribe((list) => {
+        this.workspace = list.find((ws) => ws.id === this.workspaceId);
+      });
+    });
+    this.showTasks();
+  }
+  showTasks(): void {
+    this.developertasks.getTasksByDeveloperId(this.developerId).subscribe({
+      next: (response) => {
+        this.tasks = response;
+        this.taskId = 0;
+      },
+      error: (error) => {
+        console.error('Error fetching tasks:', error);
       }
     });
   }
