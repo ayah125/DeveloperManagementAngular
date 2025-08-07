@@ -7,6 +7,9 @@ import lottie from 'lottie-web';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DeveloperService } from '../../services/developers/developer';
+import { DeveloperTasks } from '../../services/developers/developer-task';
+import { DeveloperTaskDTO } from '../../interfaces/DeveloperTaskDTO';
+import { Developer } from '../../interfaces/developer';
 
 
 
@@ -68,30 +71,31 @@ isVisible = true;
   workspaceId!: number ;
   workspace: any;
   developers: any[] = []; ///editttttt
-    showDevelopers = true;
-
+  showDevelopers = true;
+  selectedDeveloperTasks: DeveloperTaskDTO[] = [];
+  selectedDeveloper?: Developer;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private workspaceService: Workspace,
     private snackBar: MatSnackBar,
-    private developerService: DeveloperService ///
-
+    private developerService: DeveloperService ,///
+    private developerTasks: DeveloperTasks // 
 
   ) {}
- @ViewChild('lottieContainer', { static: false }) lottieContainer!: ElementRef;
+//  @ViewChild('lottieContainer', { static: false }) lottieContainer!: ElementRef;
 
-  ngAfterViewInit(): void {
-    lottie.loadAnimation({
-      container: this.lottieContainer.nativeElement,
-      renderer: 'svg',
-      loop: true,
-      autoplay: true,
-      path: 'assets/Online.json' 
+//   ngAfterViewInit(): void {
+//     lottie.loadAnimation({
+//       container: this.lottieContainer.nativeElement,
+//       renderer: 'svg',
+//       loop: true,
+//       autoplay: true,
+//       path: 'assets/Online.json' 
       
 
-    });
-  }
+//     });
+//   }
   
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -107,7 +111,13 @@ isVisible = true;
       });
     });
   }
-
+  onDeveloperClick(developer: Developer) {
+    this.selectedDeveloper = developer;
+      this.developerTasks.getTasksByWorkspaceAndDeveloper(this.workspaceId,developer.userId)
+        .subscribe(tasks => {
+          this.selectedDeveloperTasks = tasks;
+        });
+    }
   // developers: Developer[] = [
   //   { name: 'Ayah', avatar: 'A', score: 85, pendingTasks: 3,tasks: ['Task 1', 'Task 2', 'Task 3'], },
   //   { name: 'Ahmed', avatar: 'A', score: 100, pendingTasks: 1 , tasks: ['Task 1', 'Task 2', 'Task 3'],},
@@ -195,10 +205,10 @@ onAddMember() {
 }
 
 
-interface Developer {
-  name: string;
-  avatar: string; // URL أو حتى حرف
-  score: number;
-tasks:string[];
-    pendingTasks: number;
-}
+// interface Developer {
+//   name: string;
+//   avatar: string; // URL أو حتى حرف
+//   score: number;
+// tasks:string[];
+//     pendingTasks: number;
+// }

@@ -91,7 +91,18 @@
   flex-direction: column;
   align-items: center;
 }
+.task-card-container {
+  margin-left: 250px;
+  padding: 1rem;
+}
 
+.task-card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #fff;
+}
 .toggle-btn {
   background-color: #0d3b66;
   color: #fff;
