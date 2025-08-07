@@ -11,6 +11,8 @@ import { DeveloperService } from '../../services/developers/developer';
 
 
 import { trigger, transition, style, animate } from '@angular/animations';
+import { AddMemberModel } from '../../interfaces/add-member-model';
+import { Roles } from '../../enums/roles';
 
 
 @Component({
@@ -62,11 +64,23 @@ import { trigger, transition, style, animate } from '@angular/animations';
 
 export class WorkspacePageComponent implements OnInit  {
     activeTab = 'developers';
-isListOpen = true;
-isVisible = true;
+    isListOpen = true;
+    isVisible = true;
 
   workspaceId!: number ;
   workspace: any;
+  Roles = Roles;
+  newMember: AddMemberModel = {
+    developerEmail: '',
+    role: Roles.Null, 
+    branch: ''
+  };
+  
+  
+
+    ///editttttt
+    // developers: Developer[] = [];
+
   developers: any[] = []; ///editttttt
     showDevelopers = true;
 
@@ -138,12 +152,6 @@ onAddMember() {
  showForm = false;
 
  
-  newMember = {
-    DeveloperEmail: '',
-    Role: '',
-    Branch: ''
-  };
-
   submitMember() {
     console.log('Submitted:', this.newMember);
     // هنا تقدر تبعت البيانات للباك اند أو تضيفها لقائمة
@@ -152,13 +160,18 @@ onAddMember() {
    showModal = false;
   loading = false;
 
-  member = {
-    DeveloperEmail: '',
-    Role: '',
-    Branch: ''
-  };
+  // member = {
+  //   DeveloperEmail: '',
+  //   Role: '',
+  //   Branch: ''
+  // };
 
   openModal() {
+    this.newMember = {
+      developerEmail: '',
+      role: Roles.Null,
+      branch: ''
+    };
     this.showModal = true;
   }
 
@@ -167,30 +180,67 @@ onAddMember() {
   }
 
   save() {
-    if (!this.member.DeveloperEmail || !this.member.Role || !this.member.Branch) return;
-
+    if (
+      !this.newMember.developerEmail ||
+      this.newMember.role === Roles.Null ||
+      !this.newMember.branch
+    ) return;
+    
     this.loading = true;
-
-    setTimeout(() => {
-      this.loading = false;
-      this.closeModal();
-      alert('Member added successfully!');
-    }, 2000);
+    this.newMember.role = Number(this.newMember.role);
+    console.log('Saving new member:', this.newMember);
+    // this.newMember.workspaceID = this.workspaceId;
+    this.workspaceService.addMemberToWorkspace(this.workspaceId, this.newMember).subscribe({
+      next: () => {
+        
+        this.loading = false;
+        this.closeModal();
+        this.snackBar.open('Member added successfully!', 'Close', { duration: 2000 });
+        this.developerService.getDevelopersByWorkspace(this.workspaceId).subscribe((devs) => {
+          this.developers = devs;
+        });
+      },
+      error: (error:any) => {
+        this.loading = false;
+        this.snackBar.open('Failed to add member. Please try again.', 'Close', { duration: 2000 });
+        console.error('Error adding member:', error);
+      }
+    });
+    // setTimeout(() => {
+    //   this.loading = false;
+    //   this.closeModal();
+    //   alert('Member added successfully!');
+    // }, 2000);
   }
   deleteDeveloper(dev: any, event: MouseEvent): void {
-  event.stopPropagation(); // علشان ما يختارش الـ developer
-
-  const confirmed = confirm(`Are you sure you want to delete ${dev.name}?`);
-  if (confirmed) {
-    // نفذ الحذف من الـ array أو من السيرفر لو مربوطة
-    this.developers = this.developers.filter(d => d !== dev);
-    if (this.activeDeveloper === dev) {
-      this.activeDeveloper = null;
+    event.stopPropagation(); // علشان ما يختارش الـ developer
+  
+    const confirmed = confirm(`Are you sure you want to delete ${dev.userName}?`);
+    if (!confirmed) return;
+  
+    if (!dev.userId) {
+      console.error('Developer ID is missing:', dev);
+      this.snackBar.open('Developer ID is missing. Cannot delete.', 'Close', { duration: 2000 });
+      return;
     }
-    // ممكن تضيف Toast هنا
-    this.snackBar.open('Developer deleted', 'Close', { duration: 2000 });
+  
+    this.workspaceService.deleteMemberFromWorkspace(this.workspaceId, dev.userId).subscribe({
+      next: () => {
+        this.developers = this.developers.filter(d => d.id !== dev.userId);
+        this.snackBar.open('Developer deleted', 'Close', { duration: 2000 });
+        this.developerService.getDevelopersByWorkspace(this.workspaceId).subscribe((devs) => {
+          this.developers = devs;
+        }); 
+      },
+      error: (error: any) => {
+        console.error('Error deleting developer:', error);
+        console.error('Error response:', error.error);
+        this.snackBar.open('Failed to delete developer. Please try again.', 'Close', { duration: 3000 });
+      }
+    });
   }
-}
+  
+
 
 }
 
@@ -199,6 +249,6 @@ interface Developer {
   name: string;
   avatar: string; // URL أو حتى حرف
   score: number;
-tasks:string[];
+  tasks:string[];
     pendingTasks: number;
 }

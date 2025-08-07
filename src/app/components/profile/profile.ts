@@ -7,7 +7,7 @@ import { DeveloperTaskDTO } from '../../interfaces/DeveloperTaskDTO';
 @Component({
   selector: 'app-profile',
   imports: [CommonModule],
-  templateUrl: './profile.html',
+  templateUrl:'./profile.html',
   styleUrls: ['./profile.css']
 })
 export class Profile {
