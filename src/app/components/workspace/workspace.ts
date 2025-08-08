@@ -132,6 +132,10 @@ export class WorkspacePageComponent implements OnInit  {
           this.selectedDeveloperTasks = tasks;
         });
     }
+  closeTasksPanel(): void {
+    this.selectedDeveloper = undefined;
+    this.selectedDeveloperTasks = [];
+  }
   // developers: Developer[] = [
   //   { name: 'Ayah', avatar: 'A', score: 85, pendingTasks: 3,tasks: ['Task 1', 'Task 2', 'Task 3'], },
   //   { name: 'Ahmed', avatar: 'A', score: 100, pendingTasks: 1 , tasks: ['Task 1', 'Task 2', 'Task 3'],},
