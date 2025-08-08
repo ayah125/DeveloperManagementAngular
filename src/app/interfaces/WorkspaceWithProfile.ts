@@ -9,7 +9,7 @@ export interface WorkspaceWithProfile {
     taskCount: number;
     completedTasks: number;
     skillTags: string;
-    avilability: string;
+    avilability: boolean;
     branch: string;
     workspaceName: string;
   };

@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { env } from '../../../enviroment/environment';
 import { DeveloperTaskDTO } from '../../interfaces/DeveloperTaskDTO';
+import { UpdateProfileRequest } from '../../interfaces/UpdateProfileRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -43,4 +44,23 @@ export class Getprofile {
       `${env.apiUrl}api/DeveloperTasks/developer/${localStorage.getItem('userID')}`,
       { headers }
     );
-  }}
+  }
+  UpdateProfile(request: UpdateProfileRequest): Observable<any> {
+    const token = localStorage.getItem('userToken');
+
+    if (!token) {
+      throw new Error('Authentication token not found in localStorage');
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.put<any>(
+      `${env.apiUrl}api/Developer/profile`,
+      request,
+      { headers }
+    );
+  } 
+}
