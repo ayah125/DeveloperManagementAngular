@@ -675,3 +675,57 @@ input[type="email"] {
   .task-card h4 { font-size: 1.05rem; }
   .developer-item { padding: 0.45rem 0.8rem; }
 }
+
+/* Empty state */
+.empty-state {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;   
+  align-items: center;       
+  padding: 50px 0px 0px 260px;
+  min-height: 58vh;         
+  margin-top: 0;
+  box-sizing: border-box;
+}
+.empty-state-content {
+  text-align: center;
+  color: #e9f1f9;
+  background: rgba(13,59,102,0.25);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 16px;
+  padding: 70px 128px; /* refined spacing */
+  box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+  backdrop-filter: blur(4px);
+  width: clamp(720px, 52%, 700px); /* slightly smaller max width and responsive */
+  margin-inline: auto; /* ensure centering inside the available space */
+}
+.empty-icon {
+  font-size: 44px;
+  margin-bottom: 10px;
+}
+.empty-state-content h3 {
+  margin: 10px 0 8px 0;
+  font-size: 1.6rem;
+}
+.empty-state-content p {
+  margin: 0 0 8px 0;
+  color: #cfe3f6;
+  font-size: 1rem;
+}
+
+/* Media queries related to empty-state */
+@media (max-width: 1200px) {
+  .empty-state { min-height: 50vh; }
+  .empty-state-content { width: min(70vw, 680px); padding: 56px 72px; }
+}
+
+@media (max-width: 992px) {
+  .empty-state {
+    min-height: 40vh;
+    padding: 12px;
+  }
+  .empty-state-content {
+    width: 100%;
+    padding: 32px 20px;
+  }
+}

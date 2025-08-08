@@ -4,13 +4,15 @@ import { Observable } from 'rxjs';
 import { reviewResult } from '../../interfaces/reviewResult';
 import { DeveloperTasks } from '../developers/developer-task';
 import { DeveloperTaskDTO } from '../../interfaces/DeveloperTaskDTO';
+import { env } from '../../../enviroment/environment';
 // import { RequestBody } from '../../models/CodeReviewModel';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CodeReviewService {
-  private apiUrl = 'https://localhost:7293/api/GenAIModels/CodeReview'; 
+    apiUrl = env.apiUrl;
+   api = `${this.apiUrl}/api/GenAIModels/CodeReview`; 
 
   constructor(private http: HttpClient) {}
 
@@ -26,7 +28,7 @@ export class CodeReviewService {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
         });
-    return this.http.post<reviewResult>(this.apiUrl, { workspaceId, taskId }, { headers });
+    return this.http.post<reviewResult>(this.api, { workspaceId, taskId }, { headers });
   }
   
 

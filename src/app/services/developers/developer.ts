@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Developer, DeveloperProfile } from '../../interfaces/developer';
 import { Observable } from 'rxjs';
+import { env } from '../../../enviroment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DeveloperService {
-  private apiUrl = 'https://localhost:7293/api/Developer';
+  private apiurl=env.apiUrl;
+  private apiUrl = `${this.apiurl}/api/Developer`;
 
   constructor(private http: HttpClient) {}
 

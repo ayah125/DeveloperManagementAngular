@@ -22,12 +22,12 @@ export class Recommend {
       'Content-Type': 'application/json',
     });
     const body = { description: description };
-    return this.http.post<any>(`${env.apiUrl}api/GenAIModels/Recommend`, body, {
+    return this.http.post<any>(`${env.apiUrl}/api/GenAIModels/Recommend`, body, {
       headers,
     });
   }
 
   AssignDeveloper(assignData: AssignDeveloperData): Observable<any> {
-    return this.http.post<any>(`${env.apiUrl}api/DeveloperTasks`, assignData);
+    return this.http.post<any>(`${env.apiUrl}/api/DeveloperTasks`, assignData);
   }
 }

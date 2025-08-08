@@ -5,6 +5,7 @@ import { WorkspaceToken } from '../../models/workspace-token';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AddMemberModel } from '../../interfaces/add-member-model';
+import { env } from '../../../enviroment/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,7 @@ export class Workspace {
   httpclient = inject(HttpClient);
   private workspacesSubject = new BehaviorSubject<any[]>([]);
   public workspaces$ = this.workspacesSubject.asObservable();
+     private apiUrl = env.apiUrl;
   
      constructor() {
     const savedWorkspaces = localStorage.getItem('workspaces');
@@ -30,7 +32,8 @@ export class Workspace {
 
     return this.httpclient
       .post<any>(
-        'https://localhost:7293/api/WorkSpaces/CreateWorkspace',
+         `${this.apiUrl}/api/WorkSpaces/CreateWorkspace`,
+       
         {
           name: workspaceData.name,
           adminUserID: workspaceData.adminUserID,
@@ -64,7 +67,8 @@ export class Workspace {
     });
 
     return this.httpclient.post(
-      'https://localhost:7293/api/WorkSpaces/CreateWorkspaceTokens',
+       `${this.apiUrl}/api/WorkSpaces/CreateWorkspaceTokens`,
+     
       {
         WorkspaceID: workspaceID,
         GithubToken: tokens.GithubToken,
@@ -83,7 +87,9 @@ export class Workspace {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     });
-    return this.httpclient.delete(`https://localhost:7293/api/WorkSpaces/DeleteWorkspaceTokens/${workspaceID}`,{headers})
+    return this.httpclient.delete(
+       `${this.apiUrl}/api/WorkSpaces/DeleteWorkspaceTokens/${workspaceID}`,
+    {headers})
   }
 
   updateWorkspace(workspaceID: number, tokens: WorkspaceToken){
@@ -92,11 +98,14 @@ export class Workspace {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     });
-    return this.httpclient.put("https://localhost:7293/api/WorkSpaces/UpdateWorkspaceTokens",{
+    return this.httpclient.put(
+       `${this.apiUrl}/api/WorkSpaces/UpdateWorkspaceTokens`,
+{
       WorkspaceID: workspaceID,
       GithubToken: tokens.GithubToken,
       OwnerName: tokens.OwnerName,
       GithubRepo: tokens.GithubRepo,
+
       UserAgent: tokens.UserAgent,
       Name:tokens.Name || ''
     },{headers})
@@ -110,7 +119,10 @@ export class Workspace {
       'Content-Type': 'application/json',
     });
 
-    return this.httpclient.get<any[]>('https://localhost:7293/api/WorkSpaces/GetAllWorkspaceTokens', { headers })
+     `${this.apiUrl}/api/WorkSpaces/GetAllWorkspaceTokens`; 
+    return this.httpclient.get<any[]>(
+      
+     `${this.apiUrl}/api/WorkSpaces/GetAllWorkspaceTokens`, { headers })
       .pipe(
         tap(tokens => {
           console.log('Fetched all workspace tokens:', tokens);
@@ -124,7 +136,8 @@ export class Workspace {
     Authorization: `Bearer ${token}`,
     'Content-Type': 'application/json',
   });
-  return this.httpclient.post('https://localhost:7293/api/WorkSpaces/AddMemberToWorkspace', {
+  `${this.apiUrl}/api/WorkSpaces/AddMemberToWorkspace`; 
+  return this.httpclient.post(`${this.apiUrl}/api/WorkSpaces/AddMemberToWorkspace`,  {
     workspaceID: WorkspaceID,
     developerEmail: MemberData.developerEmail,
     role: MemberData.role,
@@ -138,7 +151,8 @@ export class Workspace {
     Authorization: `Bearer ${token}`,
     'Content-Type': 'application/json',
   });
-  return this.httpclient.delete(`https://localhost:7293/api/WorkSpaces/DeleteMemberFromWorkspace/${workspaceID}/${userID}`,{headers})
+ 
+  return this.httpclient.delete( `${this.apiUrl}/api/WorkSpaces/DeleteMemberFromWorkspace/${workspaceID}/${userID}`, {headers})
  }
 
 
@@ -152,7 +166,7 @@ export class Workspace {
     });
 
     this.httpclient
-      .get<any[]>('https://localhost:7293/api/WorkSpaces/user', { headers })
+      .get<any[]>(   `${this.apiUrl}/api/WorkSpaces/user` , { headers })
       .subscribe(
         (wsList) => {
           this.workspacesSubject.next(wsList);

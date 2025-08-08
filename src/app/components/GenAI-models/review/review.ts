@@ -17,7 +17,7 @@ import { WorkspaceService } from '../../../services/workspace/workspaces';
 })
 export class CodeReview {
   showDetails = false;
-   workspaceId : number = 1001; // يمكنك تعديل هذا حسب الحاجة
+   workspaceId : number = 1011; // يمكنك تعديل هذا حسب الحاجة
     workspace: any = "Test";
    taskId: number = 1; 
   developerId: string = localStorage.getItem('userID') || '1'; 
@@ -46,17 +46,16 @@ export class CodeReview {
       }
     });
   }
-   ngOnInit(): void {
-    // this.showTasks();
-    //    this.route.paramMap.subscribe((params) => {
-    //   this.workspaceId = Number(params.get('id'));
-
-    //   this.workspaceService.workspaces$.subscribe((list) => {
-    //     this.workspace = list.find((ws) => ws.id === this.workspaceId);
-    //   });
-    // });
+ngOnInit(): void {
+  this.route.parent?.paramMap.subscribe((params) => {
+    const idParam = params.get('id');
+    this.workspaceId = idParam ? Number(idParam) : 0;
+    console.log('Workspace ID:', this.workspaceId);
     this.showTasks();
-  }
+  });
+}
+
+
   showTasks(): void {
     this.developertasks.getTasksByDeveloperId(this.developerId).subscribe({
       next: (response) => {

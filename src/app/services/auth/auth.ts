@@ -6,13 +6,14 @@ import { LoginDTO } from '../../DTO/LoginDTO';
 import { SignupDTO } from '../../DTO/RegisterDTO';
 import { jwtDecode } from 'jwt-decode';
 import { AppUser } from '../../interfaces/appuser';
+import { env } from '../../../enviroment/environment';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'https://localhost:7293';
+  private apiUrl = env.apiUrl;
   private userSubject = new BehaviorSubject<AppUser | null>(null);
   user$ = this.userSubject.asObservable();
 

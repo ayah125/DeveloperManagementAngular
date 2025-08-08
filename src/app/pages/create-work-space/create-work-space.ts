@@ -63,7 +63,7 @@ export class Createworkspace {
               console.log('Token created successfully:', tokenResponse);
 
  
-              this.router.navigate(['/workspace', workspaceID]);
+              this.router.navigate(['/workspacee', workspaceID]);
             },
             error: (tokenError: any) => {
               console.error('Token Creation failed', tokenError);

@@ -3,10 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DeveloperPerformanceDTO } from '../../interfaces/DeveloperPerformanceDTO';
 import { DeveloperTaskDTO } from '../../interfaces/DeveloperTaskDTO';
+import { env } from '../../../enviroment/environment';
 
 @Injectable({ providedIn: 'root' })
 export class DeveloperTasks {
-  private baseUrl = 'https://localhost:7293/api/DeveloperTasks';
+  private apiurl=env.apiUrl;
+  private baseUrl = `${this.apiurl}/api/DeveloperTasks`;
 
   constructor(private http: HttpClient) {}
 

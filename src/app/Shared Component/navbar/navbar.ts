@@ -88,10 +88,10 @@ export class Navbar implements AfterViewInit, OnInit {
     const role = workspace.profile.role;
 
     if (role === 'Developer') {
-      this.router.navigate(['/workspace']);
+         this.router.navigate([`/workspace/${workspace.workspaceId}`]);
     } 
     else if (role === 'Admin') {
-      this.router.navigate([`/workspace/${workspace.workspaceId}`]);
+      this.router.navigate([`/workspacee/${workspace.workspaceId}`]);
     } 
     else {
       console.warn('Unknown role:', role);

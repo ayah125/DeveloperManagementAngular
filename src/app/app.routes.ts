@@ -48,11 +48,12 @@ export const routes: Routes = [
       { path: 'profile', component: Profile },
 
       { path: 'workspace/:id/recommend', component: RecommendBox },
+         { path: 'workspacee/:id', component: WorkspacePageComponent },
       {
         path: 'workspace',
         children: [
           {
-            path: '',
+            path: ':id',
             component: WorkspaceDetailComponent,
             children: [
               
@@ -61,7 +62,7 @@ export const routes: Routes = [
    
             ],
           },
-          { path: ':id', component: WorkspacePageComponent },
+       
         ],
       },
     ],

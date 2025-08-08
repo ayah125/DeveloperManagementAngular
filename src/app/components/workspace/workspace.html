@@ -1,42 +1,124 @@
-<!--زرار الاضافة بتاعة الديفيلوبر-->
+<div class="developer-container">
+ 
+  <div class="recommend-container">
+    <div class="recommend-row">
+      <div class="recommend-text">
+        ✨ Get smart recommendations tailored for your workspace!
+      </div>
+      <button 
+        class="side-btn" 
+        [routerLink]="['/workspace', workspaceId, 'recommend']">
+        Assign Task
+      </button>
+    </div>
+  </div>
+
+
+  <div class="sidebar">
+    <button class="toggle-btn" (click)="isVisible = !isVisible">
+      <span>All Developers</span>
+      <i [ngClass]="isVisible ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
+    </button>
+    <div [ngClass]="{ 'developer-list-container': true, open: isVisible, closed: !isVisible }">
+      <div
+        *ngFor="let dev of developers"
+        class="developer-item"
+        [class.active]="dev === selectedDeveloper"
+        (click)="onDeveloperClick(dev)">
+        <span class="material-icons">account_circle</span>
+        <div class="developer-name">{{ dev.userName }}</div>
+        <button 
+          class="delete-dev-btn" 
+          (click)="deleteDeveloper(dev, $event)">
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="selectedDeveloper" class="task-card-container" [@fadeSlide]>
+
+    <div class="task-card-header">
+      <h3 style="color: beige;">{{ selectedDeveloper.userName }}'s Profile & Tasks</h3>
+      <button class="task-close-btn" (click)="closeTasksPanel()" aria-label="Close tasks" title="Close">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+   
+    <div *ngIf="developerProfile" class="developer-profile">
+      <h4>Profile Info</h4>
+      <p><strong>Role:</strong> {{ developerProfile.role }}</p>
+      <p><strong>Email:</strong> {{ developerProfile.email }}</p>
+      <p><strong>Workspace:</strong> {{ developerProfile.workspaceName }}</p>
+      <p><strong>Branch:</strong> {{ developerProfile.branch }}</p>
+      <p><strong>Availability:</strong> {{ developerProfile.avilability }}</p>
+      <p><strong>Skill Tags:</strong> 
+        <span *ngIf="developerProfile.skillTags && developerProfile.skillTags.length > 0; else noSkills">
+          <span *ngFor="let skill of developerProfile.skillTags; let last = last">
+            {{ skill }}<span *ngIf="!last">, </span>
+          </span>
+        </span>
+        <ng-template #noSkills>None</ng-template>
+      </p>
+      <p><strong>Completed Tasks:</strong> {{ developerProfile.completedTasks }}</p>
+      <p><strong>Total Tasks:</strong> {{ developerProfile.taskCount }}</p>
+    </div>
+
+    <hr />
+
+
+    <div *ngIf="selectedDeveloperTasks.length > 0; else noTasks">
+      <div *ngFor="let task of selectedDeveloperTasks" class="task-card">
+        <h4>{{ task.title }}</h4>
+        <p><strong>Status:</strong> {{ task.status }}</p>
+        <p><strong>Description:</strong> {{ task.description }}</p>
+        <p><strong>Start Date:</strong> {{ task.createdAt | date }}</p>
+        <p><strong>Deadline:</strong> {{ task.deadline | date }}</p>
+      </div>
+    </div>
+
+    
+    <ng-template #noTasks>
+      <p>No tasks found for this developer.</p>
+    </ng-template>
+  </div>
+</div>
+
+
 <button class="add-member-floating-btn" (click)="openModal()">
   <i class="bi bi-person-plus"></i>
   Add New Member
 </button>
 
 
-<div class="modal-backdrop" *ngIf="showModal" (click)="closeModal()"></div>
-
-<!--من اول هنا يامصطفي دي الفورم بتاعة الاضافة-->
 <div class="modal-backdrop-blur" *ngIf="showModal" [@fadeInOut]>
   <div class="modal-wrapper d-flex justify-content-center align-items-center">
     <div class="modal-content-custom p-4">
       <button type="button" class="btn-close float-end" aria-label="Close" (click)="closeModal()"></button>
-      
       <form (ngSubmit)="save()" #memberForm="ngForm" class="mt-4">
         <h4 class="mb-4 text-center">Add New Member</h4>
-
         <div class="mb-3">
           <label class="form-label">Email</label>
           <input type="email" class="form-control" placeholder="Enter developer email" name="DeveloperEmail"
             [(ngModel)]="newMember.developerEmail" required />
           <div class="form-text">We'll never share the email with anyone else.</div>
         </div>
-
-        <div class="mb-3">
+       <div class="mb-3">
           <label class="form-label">Role</label>
-          <input type="text" class="form-control" placeholder="Enter role" name="Role"
-            [(ngModel)]="newMember.role" required />
-          <div class="form-text">e.g.,  Admin , Developer</div>
+          <select class="form-control" name="Role" [(ngModel)]="newMember.role" required>
+            <option [value]="Roles.Null" disabled selected>Select role</option>
+            <option [value]="0">Developer</option>
+            <option [value]="1">Admin</option>
+          </select>
+          <div class="form-text">e.g., Frontend, Backend, Full Stack</div>
         </div>
-
         <div class="mb-3">
           <label class="form-label">Branch</label>
           <input type="text" class="form-control" placeholder="Enter branch name" name="Branch"
             [(ngModel)]="newMember.branch" required />
-          <div class="form-text">e.g., Cairo, Alexandria, Remote</div>
+          <div class="form-text">e.g., main,Developer branch</div>
         </div>
-
         <div class="d-grid mt-4">
           <button type="submit" class="btn btn-primary" [disabled]="loading">
             <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
@@ -47,158 +129,23 @@
     </div>
   </div>
 </div>
-
-
+<!-- Lottie Background -->
+<div #lottieContainer class="lottie-background"></div>
 
 <div class="developer-container">
-
-
-  <!-- <div class="lottie-wrapper" [class.hidden]="isVisible || activeDeveloper">
-    <div #lottieContainer class="lottie-animation"></div>
-  </div> -->
-<div class="recommend-container">
-  <div class="recommend-row">
-    <div class="recommend-text">
-      ✨ Get smart recommendations tailored for your workspace!
-    </div>
-    <button 
-      class="side-btn" 
-      [routerLink]="['/workspace', workspaceId, 'recommend']">
-      Assign Task
-    </button>
-  </div>
-  </div>
-
-
-
-  <div class="sidebar">
-    
-    <button class="toggle-btn" (click)="isVisible = !isVisible">
-      <span>All Developers</span>
-      <i [ngClass]="isVisible ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
-    </button>
-
- <div [ngClass]="{ 'developer-list-container': true, open: isVisible, closed: !isVisible }">
-  <div
-    *ngFor="let dev of developers"
-    class="developer-item"
-    [class.active]="dev === activeDeveloper"
-    (click)="onDeveloperClick(dev)">
-    
-    <!-- <div class="developer-avatar">{{ dev.avatar }}</div> -->
-     <span class="material-icons">account_circle</span>
-    <div class="developer-name">{{ dev.userName }}</div>
-
-
-    <button 
-      class="delete-dev-btn" 
-      (click)="deleteDeveloper(dev, $event)">
-      <i class="bi bi-trash"></i>
-    </button>
-
-  </div>
-</div>
-
-   
-  </div>
-
-  <!-- Empty state when no developer is selected -->
-  <div *ngIf="!selectedDeveloper" class="empty-state" [@fadeSlide]>
-    <div class="empty-state-content">
-      <div class="empty-icon"><i class="bi bi-kanban"></i></div>
-      <h3>Select a developer to view tasks</h3>
-      <p>Pick someone from the list on the right to see their current tasks and details.</p>
-    </div>
-  </div>
-
-<div *ngIf="selectedDeveloper" class="task-card-container">
-
-  <!-- Header -->
-  <div class="task-card-header">
-    <h3 style="color: beige;">{{ selectedDeveloper.userName }}'s Profile & Tasks</h3>
-    <button class="task-close-btn" (click)="closeTasksPanel()" aria-label="Close tasks" title="Close">
-      <i class="bi bi-x-lg"></i>
-    </button>
-  </div>
-
-  <!-- Developer Profile Section -->
-  <div *ngIf="developerProfile" class="developer-profile">
-    <h4>Profile Info</h4>
-    <p><strong>Role:</strong> {{ developerProfile.role }}</p>
-    <p><strong>Email:</strong> {{ developerProfile.email }}</p>
-    <p><strong>Workspace:</strong> {{ developerProfile.workspaceName }}</p>
-    <p><strong>Branch:</strong> {{ developerProfile.branch }}</p>
-    <p><strong>Availability:</strong> {{ developerProfile.avilability }}</p>
-    <p><strong>Skill Tags:</strong> 
-      <span *ngIf="developerProfile.skillTags && developerProfile.skillTags.length > 0; else noSkills">
-        <span *ngFor="let skill of developerProfile.skillTags; let last = last">
-          {{ skill }}<span *ngIf="!last">, </span>
-        </span>
-      </span>
-      <ng-template #noSkills>None</ng-template>
-    </p>
-    <p><strong>Completed Tasks:</strong> {{ developerProfile.completedTasks }}</p>
-    <p><strong>Total Tasks:</strong> {{ developerProfile.taskCount }}</p>
-  </div>
-
-  <hr />
-
-  <!-- Developer Tasks Section -->
-  <div *ngIf="selectedDeveloperTasks.length > 0; else noTasks">
-    <div *ngFor="let task of selectedDeveloperTasks" class="task-card">
-      <h4>{{ task.title }}</h4>
-      <p><strong>Status:</strong> {{ task.status }}</p>
-      <p><strong>Description:</strong> {{ task.description }}</p>
-      <p><strong>Start Date:</strong> {{ task.createdAt | date }}</p>
-      <p><strong>Deadline:</strong> {{ task.deadline | date }}</p>
-    </div>
-  </div>
-
-</div>
-
-<!-- No Tasks Template -->
-<ng-template #noTasks>
-  <p>No tasks found for this developer.</p>
-</ng-template>
-
-
-<!-- 
-  <div *ngIf="isVisible && activeDeveloper" class="developer-details-card bounce-in">
-
-    <div class="tabs">
-      <div class="tab" [class.active]="activeTab === 'score'" (click)="activeTab = 'score'">Score</div>
-      <div class="tab" [class.active]="activeTab === 'tasks'" (click)="activeTab = 'tasks'">Tasks</div>
-      <div class="tab" [class.active]="activeTab === 'history'" (click)="activeTab = 'history'">History</div>
-    </div>
-
-    <div *ngIf="activeTab === 'score'" class="score-tab">
-      <div class="circular-progress">
-        <svg viewBox="0 0 36 36">
-          <path class="circle-bg"
-            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-          <path class="circle"
-            [attr.stroke-dasharray]="activeDeveloper.score + ', 100'"
-            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-        </svg>
-        <div class="percentage">{{ activeDeveloper.score }}%</div>
-      </div>
-      <div class="details">Developer: {{ activeDeveloper.name }}</div>
-    </div>
-
-    <div *ngIf="activeTab === 'tasks'">
-      <p class="details">Current Tasks:</p>
-      <ul>
-        <li *ngFor="let task of activeDeveloper.tasks">{{ task }}</li>
-      </ul>
-    </div>
-
  
-    <div *ngIf="activeTab === 'history'">
-      <p class="details">Previous scores:</p>
-      <ul>
-        <li *ngFor="let h of activeDeveloper.history">{{ h }}%</li>
-      </ul>
+  <div class="recommend-container">
+    <div class="recommend-row">
+      <div class="recommend-text">
+        ✨ Get smart recommendations tailored for your workspace!
+      </div>
+      <button 
+        class="side-btn" 
+        [routerLink]="['/workspace', workspaceId, 'recommend']">
+        Assign Task
+      </button>
     </div>
-  </div> -->
-  
+  </div>
+
+  <!-- باقي الكود زي ما هو -->
 </div>

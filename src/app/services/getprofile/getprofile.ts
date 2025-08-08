@@ -24,7 +24,7 @@ export class Getprofile {
       'Content-Type': 'application/json'
     });
     return this.http.get<WorkspaceWithProfile[]>(
-      `${env.apiUrl}api/Developer/profile/all`,
+      `${env.apiUrl}/api/Developer/profile/all`,
       { headers }
     );
   }
@@ -41,7 +41,7 @@ export class Getprofile {
     });
 
     return this.http.get<DeveloperTaskDTO[]>(
-      `${env.apiUrl}api/DeveloperTasks/developer/${localStorage.getItem('userID')}`,
+      `${env.apiUrl}/api/DeveloperTasks/developer/${localStorage.getItem('userID')}`,
       { headers }
     );
   }
@@ -58,7 +58,7 @@ export class Getprofile {
     });
 
     return this.http.put<any>(
-      `${env.apiUrl}api/Developer/profile`,
+      `${env.apiUrl}/api/Developer/profile`,
       request,
       { headers }
     );

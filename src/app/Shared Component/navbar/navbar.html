@@ -9,13 +9,13 @@
     <button class="btn sidebar-toggle-btn text-white me-2" (click)="toggleSidebar()">&#9776;</button>
     <a class="navbar-brand d-flex align-items-center text-white fw-bold" routerLink="/home">
       <img src="https://img.freepik.com/premium-vector/people-rune-logo-design-template_18099-2098.jpg" alt="Logo" />
-      Run Task
+    DevOops
     </a>
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav mb-2 mb-lg-0 gap-2 me-auto">
         <li class="nav-item"><a routerLink="/home" routerLinkActive="active-link" class="nav-link text-white">Home</a></li>
-        <li class="nav-item"><a routerLink="/tasks" routerLinkActive="active-link" class="nav-link text-white">Tasks</a></li>
-        <li class="nav-item"><a routerLink="/developers" routerLinkActive="active-link" class="nav-link text-white">Developers</a></li>
+
+       
       </ul>
       <div class="d-flex align-items-center gap-2 text-white ms-auto" *ngIf="authService.user$ | async as user">
         <span>Welcome, {{ user.displayName }}</span>
@@ -37,9 +37,8 @@
 
 
     <li><a routerLink="/home" (click)="closeSidebar()">Home</a></li>
-    <li><a routerLink="/tasks" (click)="closeSidebar()">Tasks</a></li>
-    <li><a routerLink="/work" (click)="closeSidebar()">WorkSpaces</a></li>
-    <li><a routerLink="/workspace" (click)="closeSidebar()">DeveloperWorkSpace</a></li>
+
+   
 
     <li>
       <a routerLink="/create" class="add-icon">
@@ -78,7 +77,6 @@
   </ul>
 </div>
 
-<!-- ✅ Edit Popup -->
 <div class="popup-overlay" *ngIf="showEditPopup">
   <div class="popup-form">
     <h5>Edit Workspace Token</h5>
