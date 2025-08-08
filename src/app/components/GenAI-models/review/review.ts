@@ -17,10 +17,10 @@ import { WorkspaceService } from '../../../services/workspace/workspaces';
 })
 export class CodeReview {
   showDetails = false;
-   workspaceId : number = 1; // يمكنك تعديل هذا حسب الحاجة
-    workspace: any;
+   workspaceId : number = 1001; // يمكنك تعديل هذا حسب الحاجة
+    workspace: any = "Test";
    taskId: number = 1; 
-  developerId: string = localStorage.getItem('developerId') || '1'; 
+  developerId: string = localStorage.getItem('userID') || '1'; 
   tasks: DeveloperTaskDTO[] = [];
   reviewresult: reviewResult | null = null;
   loading = false;
@@ -32,12 +32,13 @@ export class CodeReview {
     this.loading = true;
     this.error = null;
     this.reviewresult = null;
-
+    console.log('Reviewing code for task:', this.taskId, 'in workspace:', this.workspaceId);
     this.codereviewservice.reviewCode(this.workspaceId, this.taskId).subscribe({
       next: (response: reviewResult) => {
         this.reviewresult = response;
         this.loading = false;
         this.showDetails = true;
+        console.log('Review result:', this.reviewresult);
       },
       error: (err) => {
         this.error = 'An error occurred during review.';
@@ -46,14 +47,14 @@ export class CodeReview {
     });
   }
    ngOnInit(): void {
-    this.showTasks();
-       this.route.paramMap.subscribe((params) => {
-      this.workspaceId = Number(params.get('id'));
+    // this.showTasks();
+    //    this.route.paramMap.subscribe((params) => {
+    //   this.workspaceId = Number(params.get('id'));
 
-      this.workspaceService.workspaces$.subscribe((list) => {
-        this.workspace = list.find((ws) => ws.id === this.workspaceId);
-      });
-    });
+    //   this.workspaceService.workspaces$.subscribe((list) => {
+    //     this.workspace = list.find((ws) => ws.id === this.workspaceId);
+    //   });
+    // });
     this.showTasks();
   }
   showTasks(): void {

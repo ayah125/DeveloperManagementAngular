@@ -51,7 +51,7 @@
     <div class="details mt-4" *ngIf="showDetails && reviewresult">
       <div class="detail-card mb-3">
         <h4>Score</h4>
-        <p>{{ reviewresult.score }}%</p>
+        <p>{{ reviewresult.score }}</p>
       </div>
       <div class="detail-card mb-3">
         <h4>Feedback</h4>
@@ -59,11 +59,7 @@
       </div>
       <div class="detail-card mb-3">
         <h4>Suggestions</h4>
-        <ul class="text-start">
-          <li *ngFor="let suggestion of reviewresult.suggestions">
-            {{ suggestion }}
-          </li>
-        </ul>
+        <p>{{ reviewresult.suggestion }}</p>
       </div>
 
       <button class="btn btn-secondary mt-3" (click)="toggleDetails()">

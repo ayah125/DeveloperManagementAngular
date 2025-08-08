@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { reviewResult } from '../../interfaces/reviewResult';
 import { DeveloperTasks } from '../developers/developer-task';
@@ -16,7 +16,17 @@ export class CodeReviewService {
 
  
   reviewCode(workspaceId: number, taskId: number): Observable<reviewResult> {
-    return this.http.post<reviewResult>(this.apiUrl, { workspaceId, taskId });
+     const token = localStorage.getItem('userToken');
+    
+        if (!token) {
+          throw new Error('Authentication token not found in localStorage');
+        }
+    
+        const headers = new HttpHeaders({
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        });
+    return this.http.post<reviewResult>(this.apiUrl, { workspaceId, taskId }, { headers });
   }
   
 
