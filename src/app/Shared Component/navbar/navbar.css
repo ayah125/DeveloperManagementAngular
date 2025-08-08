@@ -11,7 +11,12 @@
 .navbar{
   background-color: rgba(9, 45, 77, 0.95);
 }
-
+@media (min-width: 992px) {
+  .custom-sidebar {
+    left: 0;
+    position: relative;
+    height: auto;
+  }}
 .navbar-brand img {
   height: 40px;
   width: 40px;
@@ -59,6 +64,7 @@
 /* === Sidebar === */
 .custom-sidebar {
   position: fixed;
+    padding-right: 5px;
   top: 56px;
   left: 0;
   width: 220px;

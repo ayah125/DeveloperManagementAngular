@@ -25,12 +25,9 @@
 
         <div class="mb-3">
           <label class="form-label">Role</label>
-          <select class="form-control" name="Role" [(ngModel)]="newMember.role" required>
-            <option [value]="Roles.Null" disabled selected>Select role</option>
-            <option [value]="0">Developer</option>
-            <option [value]="1">Admin</option>
-          </select>
-          <div class="form-text">e.g., Frontend, Backend, Full Stack</div>
+          <input type="text" class="form-control" placeholder="Enter role" name="Role"
+            [(ngModel)]="member.Role" required />
+          <div class="form-text">e.g.,  Admin , Developer</div>
         </div>
 
         <div class="mb-3">
@@ -67,7 +64,7 @@
     <button 
       class="side-btn" 
       [routerLink]="['/workspace', workspaceId, 'recommend']">
-      Recommend
+      Assign Task
     </button>
   </div>
   </div>
@@ -92,7 +89,7 @@
      <span class="material-icons">account_circle</span>
     <div class="developer-name">{{ dev.userName }}</div>
 
-    <!-- زر الحذف هنا داخل الـ *ngFor -->
+
     <button 
       class="delete-dev-btn" 
       (click)="deleteDeveloper(dev, $event)">

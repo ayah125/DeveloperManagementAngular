@@ -20,15 +20,16 @@ import { DevelopersComponent } from './components/developers/developers';
 import { DeveloperProfileComponent } from './components/developer-profile/developer-profile';
 import { WelcomePageComponent } from './pages/welcome-page/welcome-page';
 import { Profile } from './components/profile/profile';
+import { NoAuthGuard } from './services/NoAuth';
 
 export const routes: Routes = [
-  // Welcome page route (برّه Layout)
+
   { path: 'welcome', component: WelcomePageComponent },
 
-  // route الجذر (redirect)
+
   { path: '', redirectTo: 'welcome', pathMatch: 'full' },
 
-  // باقي الـ routes جوّه Layout
+ 
   {
     path: '',
     component: Layout,
@@ -39,7 +40,7 @@ export const routes: Routes = [
       { path: 'prev', component: PreviousTasks },
       { path: 'current-task', component: CurrentTask },
       { path: 'create', component: Createworkspace },
-      { path: 'login', component: Login },
+      { path: 'login', component: Login ,canActivate: [NoAuthGuard] },
       { path: 'register', component: Register },
       { path: 'developers', component: DevelopersComponent },
       { path: 'developer-profile/:id', component: DeveloperProfileComponent },

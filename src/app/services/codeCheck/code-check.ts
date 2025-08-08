@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class CodeCheck {
 
-  private APIUrl = "https://localhost:7293/api/GitHub/build-status";
+  private APIUrl = "http://localhost:5023/api/GitHub/build-status";
   constructor(private http: HttpClient) {}
 
   checkBuildStatus(): Observable<GitHubBuildResult> {

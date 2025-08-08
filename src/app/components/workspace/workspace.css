@@ -308,7 +308,11 @@
 .developer-item:hover {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
-.developer-item.active { background-color: rgba(13, 59, 102, 0.2); }
+.developer-item.active {
+  background-color: rgba(13, 59, 102, 0.2);
+  color:white ;
+
+}
 
 
 .developer-avatar {
@@ -436,7 +440,9 @@
 }
 .lottie-animation {
   width: 700px;   /* أو الحجم اللي تحبيه */
-  height: 700px;
+
+  max-width: 100%;
+  height: auto;
 }
 .lottie-wrapper {
   display: flex;
@@ -447,6 +453,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
+  max-width: 100%;
+  height: auto;
 }
 /* Floating Add Button */
 .add-member-floating-btn {
