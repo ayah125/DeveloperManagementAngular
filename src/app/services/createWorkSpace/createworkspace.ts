@@ -4,6 +4,7 @@ import { workspaceData } from '../../models/workspaceData';
 import { WorkspaceToken } from '../../models/workspace-token';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { AddMemberModel } from '../../interfaces/add-member-model';
 
 @Injectable({
   providedIn: 'root',
@@ -119,7 +120,28 @@ export class Workspace {
       );
  }
 
+ addMemberToWorkspace(WorkspaceID:number,MemberData:AddMemberModel){
+  const token = localStorage.getItem('userToken');
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json',
+  });
+  return this.httpclient.post('https://localhost:7293/api/WorkSpaces/AddMemberToWorkspace', {
+    workspaceID: WorkspaceID,
+    developerEmail: MemberData.developerEmail,
+    role: MemberData.role,
+    branch: MemberData.branch
+  },{headers});
+ }
 
+ deleteMemberFromWorkspace(workspaceID:number,userID: string){
+  const token = localStorage.getItem('userToken');
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json',
+  });
+  return this.httpclient.delete(`https://localhost:7293/api/WorkSpaces/DeleteMemberFromWorkspace/${workspaceID}/${userID}`,{headers})
+ }
 
 
 

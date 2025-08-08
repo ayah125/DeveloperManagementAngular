@@ -19,21 +19,24 @@
         <div class="mb-3">
           <label class="form-label">Email</label>
           <input type="email" class="form-control" placeholder="Enter developer email" name="DeveloperEmail"
-            [(ngModel)]="member.DeveloperEmail" required />
+            [(ngModel)]="newMember.developerEmail" required />
           <div class="form-text">We'll never share the email with anyone else.</div>
         </div>
 
         <div class="mb-3">
           <label class="form-label">Role</label>
-          <input type="text" class="form-control" placeholder="Enter role" name="Role"
-            [(ngModel)]="member.Role" required />
+          <select class="form-control" name="Role" [(ngModel)]="newMember.role" required>
+            <option [value]="Roles.Null" disabled selected>Select role</option>
+            <option [value]="0">Developer</option>
+            <option [value]="1">Admin</option>
+          </select>
           <div class="form-text">e.g., Frontend, Backend, Full Stack</div>
         </div>
 
         <div class="mb-3">
           <label class="form-label">Branch</label>
           <input type="text" class="form-control" placeholder="Enter branch name" name="Branch"
-            [(ngModel)]="member.Branch" required />
+            [(ngModel)]="newMember.branch" required />
           <div class="form-text">e.g., Cairo, Alexandria, Remote</div>
         </div>
 
@@ -53,9 +56,9 @@
 <div class="developer-container">
 
 
-  <div class="lottie-wrapper" [class.hidden]="isVisible || activeDeveloper">
+  <!-- <div class="lottie-wrapper" [class.hidden]="isVisible || activeDeveloper">
     <div #lottieContainer class="lottie-animation"></div>
-  </div>
+  </div> -->
 <div class="recommend-container">
   <div class="recommend-row">
     <div class="recommend-text">
@@ -67,7 +70,7 @@
       Recommend
     </button>
   </div>
-</div>
+  </div>
 
 
 
@@ -83,7 +86,7 @@
     *ngFor="let dev of developers"
     class="developer-item"
     [class.active]="dev === activeDeveloper"
-    (click)="selectDeveloper(dev)">
+    (click)="onDeveloperClick(dev)">
     
     <!-- <div class="developer-avatar">{{ dev.avatar }}</div> -->
      <span class="material-icons">account_circle</span>
@@ -99,11 +102,44 @@
   </div>
 </div>
 
-
    
   </div>
 
+  <!-- Empty state when no developer is selected -->
+  <div *ngIf="!selectedDeveloper" class="empty-state" [@fadeSlide]>
+    <div class="empty-state-content">
+      <div class="empty-icon"><i class="bi bi-kanban"></i></div>
+      <h3>Select a developer to view tasks</h3>
+      <p>Pick someone from the list on the right to see their current tasks and details.</p>
+    </div>
+  </div>
 
+ <div *ngIf="selectedDeveloper" class="task-card-container">
+  <div class="task-card-header">
+    <h3 style="color: beige;">{{ selectedDeveloper.userName }}'s Tasks</h3>
+    <button class="task-close-btn" (click)="closeTasksPanel()" aria-label="Close tasks" title="Close">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+
+  <div *ngIf="selectedDeveloperTasks.length > 0; else noTasks">
+    <div *ngFor="let task of selectedDeveloperTasks" class="task-card">
+      <h4>{{ task.title }}</h4>
+      <p><strong>Status:</strong> {{ task.status }}</p>
+      <p><strong>Description:</strong> {{ task.description }}</p>
+      <p><strong>Start Date:</strong> {{ task.createdAt| date }}</p>
+      <p><strong>Deadline:</strong> {{ task.deadline| date }}</p>
+
+      <!-- Add more task fields if needed -->
+    </div>
+  </div>
+
+  <ng-template #noTasks>
+    <p style="color: beige;">No tasks found for this developer.</p>
+  </ng-template>
+</div>
+
+<!-- 
   <div *ngIf="isVisible && activeDeveloper" class="developer-details-card bounce-in">
 
     <div class="tabs">
@@ -140,5 +176,6 @@
         <li *ngFor="let h of activeDeveloper.history">{{ h }}%</li>
       </ul>
     </div>
-  </div>
+  </div> -->
+  
 </div>

@@ -3,8 +3,8 @@ export interface DeveloperTaskDTO {
   title: string;
   description: string;
   status: string;
-  createdAt: string;     // or Date, depending on parsing
-  deadline: string;      // or Date
+  createdAt: string;     
+  deadline: string;     
   developerId: string;
   developerName?: string;
   workspaceId: number;
