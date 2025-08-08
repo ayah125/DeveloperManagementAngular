@@ -19,14 +19,16 @@ import { CodeChecker } from './components/GenAI-models/code-check/code-check';
 import { DevelopersComponent } from './components/developers/developers';
 import { DeveloperProfileComponent } from './components/developer-profile/developer-profile';
 import { WelcomePageComponent } from './pages/welcome-page/welcome-page';
+
+import { LandingPage } from './pages/landing-page/landing-page';
 import { Profile } from './components/profile/profile';
 import { NoAuthGuard } from './services/NoAuth';
 
 export const routes: Routes = [
-
+  // Welcome page route (برّه Layout)
   { path: 'welcome', component: WelcomePageComponent },
 
-
+  // route الجذر (redirect)
   { path: '', redirectTo: 'welcome', pathMatch: 'full' },
 
  
@@ -56,10 +58,10 @@ export const routes: Routes = [
             path: ':id',
             component: WorkspaceDetailComponent,
             children: [
-              
+
               { path: 'review', component: CodeReview },
               { path: 'check', component: CodeChecker },
-   
+
             ],
           },
        
