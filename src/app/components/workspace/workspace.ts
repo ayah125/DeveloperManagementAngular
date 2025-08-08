@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DeveloperService } from '../../services/developers/developer';
 import { DeveloperTasks } from '../../services/developers/developer-task';
 import { DeveloperTaskDTO } from '../../interfaces/DeveloperTaskDTO';
-import { Developer } from '../../interfaces/developer';
+import { Developer, DeveloperProfile } from '../../interfaces/developer';
 
 
 
@@ -88,6 +88,8 @@ export class WorkspacePageComponent implements OnInit  {
   showDevelopers = true;
   selectedDeveloperTasks: DeveloperTaskDTO[] = [];
   selectedDeveloper?: Developer;
+  developerProfile: DeveloperProfile | null = null;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -131,6 +133,9 @@ export class WorkspacePageComponent implements OnInit  {
         .subscribe(tasks => {
           this.selectedDeveloperTasks = tasks;
         });
+      this.developerService.getDeveloperProfile(this.workspaceId, developer.userId).subscribe(profile => {
+      this.developerProfile = profile;
+    });
     }
   closeTasksPanel(): void {
     this.selectedDeveloper = undefined;

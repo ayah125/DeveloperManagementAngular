@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { DeveloperTasks } from '../../services/developers/developer-task';
 import { CommonModule } from '@angular/common';
 import { DeveloperPerformanceDTO } from '../../interfaces/DeveloperPerformanceDTO';
+import { DeveloperService } from '../../services/developers/developer';
+import { WorkspaceService } from '../../services/workspace/workspaces';
+import { Developer, DeveloperProfile } from '../../interfaces/developer';
 
 @Component({
   imports: [CommonModule],
@@ -14,15 +17,26 @@ export class DeveloperProfileComponent implements OnInit {
   developerId!: string;
   developerName: string = '';
   tasks: any[] = [];
-
+  workspaceId: number = 0;
+  workspace: any;
+  developerProfile: DeveloperProfile | null = null;
   constructor(
     private route: ActivatedRoute,
-    private taskService: DeveloperTasks
+    private taskService: DeveloperTasks,
+    private developerService: DeveloperService,
+    private workspaceService: WorkspaceService
   ) {}
 
   ngOnInit(): void {
     this.developerId = this.route.snapshot.paramMap.get('id')!;
     
+        this.route.paramMap.subscribe((params) => {
+      this.workspaceId = Number(params.get('id'));
+
+      this.workspaceService.workspaces$.subscribe((list) => {
+        this.workspace = list.find((ws) => ws.id === this.workspaceId);
+      });
+    });
     this.taskService.getTasksByDeveloperId(this.developerId).subscribe(tasks => {
       this.tasks = Array.isArray(tasks) ? tasks : [tasks];
       
@@ -36,6 +50,10 @@ export class DeveloperProfileComponent implements OnInit {
           });
         });
       }
+    });
+
+    this.developerService.getDeveloperProfile(this.workspaceId, this.developerId).subscribe(profile => {
+      this.developerProfile = profile;
     });
   }
 }

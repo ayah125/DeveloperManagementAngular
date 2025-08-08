@@ -14,3 +14,15 @@ export interface Developer {
   userId: string;
   userName: string; 
 }
+
+export interface DeveloperProfile {
+role: string;          
+  taskCount: number;
+  skillTags: string[];   
+  completedTasks: number;
+  avilability: string;   
+  branch: string;
+  userName: string;
+  email: string;
+  workspaceName: string;
+}

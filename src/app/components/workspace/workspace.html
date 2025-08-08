@@ -111,30 +111,56 @@
     </div>
   </div>
 
- <div *ngIf="selectedDeveloper" class="task-card-container">
+<div *ngIf="selectedDeveloper" class="task-card-container">
+
+  <!-- Header -->
   <div class="task-card-header">
-    <h3 style="color: beige;">{{ selectedDeveloper.userName }}'s Tasks</h3>
+    <h3 style="color: beige;">{{ selectedDeveloper.userName }}'s Profile & Tasks</h3>
     <button class="task-close-btn" (click)="closeTasksPanel()" aria-label="Close tasks" title="Close">
       <i class="bi bi-x-lg"></i>
     </button>
   </div>
 
+  <!-- Developer Profile Section -->
+  <div *ngIf="developerProfile" class="developer-profile">
+    <h4>Profile Info</h4>
+    <p><strong>Role:</strong> {{ developerProfile.role }}</p>
+    <p><strong>Email:</strong> {{ developerProfile.email }}</p>
+    <p><strong>Workspace:</strong> {{ developerProfile.workspaceName }}</p>
+    <p><strong>Branch:</strong> {{ developerProfile.branch }}</p>
+    <p><strong>Availability:</strong> {{ developerProfile.avilability }}</p>
+    <p><strong>Skill Tags:</strong> 
+      <span *ngIf="developerProfile.skillTags && developerProfile.skillTags.length > 0; else noSkills">
+        <span *ngFor="let skill of developerProfile.skillTags; let last = last">
+          {{ skill }}<span *ngIf="!last">, </span>
+        </span>
+      </span>
+      <ng-template #noSkills>None</ng-template>
+    </p>
+    <p><strong>Completed Tasks:</strong> {{ developerProfile.completedTasks }}</p>
+    <p><strong>Total Tasks:</strong> {{ developerProfile.taskCount }}</p>
+  </div>
+
+  <hr />
+
+  <!-- Developer Tasks Section -->
   <div *ngIf="selectedDeveloperTasks.length > 0; else noTasks">
     <div *ngFor="let task of selectedDeveloperTasks" class="task-card">
       <h4>{{ task.title }}</h4>
       <p><strong>Status:</strong> {{ task.status }}</p>
       <p><strong>Description:</strong> {{ task.description }}</p>
-      <p><strong>Start Date:</strong> {{ task.createdAt| date }}</p>
-      <p><strong>Deadline:</strong> {{ task.deadline| date }}</p>
-
-      <!-- Add more task fields if needed -->
+      <p><strong>Start Date:</strong> {{ task.createdAt | date }}</p>
+      <p><strong>Deadline:</strong> {{ task.deadline | date }}</p>
     </div>
   </div>
 
-  <ng-template #noTasks>
-    <p style="color: beige;">No tasks found for this developer.</p>
-  </ng-template>
 </div>
+
+<!-- No Tasks Template -->
+<ng-template #noTasks>
+  <p>No tasks found for this developer.</p>
+</ng-template>
+
 
 <!-- 
   <div *ngIf="isVisible && activeDeveloper" class="developer-details-card bounce-in">
