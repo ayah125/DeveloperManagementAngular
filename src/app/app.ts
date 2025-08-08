@@ -26,12 +26,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 })
 export class App {
   sidebarOpen = true;
+  isDarkMode = false;
 
   constructor(private http: HttpClient) {}
   isSmallScreen(): boolean {
     return window.innerWidth < 768;
   }
-  isDarkMode = false;
 
   toggleDarkMode() {
     this.isDarkMode = !this.isDarkMode;
