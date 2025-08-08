@@ -67,7 +67,7 @@
       Recommend
     </button>
   </div>
-</div>
+  </div>
 
 
 
@@ -101,8 +101,23 @@
 
    
   </div>
-<div *ngIf="selectedDeveloper" class="task-card-container">
-  <h3 style="color: beige;">{{ selectedDeveloper.userName }}'s Tasks</h3>
+
+  <!-- Empty state when no developer is selected -->
+  <div *ngIf="!selectedDeveloper" class="empty-state" [@fadeSlide]>
+    <div class="empty-state-content">
+      <div class="empty-icon"><i class="bi bi-kanban"></i></div>
+      <h3>Select a developer to view tasks</h3>
+      <p>Pick someone from the list on the right to see their current tasks and details.</p>
+    </div>
+  </div>
+
+ <div *ngIf="selectedDeveloper" class="task-card-container">
+  <div class="task-card-header">
+    <h3 style="color: beige;">{{ selectedDeveloper.userName }}'s Tasks</h3>
+    <button class="task-close-btn" (click)="closeTasksPanel()" aria-label="Close tasks" title="Close">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
 
   <div *ngIf="selectedDeveloperTasks.length > 0; else noTasks">
     <div *ngFor="let task of selectedDeveloperTasks" class="task-card">
