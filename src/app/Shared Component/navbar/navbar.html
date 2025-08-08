@@ -1,6 +1,8 @@
 <!-- Overlay -->
 <div class="overlay" [class.show]="isSidebarOpen" (click)="toggleSidebar()"></div>
-
+<button class="hamburger" (click)="toggleSidebar()" *ngIf="isMobile">
+  &#9776;
+</button>
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg custom-navbar fixed-top">
   <div class="container-fluid">
@@ -36,6 +38,7 @@
     <li><a routerLink="/home" (click)="closeSidebar()">Home</a></li>
     <li><a routerLink="/tasks" (click)="closeSidebar()">Tasks</a></li>
     <li><a routerLink="/work" (click)="closeSidebar()">WorkSpaces</a></li>
+    <li><a routerLink="/workspace" (click)="closeSidebar()">DeveloperWorkSpace</a></li>
     <li>
       <a routerLink="/create" class="add-icon">
         <i class="fas fa-plus"></i> Create new WorkSpace
@@ -50,10 +53,16 @@
     </li>
 
     <ul class="workspace-list" [class.expanded]="allWorkspacesExpanded">
- <li *ngFor="let workspace of workspaces" class="workspace-item">
-  <button class="workspace-btn" (click)="goToWorkspace(workspace.id)">
-    {{ workspace.name }}
+<li *ngFor="let workspace of workspaces" class="workspace-item">
+  <button
+    class="workspace-btn"
+    [disabled]="userRole === 'unknown'"
+    (click)="navigateBasedOnRole()"
+  >
+    {{ userRole === 'unknown' ? 'Loading...' : workspace.name }}
   </button>
+
+
 
   <div class="dropdown-wrapper">
     <button class="options-button" (click)="toggleOptions(workspace.id); $event.stopPropagation()">⋮</button>

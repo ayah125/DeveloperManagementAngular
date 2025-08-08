@@ -18,12 +18,10 @@ export class Getprofile {
     if (!token) {
       throw new Error('Authentication token not found in localStorage');
     }
-
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-
     return this.http.get<WorkspaceWithProfile[]>(
       `${env.apiUrl}api/Developer/profile/all`,
       { headers }
