@@ -12,7 +12,7 @@ import { AppUser } from '../../interfaces/appuser';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5023';
+  private apiUrl = 'https://localhost:7293';
   private userSubject = new BehaviorSubject<AppUser | null>(null);
   user$ = this.userSubject.asObservable();
 
@@ -29,7 +29,7 @@ export class AuthService {
     try {
       const decoded: any = jwtDecode(token);
       const usernameFromToken =
-        decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] ||
+        decoded['https://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] ||
         decoded['unique_name'] ||
         'User';
       this.userSubject.next({ displayName: usernameFromToken });

@@ -55,22 +55,21 @@
     </li>
 
     <ul class="workspace-list" [class.expanded]="allWorkspacesExpanded">
-<li *ngFor="let workspace of workspaces" class="workspace-item">
+<li *ngFor="let workspace of workspacesWithProfile" class="workspace-item">
   <button
     class="workspace-btn"
-    [disabled]="userRole === 'unknown'"
-    (click)="navigateBasedOnRole()"
+    (click)="onWorkspaceClick(workspace)"
   >
-    {{ userRole === 'unknown' ? 'Loading...' : workspace.name }}
+    {{ workspace.workspaceName }}
   </button>
 
 
 
   <div class="dropdown-wrapper">
-    <button class="options-button" (click)="toggleOptions(workspace.id); $event.stopPropagation()">⋮</button>
-    <div *ngIf="activeMenu === workspace.id" class="dropdown-menu-custom">
-      <button (click)="onEdit(workspace.id)">Edit</button>
-      <button (click)="confirmDelete(workspace.id)">Delete</button>
+    <button class="options-button" (click)="toggleOptions(workspace.workspaceId); $event.stopPropagation()">⋮</button>
+    <div *ngIf="activeMenu === workspace.workspaceId" class="dropdown-menu-custom">
+      <button (click)="onEdit(workspace.workspaceId)">Edit</button>
+      <button (click)="confirmDelete(workspace.workspaceId)">Delete</button>
     </div>
   </div>
 </li>

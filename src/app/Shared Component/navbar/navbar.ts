@@ -34,6 +34,7 @@ export class Navbar implements AfterViewInit, OnInit {
   selectedToken: WorkspaceToken | null = null;
   showEditPopup = false;
   isMobile = false;
+  workspacesWithProfile: WorkspaceWithProfile[] = [];
 
 
   constructor(
@@ -51,64 +52,16 @@ export class Navbar implements AfterViewInit, OnInit {
       this.isSidebarOpen = true;
     }
   }
-    userRole: 'Admin' | 'Developer' | 'unknown' = 'unknown';
-
-    
-getRole(roleString: any): 'Admin' | 'Developer' | 'unknown' {
-  const role = String(roleString).toLowerCase();
-
-  console.log('👉 Raw role from API:', roleString);
-  console.log('👉 Normalized role:', role);
-
-  if (role === 'admin') return 'Admin';
-  if (role === 'developer') return 'Developer';
-
-  console.warn('⚠️ Unrecognized role:', role);
-  return 'unknown';
-}
 
 
- getRoleName(roleNumber: number): string {
-    switch (roleNumber) {
-      case 0: return 'Admin';
-      case 1: return 'Developer';
-      default: return 'Unknown';
-    }
-  }
 
-navigateBasedOnRole() {
-  console.log('📌 navigateBasedOnRole called', this.userRole);
 
-  if (this.userRole === 'unknown') {
-    console.warn('🚫 navigateBasedOnRole called before userRole is known');
-    return;
-  }
 
-  switch (this.userRole) {
-    case 'Admin':
-      const adminWorkspaceId = this.workspaces[0]?.id;
-      if (adminWorkspaceId) {
-        console.log('✅ Navigating to Admin workspace:', adminWorkspaceId);
-        this.router.navigate([`/workspace/${adminWorkspaceId}`]);
-      } else {
-        alert('No workspace ID found for admin');
-      }
-      break;
 
-    case 'Developer':
-      console.log('✅ Navigating to Developer workspace');
-      this.router.navigate(['/workspace']);
-      break;
 
-    default:
-      alert('Role not recognized');
-      break;
-  }
-}
 
 
   ngOnInit() {
-    console.log(' Full UserRole enum:', this.userRole);
 
     this.workspaceService.loadUserWorkspacesFromApi();
     this.workspaceService.getAllWorkspaceTokens().subscribe({
@@ -118,32 +71,31 @@ navigateBasedOnRole() {
 
     this.workspaceService.workspaces$.subscribe(ws => this.workspaces = ws);
 
-this.profile.GetAllProfiles().subscribe({
-  next: (workspaces: WorkspaceWithProfile[]) => {
-    if (!workspaces || workspaces.length === 0) {
-      alert('No workspaces found for this user');
-      return;
-    }
-
-    const profile = workspaces[0]?.profile;
-
-    if (profile && profile.role !== undefined) {
-      const roleString = profile.role;
-      this.userRole = this.getRole(roleString);
-
-      console.log(' Raw role from API:', profile.role);
-      console.log(' Mapped userRole:', this.userRole);
-    } else {
-      alert('Profile or role not found');
-    }
-  },
-  error: (err) => {
-    console.error('Error fetching profile', err);
+    this.profile.GetAllProfiles().subscribe({
+      next: (workspaces: WorkspaceWithProfile[]) => {
+        if (!workspaces || workspaces.length === 0) {
+          alert('No workspaces found for this user');
+          return;
+        }
+        this.workspacesWithProfile = workspaces;
+      },
+      error: (err) => {
+        console.error('Error fetching profile', err);
+      }
+    });
   }
-});
+ onWorkspaceClick(workspace: WorkspaceWithProfile) {
+    const role = workspace.profile.role;
 
-
-
+    if (role === 'Developer') {
+      this.router.navigate(['/workspace']);
+    } 
+    else if (role === 'Admin') {
+      this.router.navigate([`/workspace/${workspace.workspaceId}`]);
+    } 
+    else {
+      console.warn('Unknown role:', role);
+    }
   }
 
   ngAfterViewInit() {
