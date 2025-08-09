@@ -14,29 +14,23 @@
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav mb-2 mb-lg-0 gap-2 me-auto">
         <li class="nav-item"><a routerLink="/home" routerLinkActive="active-link" class="nav-link text-white">Home</a></li>
-
-       
+         <li class="nav-item"><a routerLink="/docs" routerLinkActive="active-link" class="nav-link text-white">Docs</a></li>
+         <li class="nav-item"><a routerLink="/models" routerLinkActive="active-link" class="nav-link text-white">Models</a></li>
       </ul>
-      <div class="d-flex align-items-center gap-2 text-white ms-auto" *ngIf="authService.user$ | async as user">
-        
+      <div class="d-flex align-items-center gap-2 text-white ms-auto" *ngIf="authService.user$ | async as user">  
         <button class="logout-btn" (click)="logout()">Logout</button>
       </div>
     </div>
   </div>
 </nav>
-
-
 <div class="custom-sidebar" #sidebar [class.show]="isSidebarOpen">
   <div class="sidebar-header text-center">
     <img src="https://img.freepik.com/premium-vector/people-rune-logo-design-template_18099-2098.jpg" alt="Logo" class="sidebar-logo" />
     <div class="sidebar-subtitle">Manage your team easily</div>
   </div>
-
   <ul>
            <li><a (click)="onprofileClick()">Profile</a></li>
-
-
-    <li><a (click)="onhomeClick()">Home</a></li>
+ <li><a (click)="onhomeClick()">Home</a></li>
 
    
 

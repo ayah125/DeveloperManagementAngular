@@ -58,7 +58,6 @@ export class AuthService {
 
   logout() {
     this.removeToken();
-    
     this.userSubject.next(null);
     this.ngZone.run(() => {
       this.router.navigate(['/login']);

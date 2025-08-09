@@ -8,6 +8,7 @@
 }
 .landing-container {
   
+  margin-top: 50px;
   font-family: 'Poppins', sans-serif;
    color: linear-gradient(-45deg, #092d4d, #06274a, #092d4d, #06274a);
   max-width: 1440px;

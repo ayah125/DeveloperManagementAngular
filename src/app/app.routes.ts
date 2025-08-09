@@ -19,6 +19,8 @@ import { WelcomePageComponent } from './pages/welcome-page/welcome-page';
 import { LandingPage } from './pages/landing-page/landing-page';
 import { Profile } from './components/profile/profile';
 import { NoAuthGuard } from './services/NoAuth';
+import { Docs } from './pages/docs/docs';
+import { Newfeatures } from './pages/newfeatures/newfeatures';
 
 export const routes: Routes = [
   // Welcome page route (برّه Layout)
@@ -37,7 +39,10 @@ export const routes: Routes = [
     
     
       { path: 'admin', component: AdminHome },
+          { path: 'models', component: Newfeatures },
     
+        
+      { path: 'docs', component: Docs },
       { path: 'create', component: Createworkspace },
       
       { path: 'register', component: Register },

@@ -8,18 +8,13 @@ html {
   margin: 0;
 }
 
-/* الخلفية الكاملة */
-
-
-/* لون غامق نصف شفاف فوق الخلفية */
-/* نخلي الoverlay يغطي الصفحة كلها ويكون flex مركزي */
 
 .lottie-background {
   position: fixed;
   top: 0;
   left: 0;
-  width: 70%;
-  height: 70%;
+  width: 110%;
+  height: 110%;
   z-index: 0;
   overflow: hidden;
 }
@@ -39,13 +34,10 @@ html {
   position: absolute;
   width: 70%;
   height: 70%;
-  margin-top: 200px;
+  margin-top: 100px;
   margin-left: 450px;
   z-index: 0;
 }
-
-
-/*  */
 
 @keyframes gradientBG {
   0% { background-position: 0% 50%; }
@@ -53,27 +45,28 @@ html {
   100% { background-position: 0% 50%; }
 }
 
-/* الفورم */
+
 .form-card {
   width: 100%;
   max-width: 500px;
   background: rgba(255, 255, 255, 0.65);
   border-radius: 12px;
   z-index: 2;
+  margin-right: 900px;
   background: rgba(255, 255, 255, 0.65);
-  padding: 20px; /* مساحة داخلية */
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* تحسين المظهر */
+  padding: 20px; 
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); 
 }
 
 .input-custom {
-  border: 1px solid #a2a8d3; /* second-color */
+  border: 1px solid #a2a8d3; 
   border-radius: 8px;
-  background: #e7eaf6; /* first-color */
+  background: #e7eaf6;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .input-custom:focus {
-  border-color: #38598b; /* third-color */
+  border-color: #38598b; 
   box-shadow: 0 0 0 3px rgba(56, 89, 139, 0.2);
   outline: none;
 }
