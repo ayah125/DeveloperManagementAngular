@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from '../../services/auth/auth';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -36,6 +36,8 @@ export class Navbar implements AfterViewInit, OnInit {
   isMobile = false;
   workspacesWithProfile: WorkspaceWithProfile[] = [];
 
+  @ViewChild('sidebar', { static: false }) sidebar!: ElementRef;
+
 
   constructor(
     public workspaceService: Workspace,
@@ -45,23 +47,9 @@ export class Navbar implements AfterViewInit, OnInit {
     public profile: Getprofile
   ) {}
   
+  
 
-  checkScreenSize() {
-    this.isMobile = window.innerWidth < 992;
-    if (!this.isMobile) {
-      this.isSidebarOpen = true;
-    }
-  }
-
-
-
-
-
-
-
-
-
-  ngOnInit() {
+ngOnInit() {
 
     this.workspaceService.loadUserWorkspacesFromApi();
     this.workspaceService.getAllWorkspaceTokens().subscribe({
@@ -70,7 +58,6 @@ export class Navbar implements AfterViewInit, OnInit {
     });
 
     this.workspaceService.workspaces$.subscribe(ws => this.workspaces = ws);
-
     this.profile.GetAllProfiles().subscribe({
       next: (workspaces: WorkspaceWithProfile[]) => {
         if (!workspaces || workspaces.length === 0) {
@@ -86,7 +73,6 @@ export class Navbar implements AfterViewInit, OnInit {
   }
  onWorkspaceClick(workspace: WorkspaceWithProfile) {
     const role = workspace.profile.role;
-
     if (role === 'Developer') {
          this.router.navigate([`/workspace/${workspace.workspaceId}`]);
     } 
@@ -96,17 +82,20 @@ export class Navbar implements AfterViewInit, OnInit {
     else {
       console.warn('Unknown role:', role);
     }
-  }
 
+  }
+onhomeClick(){
+     this.router.navigate([`/home`]);
+     
+}
+   
+onprofileClick(){
+     this.router.navigate([`/profile`]);
+}
+   
   ngAfterViewInit() {
     const tooltipList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipList.map((el) => new bootstrap.Tooltip(el));
-
-    const toggleBtn = document.querySelector('.sidebar-toggle-btn');
-    const sidebar = document.querySelector('.custom-sidebar');
-
-    toggleBtn?.addEventListener('mouseenter', () => this.isSidebarOpen = true);
-    sidebar?.addEventListener('mouseleave', () => this.isSidebarOpen = false);
   }
 
   allWorkspacesExpanded = false;
@@ -116,6 +105,22 @@ export class Navbar implements AfterViewInit, OnInit {
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event) {
+    const target = event.target as HTMLElement;
+    const sidebar = document.querySelector('.custom-sidebar');
+    const hamburgerBtn = document.querySelector('.hamburger');
+    const sidebarToggleBtn = document.querySelector('.sidebar-toggle-btn');
+    
+    // Check if click is outside sidebar and not on toggle buttons
+    if (this.isSidebarOpen && sidebar && 
+        !sidebar.contains(target) && 
+        !hamburgerBtn?.contains(target) && 
+        !sidebarToggleBtn?.contains(target)) {
+      this.isSidebarOpen = false;
+    }
   }
 
   toggleProfile() {

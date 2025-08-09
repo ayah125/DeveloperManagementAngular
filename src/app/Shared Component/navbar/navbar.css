@@ -9,10 +9,15 @@
   font-family: 'Inter', sans-serif; 
   
 }
+:host{
+   font-family: 'Poppins';
+}
 .navbar{
  background: 
   linear-gradient(rgba(10, 25, 47, 0.75), rgba(10, 25, 47, 0.75)), /* أغمق وأعلى شفافية */
   linear-gradient(-45deg, #092d4d, #1a5493, #092d4d, #1a5493);
+  height: 50px;
+
 
 }
 @media (min-width: 992px) {
@@ -58,6 +63,7 @@
   border-radius: 4px;
   font-size: 0.9rem;
   transition: background 0.3s, color 0.3s;
+  margin-top: 5px;
 }
 
 .logout-btn:hover {
@@ -69,13 +75,13 @@
 .custom-sidebar {
   position: fixed;
   padding-right: 5px;
-  top: 56px;
+  top: 50px;
   left: 0;
   width: 240px;
   height: 100vh;
-  background: 
-    linear-gradient(rgba(10, 25, 47, 0.75), rgba(10, 25, 47, 0.75)),
-    linear-gradient(-45deg, #092d4d, #1a5493, #092d4d, #1a5493);
+  background: transparent;
+    /* linear-gradient(rgba(10, 25, 47, 0.75), rgba(10, 25, 47, 0.75)),
+    linear-gradient(-45deg, #092d4d, #1a5493, #092d4d, #1a5493); */
   backdrop-filter: blur(8px);
   color: #fff;
   transform: translateX(-100%);
@@ -84,9 +90,9 @@
   z-index: 1040;
   box-shadow: 2px 0 8px rgba(0,0,0,0.2);
   font-family: 'Poppins', sans-serif;
-  scrollbar-width: thin; /* لجعل scrollbar نحيف في فايرفوكس */
-scrollbar-color: rgba(255, 255, 255, 0.3) transparent; /* تخصيص ألوان scrollbar */
-  overflow-y: auto; /* هنا تمكين التمرير الرأسي */
+  scrollbar-width: thin;
+scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  overflow-y: auto; 
 }
 
 .custom-sidebar.show {
@@ -109,7 +115,10 @@ scrollbar-color: rgba(255, 255, 255, 0.3) transparent; /* تخصيص ألوان 
   color: #fff;
   text-decoration: none;
   font-weight: 500;
+  cursor: pointer;
   display: block;
+  align-items: center;
+  justify-content: space-between;
   font-size: 1rem;
   padding: 0.5rem 0.75rem;
   border-radius: 6px;
@@ -123,15 +132,9 @@ scrollbar-color: rgba(255, 255, 255, 0.3) transparent; /* تخصيص ألوان 
   transform: translateX(4px);
 }
 
-/* === All Workspaces button (collapse trigger) === */
-.all-workspaces-btn {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 
-/* === Workspaces list collapse === */
+
+
 .workspace-list {
 
   max-height: 0;
@@ -140,25 +143,11 @@ scrollbar-color: rgba(255, 255, 255, 0.3) transparent; /* تخصيص ألوان 
 }
 
 .workspace-list.expanded {
-   max-height: 700px; /* أو أكبر حسب المحتوى */
+   max-height: 700px; 
 
 }
 
-/* === Profile collapse === */
-.profile-collapse {
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height 0.3s ease;
-}
 
-.profile-collapse.expanded {
-  max-height: 200px;
-}
-
-.profile-item {
-  padding-left: 1.5rem;
-  font-size: 0.9rem;
-}
 
 /* === Workspace buttons === */
 
@@ -183,17 +172,6 @@ scrollbar-color: rgba(255, 255, 255, 0.3) transparent; /* تخصيص ألوان 
   background-color: rgba(9, 45, 77, 0.95)
 }
 
-.add-icon {
-  color: #0d6efd;
-  font-size: 1.1rem;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-}
-
-.add-icon:hover {
-  color: #084298;
-}
 
 /* === Sidebar header === */
 .sidebar-header {
@@ -217,7 +195,7 @@ scrollbar-color: rgba(255, 255, 255, 0.3) transparent; /* تخصيص ألوان 
   letter-spacing: 0.5px;
 }
 
-/* === Dropdown === */
+
 
 
 
@@ -274,7 +252,7 @@ scrollbar-color: rgba(255, 255, 255, 0.3) transparent; /* تخصيص ألوان 
   overflow: visible;       
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 
@@ -315,6 +293,7 @@ scrollbar-color: rgba(255, 255, 255, 0.3) transparent; /* تخصيص ألوان 
   border-bottom: 1px solid rgba(255,255,255,0.1);
   transition: background-color 0.2s, color 0.2s;
   overflow-y: auto;
+  
 }
 
 .dropdown-menu-custom button:last-child {
@@ -378,3 +357,5 @@ scrollbar-color: rgba(255, 255, 255, 0.3) transparent; /* تخصيص ألوان 
   outline: none;
   border-color: #0d6efd;
 }
+
+

@@ -75,6 +75,21 @@ export class WorkspacePageComponent implements OnInit, AfterViewInit {
     private developerService: DeveloperService,
     private developerTasks: DeveloperTasks
   ) {}
+  developerSearchText = '';
+filteredWorkspaces = [...this.developers]; // نسخة مفلترة
+
+filterDevelopers() {
+  const search = this.developerSearchText.toLowerCase().trim();
+
+  if (!search) {
+    this.filteredWorkspaces = [...this.developers];
+  } else {
+    this.filteredWorkspaces = this.developers.filter(ws =>
+      ws.userName.toLowerCase().includes(search)
+    );
+  }
+}
+
 
   ngAfterViewInit(): void {
     lottie.loadAnimation({
@@ -92,8 +107,10 @@ export class WorkspacePageComponent implements OnInit, AfterViewInit {
       this.workspaceService.workspaces$.subscribe((list) => {
         this.workspace = list.find((ws) => ws.id === this.workspaceId);
       });
+      
       this.developerService.getDevelopersByWorkspace(this.workspaceId).subscribe((devs) => {
         this.developers = devs;
+   
       });
     });
   }

@@ -1,11 +1,8 @@
 import { Routes } from '@angular/router';
 import { Register } from './Register/register/register';
 import { Login } from './pages/login/login';
-import { TaskList } from './components/taskList/task-list/task-list';
 import { Home } from './pages/home/home';
 import { Layout } from './Shared Component/layout/layout';
-
-
 import { CodeReview } from './components/GenAI-models/review/review';
 import { AdminHome } from './pages/admin-home/admin-home';
 import { Createworkspace } from './pages/create-work-space/create-work-space';
@@ -38,7 +35,7 @@ export const routes: Routes = [
     children: [
        { path: 'login', component: Login ,canActivate: [NoAuthGuard] },
     
-      { path: 'tasks', component: TaskList ,canActivate: [AuthGuard]},
+    
       { path: 'admin', component: AdminHome },
     
       { path: 'create', component: Createworkspace },
