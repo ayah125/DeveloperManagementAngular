@@ -109,8 +109,8 @@ export class RecommendBox {
         this.assignResult = response;
       },
       error: (err) => {
-        this.error = 'An error occurred while assigning the developer.';
-        console.error(err);
+       this.error = err.error?.message || 'An unexpected error occurred.';
+       console.error(err);
       }
     });
   }

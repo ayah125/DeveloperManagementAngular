@@ -3,14 +3,8 @@
     <h3 class="form-title mb-4">Review Your Code</h3>
     <p class="subtitle mb-4">
       Fill in your GitHub details and press the button to get feedback
-    </p>
-
-   
-    <form (ngSubmit)="Review()" #reviewForm="ngForm" *ngIf="!showDetails">
-    
-     
-
-     
+    </p> 
+    <form (ngSubmit)="Review()" #reviewForm="ngForm" *ngIf="!showDetails">   
       <div class="mb-3 text-start">
         <label class="form-label">Choose Task</label>
         <select
