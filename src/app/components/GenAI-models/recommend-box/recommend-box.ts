@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Recommend } from '../../../services/recommend/recommend';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AssignDeveloperData } from '../../../interfaces/assign-developer-data';
 import { DeveloperService } from '../../../services/developers/developer';
 import { Developer } from '../../../interfaces/developer';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { WorkspaceService } from '../../../services/workspace/workspaces';
+import lottie from 'lottie-web';
 
 @Component({
   selector: 'app-recommend-box',
@@ -28,7 +29,8 @@ export class RecommendBox {
     selectedDeveloperId: string = '';  
 
 
-  constructor(private recommendService: Recommend, private developerService: DeveloperService, private route: ActivatedRoute, private workspaceService: WorkspaceService) {}
+
+  constructor(private recommendService: Recommend, private developerService: DeveloperService,private router: Router, private route: ActivatedRoute, private workspaceService: WorkspaceService) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -40,6 +42,19 @@ export class RecommendBox {
     });
     this.GetDevelopersForTask(this.workspaceId);
     
+  }
+    @ViewChild('lottieContainer', { static: false })
+  lottieContainer!: ElementRef;
+
+  ngAfterViewInit(): void {
+    // تحميل الـ Lottie
+    lottie.loadAnimation({
+      container: this.lottieContainer.nativeElement,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'assets/search for employee.json',
+    });
   }
 
   getRecommendation() {
@@ -108,5 +123,8 @@ export class RecommendBox {
   }
   trackById(index: number, item: Developer) {
     return item.userId;
+  }
+ goTohome() {
+    this.router.navigate(['workspacee/:id']);
   }
 }

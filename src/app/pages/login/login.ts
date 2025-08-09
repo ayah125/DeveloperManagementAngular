@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth';
 import { Workspace } from '../../services/createWorkSpace/createworkspace';
@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
+import lottie from 'lottie-web';
 import * as jwt_decode from 'jwt-decode';
 
 interface DecodedToken {
@@ -33,7 +34,16 @@ export class Login {
     private workspaceService: Workspace,
     private router: Router
   ) {}
-
+  @ViewChild('lottieContainer', { static: false }) lottieContainer!: ElementRef;
+     ngAfterViewInit(): void {
+    lottie.loadAnimation({
+      container: this.lottieContainer.nativeElement,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'assets/register.json'
+    });
+  }
   login() {
     this.loginErrors = {};
 

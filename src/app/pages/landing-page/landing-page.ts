@@ -114,9 +114,9 @@ export class LandingPage {
 
   // Contact information
   contactInfo = {
-    email: 'support@teammanagement.com',
-    phone: '+1 (555) 123-4567',
-    address: '123 Developer Lane, Tech City, TC 10001'
+    email: 'Ayahalyy7@gmail.com',
+    phone: '01008938222',
+    address: 'Egypt-Minya'
   };
 
   // Contact form model

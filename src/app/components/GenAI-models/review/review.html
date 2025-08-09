@@ -5,10 +5,9 @@
       Fill in your GitHub details and press the button to get feedback
     </p>
 
-    <!-- Form -->
+   
     <form (ngSubmit)="Review()" #reviewForm="ngForm" *ngIf="!showDetails">
-      
-      <!-- Workspace Info (Read-only) -->
+    
       <div class="mb-3 text-start">
         <label class="form-label">Workspace</label>
         <input
@@ -19,7 +18,7 @@
         />
       </div>
 
-      <!-- Task Dropdown -->
+     
       <div class="mb-3 text-start">
         <label class="form-label">Choose Task</label>
         <select
@@ -40,14 +39,14 @@
         type="submit"
         [disabled]="loading || !reviewForm.form.valid"
       >
-        🚀 Review your code
+Need a second pair of eyes on your code?
       </button>
 
       <div class="mt-3" *ngIf="loading">Loading review...</div>
       <div class="text-danger mt-2" *ngIf="error">{{ error }}</div>
     </form>
 
-    <!-- Result -->
+ 
     <div class="details mt-4" *ngIf="showDetails && reviewresult">
       <div class="detail-card mb-3">
         <h4>Score</h4>

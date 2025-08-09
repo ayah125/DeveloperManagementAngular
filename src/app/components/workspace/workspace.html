@@ -1,3 +1,10 @@
+<!-- ضع هذا فقط (بدّل المكان القديم المتعلق بالـ lottie) -->
+<div class="lottie-background">
+  <div #lottieContainer class="lottie-canvas"></div>
+  <div class="gradient-overlay"></div>
+</div>
+
+
 <div class="developer-container">
  
   <div class="recommend-container">
@@ -120,7 +127,7 @@
           <div class="form-text">e.g., main,Developer branch</div>
         </div>
         <div class="d-grid mt-4">
-          <button type="submit" class="btn btn-primary" [disabled]="loading">
+          <button type="submit" class=" x btn btn-primary" [disabled]="loading">
             <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
             Save Member
           </button>
@@ -129,23 +136,6 @@
     </div>
   </div>
 </div>
-<!-- Lottie Background -->
-<div #lottieContainer class="lottie-background"></div>
 
-<div class="developer-container">
- 
-  <div class="recommend-container">
-    <div class="recommend-row">
-      <div class="recommend-text">
-        ✨ Get smart recommendations tailored for your workspace!
-      </div>
-      <button 
-        class="side-btn" 
-        [routerLink]="['/workspace', workspaceId, 'recommend']">
-        Assign Task
-      </button>
-    </div>
-  </div>
 
-  <!-- باقي الكود زي ما هو -->
-</div>
+

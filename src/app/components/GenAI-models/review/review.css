@@ -4,7 +4,7 @@ body {
 
 /* الكارت الأساسي */
 .form-card {
-  background: rgb(255, 255, 255);
+   background: linear-gradient(-45deg, #092d4d, #06274a, #092d4d, #06274a);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   width: 450px;
@@ -24,22 +24,22 @@ body {
     transform: translateY(0) scale(1);
   }
 }
-
+:host{}
 /* عنوان */
 .form-title {
   font-weight: 600;
-  color: #38598b;
+  color: white;
 }
 
 /* وصف */
 .subtitle {
   font-size: 0.9rem;
-  color: #6c757d;
+  color: #8895a0;
 }
 
 /* زرار أساسي */
 .btn-submit {
-  background-color: #38598b;
+   background-color: #0d3968;
   color: #fff;
   border: none;
   transition: background 0.3s ease;
@@ -93,7 +93,7 @@ body {
 /* الليبل */
 .form-label {
   font-weight: 500;
-  color: #38598b;
+  color: white;
   margin-bottom: 6px;
   display: inline-block;
 }

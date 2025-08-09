@@ -29,7 +29,7 @@
           <div>
             <h1 class="h3 fw-bold text-dark mb-1">
               Welcome,
-              <span style="color: #11205f"
+              <span style="color: #06274a"
                 >{{ profiles[0]?.profile?.userName }}</span
               >
               <i class="fas fa-hand-wave icon"></i>
@@ -41,37 +41,11 @@
           </div>
         </div>
 
-        <div class="stats-container">
-          <div class="stat-card">
-            <div class="circular-progress" style="--progress: 288deg">
-              <div class="progress-text">
-                {{ profiles[0]?.profile?.totalScore }}
-              </div>
-            </div>
-            <div class="stat-label">Total Score</div>
-          </div>
-          <div class="stat-card">
-            <div class="circular-progress" style="--progress: 240deg">
-              <div class="progress-text">
-                {{ profiles[0]?.profile?.taskCount }}
-              </div>
-            </div>
-            <div class="stat-label">Total Tasks</div>
-          </div>
-          <div class="stat-card">
-            <div class="circular-progress" style="--progress: 190deg">
-              <div class="progress-text">
-                {{ profiles[0]?.profile?.completedTasks }}
-              </div>
-            </div>
-            <div class="stat-label">Completed</div>
-          </div>
-        </div>
       </div>
 
       <h2 class="section-title">
         <i class="fas fa-briefcase icon"></i>
-        My Workspaces
+         Workspaces : 
       </h2>
 
       <div *ngFor="let ws of profiles; let i = index" class="workspace-card">
@@ -180,11 +154,10 @@
           </div>
         </div>
       </div>
-    </div>
-
+      
     <h2 class="section-title">
       <i class="fas fa-clipboard-list icon"></i>
-      My Tasks
+       Tasks : 
     </h2>
 
     <div *ngIf="tasks.length > 0; else noTasks">
@@ -212,6 +185,8 @@
         <p class="text-muted">You have no tasks assigned.</p>
       </div>
     </ng-template>
+    </div>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
   </body>

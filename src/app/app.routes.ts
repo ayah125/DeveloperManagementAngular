@@ -4,8 +4,7 @@ import { Login } from './pages/login/login';
 import { TaskList } from './components/taskList/task-list/task-list';
 import { Home } from './pages/home/home';
 import { Layout } from './Shared Component/layout/layout';
-import { CurrentTask } from './components/current-task/current-task';
-import { PreviousTasks } from './components/previous-tasks/previous-tasks';
+
 
 import { CodeReview } from './components/GenAI-models/review/review';
 import { AdminHome } from './pages/admin-home/admin-home';
@@ -30,19 +29,20 @@ export const routes: Routes = [
 
   // route الجذر (redirect)
   { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+    { path: 'home', component: LandingPage, },
 
  
   {
     path: '',
     component: Layout,
     children: [
-      { path: 'home', component: Home, canActivate: [AuthGuard] },
+       { path: 'login', component: Login ,canActivate: [NoAuthGuard] },
+    
       { path: 'tasks', component: TaskList ,canActivate: [AuthGuard]},
       { path: 'admin', component: AdminHome },
-      { path: 'prev', component: PreviousTasks },
-      { path: 'current-task', component: CurrentTask },
+    
       { path: 'create', component: Createworkspace },
-      { path: 'login', component: Login ,canActivate: [NoAuthGuard] },
+      
       { path: 'register', component: Register },
       { path: 'developers', component: DevelopersComponent },
       { path: 'developer-profile/:id', component: DeveloperProfileComponent },

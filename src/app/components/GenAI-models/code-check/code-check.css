@@ -4,7 +4,7 @@ body {
 
 /* الكارت الأساسي */
 .form-card {
-  background: rgb(255, 255, 255);
+  background: linear-gradient(-45deg, #092d4d, #06274a, #092d4d, #06274a);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   width: 450px;
@@ -28,7 +28,7 @@ body {
 /* عنوان */
 .form-title {
   font-weight: 600;
-  color: #38598b;
+  color: white;
 }
 
 /* وصف */
@@ -129,7 +129,7 @@ body {
 
 /* شكل الكارت */
 .detail-card {
-  background: rgba(255, 255, 255, 0.2);
+  background: whitesmoke;
   backdrop-filter: blur(8px);
   color: #333;
   padding: 15px 20px;

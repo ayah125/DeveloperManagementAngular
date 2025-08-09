@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth/auth';
 import { SignupDTO } from '../../DTO/RegisterDTO';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import Swal from 'sweetalert2'; // <-- استيراد SweetAlert2
+import Swal from 'sweetalert2'; 
+import lottie from 'lottie-web';
 
 @Component({
   selector: 'app-register',
@@ -16,6 +17,8 @@ export class Register {
   registrationErrors: { [key: string]: string } = {};
 
   constructor(public authservices: AuthService, private router: Router) {}
+  
+  @ViewChild('lottieContainer', { static: false }) lottieContainer!: ElementRef;
 
   registerData: SignupDTO = {
     username: '',
@@ -23,6 +26,16 @@ export class Register {
     password: '',
     confirmPassword: '',
   };
+
+    ngAfterViewInit(): void {
+    lottie.loadAnimation({
+      container: this.lottieContainer.nativeElement,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'assets/Login.json'
+    });
+  }
 
 register() {
   console.log('Trying to register with: ', this.registerData);

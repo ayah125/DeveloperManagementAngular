@@ -2,14 +2,18 @@
 
 /* === Navbar === */
 .custom-navbar {
-  background: linear-gradient(90deg, rgba(9,45,77,0.9) 0%, rgba(13,59,98,0.9) 50%, rgba(9,45,77,0.9) 100%);
+ 
   backdrop-filter: blur(10px);
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   border-bottom: 1px solid rgba(255,255,255,0.1);
   font-family: 'Inter', sans-serif; 
+  
 }
 .navbar{
-  background-color: rgba(9, 45, 77, 0.95);
+ background: 
+  linear-gradient(rgba(10, 25, 47, 0.75), rgba(10, 25, 47, 0.75)), /* أغمق وأعلى شفافية */
+  linear-gradient(-45deg, #092d4d, #1a5493, #092d4d, #1a5493);
+
 }
 @media (min-width: 992px) {
   .custom-sidebar {
@@ -64,12 +68,14 @@
 /* === Sidebar === */
 .custom-sidebar {
   position: fixed;
-    padding-right: 5px;
+  padding-right: 5px;
   top: 56px;
   left: 0;
-  width: 220px;
-  height: calc(100% - 56px);
-  background-color: rgba(9, 45, 77, 0.95);
+  width: 240px;
+  height: 100vh;
+  background: 
+    linear-gradient(rgba(10, 25, 47, 0.75), rgba(10, 25, 47, 0.75)),
+    linear-gradient(-45deg, #092d4d, #1a5493, #092d4d, #1a5493);
   backdrop-filter: blur(8px);
   color: #fff;
   transform: translateX(-100%);
@@ -78,6 +84,9 @@
   z-index: 1040;
   box-shadow: 2px 0 8px rgba(0,0,0,0.2);
   font-family: 'Poppins', sans-serif;
+  scrollbar-width: thin; /* لجعل scrollbar نحيف في فايرفوكس */
+scrollbar-color: rgba(255, 255, 255, 0.3) transparent; /* تخصيص ألوان scrollbar */
+  overflow-y: auto; /* هنا تمكين التمرير الرأسي */
 }
 
 .custom-sidebar.show {
@@ -124,13 +133,15 @@
 
 /* === Workspaces list collapse === */
 .workspace-list {
-  overflow: hidden;
+
   max-height: 0;
   transition: max-height 0.3s ease;
+  overflow: hidden;
 }
 
 .workspace-list.expanded {
-  max-height: 500px; /* يكفي لكل العناصر */
+   max-height: 700px; /* أو أكبر حسب المحتوى */
+
 }
 
 /* === Profile collapse === */
@@ -250,7 +261,7 @@
 .popup-form {
   background: #fff;
   padding: 25px 20px;
-  border-radius: 12px;
+  border-radius: 20px;
   max-width: 400px;
   width: 100%;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
@@ -270,6 +281,7 @@
 .dropdown-wrapper {
   position: relative;
   flex-shrink: 0;
+  
   z-index: 1000; 
 }
 
@@ -302,6 +314,7 @@
   cursor: pointer;
   border-bottom: 1px solid rgba(255,255,255,0.1);
   transition: background-color 0.2s, color 0.2s;
+  overflow-y: auto;
 }
 
 .dropdown-menu-custom button:last-child {
@@ -316,6 +329,7 @@
 .dropdown-menu-custom button:last-child:hover {
   background-color: rgba(220, 53, 69, 0.2);
   color: #f8d7da;
+  
 }
 
 @keyframes fadeInDropdown {
@@ -347,7 +361,9 @@
   display: flex;
   justify-content: space-between;
   margin-top: 15px;
+  background-color: linear-gradient(-45deg, #092d4d, #06274a, #092d4d, #06274a);
 }
+
 
 .popup-form input[type="text"] {
   width: 100%;

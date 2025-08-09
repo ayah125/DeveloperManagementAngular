@@ -1,8 +1,17 @@
-<div class="d-flex justify-content-center align-items-center min-vh-100" >
+
+<div class="workspace-detail-page">
+  <div class="lottie-background">
+    <div class="lottie-overlay"></div>
+    <div class="lottie-canvas" #lottieContainer></div>
+<div class="d-flex  align-items-center min-vh-100" >
   <ng-container *ngIf="!result; else showResultBlock">
     <div class="form-card p-5 rounded-4 shadow-lg text-center fade-slide w-100" style="max-width: 600px;">
+      <div class="close-btn-container text-end mb-3">
+  <button type="button" class="btn-close" aria-label="Close" (click)="goTohome()"></button>
+</div>
       <h3 class="form-title mb-4">Recommend Developer</h3>
       <p class="subtitle mb-4">Describe the task to get a recommended developer</p>
+
 
       <form (submit)="getRecommendation(); $event.preventDefault()">
         <div class="mb-3 text-start">
@@ -28,14 +37,24 @@
           </ng-container>
           <ng-template #btnText>Get Recommendation</ng-template>
         </button>
+        
+
+
+
       </form>
+   
 
       <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
     </div>
   </ng-container>
+  
 
   <ng-template #showResultBlock>
-    <div class="form-card result-card p-5 rounded-4 shadow-lg text-start fade-slide w-100" style="max-width: 700px;">
+
+    <div class="form-card result-card p-3 rounded-4 shadow-lg text-start fade-slide w-200" style="max-width: 600px;">
+            <div class="close-btn-container text-end mb-3">
+  <button type="button" class="btn-close" aria-label="Close" (click)="goTohome()"></button>
+</div>
       <h3 class="form-title mb-4 text-center">Recommended Developer for Your Task</h3>
 
       <div class="details mb-4">

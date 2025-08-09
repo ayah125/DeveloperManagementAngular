@@ -2,7 +2,10 @@
   display: block;
   height: 100vh;
   width: 100%;
-  background: linear-gradient(-45deg, #092d4d, #0f3d6f, #092d4d, #0f3d6f);
+background: 
+  linear-gradient(rgba(10, 25, 47, 0.75), rgba(10, 25, 47, 0.75)), /* أغمق وأعلى شفافية */
+  linear-gradient(-45deg, #092d4d, #1a5493, #092d4d, #1a5493);
+
   background-size: 400% 400%;
   animation: gradientBG 8s ease infinite;
   font-family: 'Montserrat', sans-serif;
@@ -17,6 +20,13 @@
   top: 160px; /* add a small gap below the Add New Member button */
   left: 24px;
   z-index: 10;
+  margin-top: 80px;
+}
+.x{
+    background: linear-gradient(90deg, #1e5a99, #2a7ac4);
+    width: 150px;
+    align-items: center;
+    align-self: center;
 }
 
 /* Recommendation compact card */
@@ -25,7 +35,7 @@
   flex-direction: column; /* vertical so it doesn't hide tasks */
   align-items: center; /* center contents horizontally */
   gap: 8px;
-  width: 220px; /* align with developer list width */
+  width: 250px; /* align with developer list width */
   background: linear-gradient(135deg, rgba(13, 59, 102, 0.85), rgba(30, 90, 153, 0.85));
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 10px 24px rgba(0,0,0,0.25), inset 0 1px 3px rgba(255,255,255,0.12);
@@ -137,6 +147,8 @@
   align-items: flex-start; /* keep sidebar pinned to top when tasks panel height changes */
   align-content: flex-start;
   margin-right: 20px;
+    position: relative;
+  z-index: 2;
 }
 
 
@@ -163,7 +175,7 @@
 .task-close-btn {
   background: rgba(255,255,255,0.9);
   border: 1px solid rgba(13,59,102,0.2);
-  color: #0d3b66;
+  background: linear-gradient(90deg, #0d3b66, #1e5a99);
   border-radius: 10px;
   width: 36px;
   height: 36px;
@@ -198,10 +210,10 @@
 }
 .task-card h4 {
   margin: 0 0 8px 0;
-  color: #0d3b66;
+  color: white;
 }
-.task-card p { margin: 6px 0; color: #334; }
-.task-card p strong { color: #0b3154; font-weight: 600; }
+.task-card p { margin: 6px 0; color: white; }
+.task-card p strong { color: white; font-weight: 600; }
 
 @keyframes taskEnter {
   0% { opacity: 0; transform: translateY(8px) scale(0.98); }
@@ -431,6 +443,28 @@
   font-weight: bold;
   color: #0d3b66;
 }
+.lottie-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.developer-profile{
+  background-color: white;
+}
+
+.lottie-canvas {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  margin-top: 100px;
+  z-index: 0;
+}
+
 
 /* details text */
 .details {
@@ -438,24 +472,76 @@
   color: #555;
   margin-top: 0.5rem;
 }
-.lottie-animation {
-  width: 700px;   /* أو الحجم اللي تحبيه */
 
-  max-width: 100%;
-  height: auto;
+/* Lottie Animation fullscreen */
+
+/* طبقة الجريدينت والبلور */
+.gradient-overlay {
+    width: 100%;
+  height: 100%;
+  backdrop-filter: blur(2px);
+  z-index: 1;
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(rgba(10, 25, 47, 0.55), rgba(10, 25, 47, 0.55)),
+    linear-gradient(-45deg, rgba(9,45,77,0.45), rgba(26,84,147,0.35), rgba(9,45,77,0.45));
+
+  animation: gradientBG 8s ease infinite;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
-.lottie-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;     /* عشان يظهر في النص */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+
+/* حركة الجريدينت */
+@keyframes gradientBG {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* المحتوى فوق كل شيء */
+.content {
+  position: relative;
   z-index: 2;
-  max-width: 100%;
-  height: auto;
 }
+
+
+/* المحتوى فوق كل شيء */
+.content, .developer-container {
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== Animated Gradient ===== */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===== Content ===== */
+.content {
+  position: relative;
+  z-index: 2;
+  color: white;
+  text-align: center;
+  padding: 50px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.developer-container {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
 /* Floating Add Button */
 .add-member-floating-btn {
   position: fixed;
@@ -542,6 +628,7 @@
 
 
 .close-btn {
+  
   position: absolute;
   top: 10px;
   right: 14px;
@@ -605,6 +692,7 @@ input[type="email"] {
     margin-right: 0;
     padding: 1rem;
     gap: 0.75rem;
+   
   }
 
   .sidebar {
@@ -729,3 +817,80 @@ input[type="email"] {
     padding: 32px 20px;
   }
 }
+.task-card-container {
+  display: flex;
+  flex-direction: column; /* عمودي */
+  gap: 16px;
+  padding: 16px;
+  color: #eee;
+  font-family: 'Poppins', sans-serif;
+  background-color: transparent;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  max-width: 600px; /* حجم أصغر */
+  height: 600px; /* ارتفاع ثابت لاحتواء السكروول */
+margin-left: 50px;
+  overflow-y: auto; /* تفعيل التمرير العمودي */
+  animation: fadeInUp 0.7s ease forwards; /* حركة دخول */
+}
+
+/* حركة Fade In + تحريك للأعلى */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.developer-profile {
+  background-color: #182f5e;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  color: white;
+  font-size: 0.9rem;
+  animation: fadeInUp 0.7s ease forwards;
+}
+
+.task-card {
+  background-color: #223a6b;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+  color: white;
+  font-size: 0.9rem;
+  animation: fadeInUp 0.7s ease forwards;
+}
+
+.task-card:hover {
+  transform: translateY(-5px);
+}
+
+/* عناوين الكروت */
+.developer-profile h4, .task-card h4 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: white;
+  font-weight: 600;
+}
+
+/* Responsive (لو حبينا أصغر أكتر على الشاشات الصغيرة) */
+@media (max-width: 480px) {
+  .task-card-container {
+    max-width: 100%;
+    height: 500px;
+    padding: 12px;
+  }
+  
+  .developer-profile, .task-card {
+    padding: 12px;
+    font-size: 0.85rem;
+  }
+}
+
+

@@ -82,7 +82,7 @@ export class WorkspacePageComponent implements OnInit, AfterViewInit {
       renderer: 'svg',
       loop: true,
       autoplay: true,
-      path: 'assets/Online.json'
+      path: 'assets/Business Meeting Animation.json'
     });
   }
 
