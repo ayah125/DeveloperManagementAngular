@@ -27,6 +27,7 @@ export class RecommendBox {
     workspaceId : number = 1;
     workspace: any;
     selectedDeveloperId: string = '';  
+    title: string = '';
 
 
 
@@ -66,7 +67,7 @@ export class RecommendBox {
     this.loading = true;
     this.error = null;
 
-    this.recommendService.getRecommendations(this.description).subscribe({
+    this.recommendService.getRecommendations(this.description, this.workspaceId).subscribe({
       next: (response) => {
         this.result = response;
         this.loading = false;
@@ -95,7 +96,8 @@ export class RecommendBox {
     deadline: this.deadline,
     developerId: this.selectedDeveloperId,
     description: this.description,
-    workspaceId: this.workspaceId
+    workspaceId: this.workspaceId,
+    title: this.title
   };
 
     if (!taskDeveloperData.developerId) {

@@ -18,7 +18,6 @@ import { WorkspaceService } from '../../../services/workspace/workspaces';
 export class CodeReview {
   showDetails = false;
    workspaceId : number = 1011; // يمكنك تعديل هذا حسب الحاجة
-    workspace: any = "Test";
    taskId: number = 1; 
   developerId: string = localStorage.getItem('userID') || '1'; 
   tasks: DeveloperTaskDTO[] = [];
@@ -57,7 +56,7 @@ ngOnInit(): void {
 
 
   showTasks(): void {
-    this.developertasks.getTasksByDeveloperId(this.developerId).subscribe({
+    this.developertasks.getTasksByWorkspaceAndDeveloper(this.workspaceId, this.developerId).subscribe({
       next: (response) => {
         this.tasks = response;
         this.taskId = 0;

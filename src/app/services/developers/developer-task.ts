@@ -7,8 +7,8 @@ import { env } from '../../../enviroment/environment';
 
 @Injectable({ providedIn: 'root' })
 export class DeveloperTasks {
-  private apiurl=env.apiUrl;
-  private baseUrl = `${this.apiurl}/api/DeveloperTasks`;
+   apiurl=env.apiUrl;
+   baseUrl = `${this.apiurl}/api/DeveloperTasks`;
 
   constructor(private http: HttpClient) {}
 

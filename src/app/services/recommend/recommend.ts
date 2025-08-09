@@ -10,7 +10,7 @@ import { env } from '../../../enviroment/environment';
 export class Recommend {
   constructor(private http: HttpClient) {}
 
-  getRecommendations(description: string): Observable<any> {
+  getRecommendations(description: string, workspaceId: number): Observable<any> {
     const token = localStorage.getItem('userToken');
 
     if (!token) {
@@ -21,7 +21,7 @@ export class Recommend {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     });
-    const body = { description: description };
+    const body = { description: description, workspaceId: workspaceId };
     return this.http.post<any>(`${env.apiUrl}/api/GenAIModels/Recommend`, body, {
       headers,
     });
