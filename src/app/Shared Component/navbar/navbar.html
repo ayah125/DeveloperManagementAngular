@@ -1,5 +1,5 @@
 <!-- Overlay -->
-<div class="overlay" [class.show]="isSidebarOpen" (click)="toggleSidebar()"></div>
+<div class="overlay" [class.show]="isSidebarOpen" ></div>
 <button class="hamburger" (click)="toggleSidebar()" *ngIf="isMobile">
   &#9776;
 </button>
@@ -18,7 +18,7 @@
        
       </ul>
       <div class="d-flex align-items-center gap-2 text-white ms-auto" *ngIf="authService.user$ | async as user">
-        <span>Welcome, {{ user.displayName }}</span>
+        
         <button class="logout-btn" (click)="logout()">Logout</button>
       </div>
     </div>
@@ -26,17 +26,17 @@
 </nav>
 
 
-<div class="custom-sidebar" [class.show]="isSidebarOpen">
+<div class="custom-sidebar" #sidebar [class.show]="isSidebarOpen">
   <div class="sidebar-header text-center">
     <img src="https://img.freepik.com/premium-vector/people-rune-logo-design-template_18099-2098.jpg" alt="Logo" class="sidebar-logo" />
     <div class="sidebar-subtitle">Manage your team easily</div>
   </div>
 
   <ul>
-           <li><a routerLink="/profile" (click)="closeSidebar()">Profile</a></li>
+           <li><a (click)="onprofileClick()">Profile</a></li>
 
 
-    <li><a routerLink="/home" (click)="closeSidebar()">Home</a></li>
+    <li><a (click)="onhomeClick()">Home</a></li>
 
    
 
@@ -58,6 +58,7 @@
   <button
     class="workspace-btn"
     (click)="onWorkspaceClick(workspace)"
+
   >
     {{ workspace.workspaceName }}
   </button>

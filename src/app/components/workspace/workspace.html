@@ -24,6 +24,7 @@
   <div class="sidebar">
     <button class="toggle-btn" (click)="isVisible = !isVisible">
       <span>All Developers</span>
+
       <i [ngClass]="isVisible ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
     </button>
     <div [ngClass]="{ 'developer-list-container': true, open: isVisible, closed: !isVisible }">
