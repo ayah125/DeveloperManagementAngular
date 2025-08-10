@@ -58,11 +58,66 @@
   <div class="popup-form">
     <h5>Edit Workspace Token</h5>
     <form (ngSubmit)="onSaveEdit()">
-      <input type="text" [(ngModel)]="selectedToken!.Name" name="Name" placeholder="Workspace Name" required>
-      <input type="text" [(ngModel)]="selectedToken!.GithubToken" name="GithubToken" placeholder="GitHub Token" required>
-      <input type="text" [(ngModel)]="selectedToken!.GithubRepo" name="GithubRepo" placeholder="GitHub Repo" required>
-      <input type="text" [(ngModel)]="selectedToken!.OwnerName" name="OwnerName" placeholder="Owner Name" required>
-      <input type="text" [(ngModel)]="selectedToken!.UserAgent" name="UserAgent" placeholder="User Agent" required>
+      <div class="form-group">
+        <label for="workspaceName">Workspace Name</label>
+        <input 
+          type="text" 
+          id="workspaceName"
+          [(ngModel)]="selectedToken!.Name" 
+          name="Name" 
+          placeholder="Enter workspace name" 
+          required
+          class="form-control"
+        >
+      </div>
+      <div class="form-group">
+        <label for="githubToken">GitHub Token</label>
+        <input 
+          type="text" 
+          id="githubToken"
+          [(ngModel)]="selectedToken!.GithubToken" 
+          name="GithubToken" 
+          placeholder="Enter GitHub token" 
+          required
+          class="form-control"
+        >
+      </div>
+      <div class="form-group">
+        <label for="githubRepo">GitHub Repository</label>
+        <input 
+          type="text" 
+          id="githubRepo"
+          [(ngModel)]="selectedToken!.GithubRepo" 
+          name="GithubRepo" 
+          placeholder="Enter GitHub repository" 
+          required
+          class="form-control"
+        >
+      </div>
+      <div class="form-group">
+        <label for="ownerName">Owner Name</label>
+        <input 
+          type="text" 
+          id="ownerName"
+          [(ngModel)]="selectedToken!.OwnerName" 
+          name="OwnerName" 
+          placeholder="Enter owner name" 
+          required
+          class="form-control"
+        >
+      </div>
+      <div class="form-group">
+        <label for="userAgent">User Agent</label>
+        <input 
+          type="text" 
+          id="userAgent"
+          [(ngModel)]="selectedToken!.UserAgent" 
+          name="UserAgent" 
+          placeholder="Enter user agent" 
+          required
+          class="form-control"
+        >
+      </div>
       <div class="popup-actions">
         <button type="submit" class="btn btn-primary">Save</button>
         <button type="button" class="btn btn-secondary" (click)="closeEditPopup()">Cancel</button>
