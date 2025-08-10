@@ -135,7 +135,7 @@ export class LandingPage {
       photo: 'assets/images/bob.jpg'
     },
     {
-      name: 'Ayah Ali Abdelhamid',
+      name: 'Ayah Ali Abdelhameed',
       description: 'Built responsive and scalable app interfaces using Angular.',
       photo: 'assets/images/charlie.jpg'
     },
@@ -145,7 +145,7 @@ export class LandingPage {
       photo: 'assets/images/diana.jpg'
     },
     {
-      name: 'Wesam Nasr',
+      name: 'Wessam Nasr',
       description: 'Ensured a bug-free app with rigorous testing across all tiers.',
       photo: 'assets/images/eve.jpg'
     }
