@@ -122,7 +122,9 @@ filterDevelopers() {
         this.selectedDeveloperTasks = tasks;
       });
     this.developerService.getDeveloperProfile(this.workspaceId, developer.userId).subscribe(profile => {
+
       this.developerProfile = profile;
+
     });
   }
 

@@ -56,19 +56,11 @@
    
     <div *ngIf="developerProfile" class="developer-profile">
       <h4>Profile Info</h4>
-      <p><strong>Role:</strong> {{ developerProfile.role }}</p>
       <p><strong>Email:</strong> {{ developerProfile.email }}</p>
-      <p><strong>Workspace:</strong> {{ developerProfile.workspaceName }}</p>
       <p><strong>Branch:</strong> {{ developerProfile.branch }}</p>
       <p><strong>Availability:</strong> {{ developerProfile.avilability }}</p>
-      <p><strong>Skill Tags:</strong> 
-        <span *ngIf="developerProfile.skillTags && developerProfile.skillTags.length > 0; else noSkills">
-          <span *ngFor="let skill of developerProfile.skillTags; let last = last">
-            {{ skill }}<span *ngIf="!last">, </span>
-          </span>
-        </span>
-        <ng-template #noSkills>None</ng-template>
-      </p>
+      <p><strong>Total Score:</strong> {{ developerProfile.totalScore }}</p>
+      <p><strong>Skill Tags:</strong> {{ developerProfile.skillTags }}</p>
       <p><strong>Completed Tasks:</strong> {{ developerProfile.completedTasks }}</p>
       <p><strong>Total Tasks:</strong> {{ developerProfile.taskCount }}</p>
     </div>

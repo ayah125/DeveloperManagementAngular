@@ -7,7 +7,7 @@ import { Workspace } from '../../services/createWorkSpace/createworkspace';
 import { WorkspaceToken } from '../../models/workspace-token';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Getprofile } from '../../services/getprofile/getprofile';
-import {  WorkspaceWithProfile } from '../../interfaces/WorkspaceWithProfile';
+import { WorkspaceWithProfile } from '../../interfaces/WorkspaceWithProfile';
 
 declare var bootstrap: any;
 
@@ -38,7 +38,6 @@ export class Navbar implements AfterViewInit, OnInit {
 
   @ViewChild('sidebar', { static: false }) sidebar!: ElementRef;
 
-
   constructor(
     public workspaceService: Workspace,
     public authService: AuthService,
@@ -46,53 +45,104 @@ export class Navbar implements AfterViewInit, OnInit {
     private snackBar: MatSnackBar,
     public profile: Getprofile
   ) {}
-  
-  
 
-ngOnInit() {
-
+  ngOnInit() {
+    // Load initial workspaces and tokens
     this.workspaceService.loadUserWorkspacesFromApi();
     this.workspaceService.getAllWorkspaceTokens().subscribe({
       next: (tokens) => this.workspaceTokens = tokens,
       error: (err) => console.error('Error fetching tokens:', err)
     });
 
-    this.workspaceService.workspaces$.subscribe(ws => this.workspaces = ws);
-    this.profile.GetAllProfiles().subscribe({
-      next: (workspaces: WorkspaceWithProfile[]) => {
-        if (!workspaces || workspaces.length === 0) {
-          alert('No workspaces found for this user');
-          return;
+    // Subscribe to workspaces$ to keep workspaces in sync
+    this.workspaceService.workspaces$.subscribe(ws => {
+      this.workspaces = ws;
+      // Update workspacesWithProfile by combining workspace data with profile data
+      this.profile.GetAllProfiles().subscribe({
+        next: (profiles: WorkspaceWithProfile[]) => {
+          if (!profiles || profiles.length === 0) {
+            this.workspacesWithProfile = ws.map(workspace => ({
+              workspaceId: workspace.id,
+              workspaceName: workspace.name,
+              profile: {
+                userName: '',
+                email: '',
+                role: '',
+                totalScore: 0,
+                taskCount: 0,
+                completedTasks: 0,
+                skillTags: '',
+                avilability: false,
+                branch: '',
+                workspaceName: workspace.name
+              }
+            }));
+            return;
+          }
+          // Match workspaces with profiles to update workspacesWithProfile
+          this.workspacesWithProfile = ws.map(workspace => {
+            const profile = profiles.find(p => p.workspaceId === workspace.id);
+            return {
+              workspaceId: workspace.id,
+              workspaceName: workspace.name,
+              profile: profile ? profile.profile : {
+                userName: '',
+                email: '',
+                role: '',
+                totalScore: 0,
+                taskCount: 0,
+                completedTasks: 0,
+                skillTags: '',
+                avilability: false,
+                branch: '',
+                workspaceName: workspace.name
+              }
+            };
+          });
+        },
+        error: (err) => {
+          console.error('Error fetching profiles', err);
+          // Fallback to default profile values
+          this.workspacesWithProfile = ws.map(workspace => ({
+            workspaceId: workspace.id,
+            workspaceName: workspace.name,
+            profile: {
+              userName: '',
+              email: '',
+              role: '',
+              totalScore: 0,
+              taskCount: 0,
+              completedTasks: 0,
+              skillTags: '',
+              avilability: false,
+              branch: '',
+              workspaceName: workspace.name
+            }
+          }));
         }
-        this.workspacesWithProfile = workspaces;
-      },
-      error: (err) => {
-        console.error('Error fetching profile', err);
-      }
+      });
     });
   }
- onWorkspaceClick(workspace: WorkspaceWithProfile) {
+
+  onWorkspaceClick(workspace: WorkspaceWithProfile) {
     const role = workspace.profile.role;
     if (role === 'Developer') {
-         this.router.navigate([`/workspace/${workspace.workspaceId}`]);
-    } 
-    else if (role === 'Admin') {
+      this.router.navigate([`/workspace/${workspace.workspaceId}`]);
+    } else if (role === 'Admin') {
       this.router.navigate([`/workspacee/${workspace.workspaceId}`]);
-    } 
-    else {
+    } else {
       console.warn('Unknown role:', role);
     }
-
   }
-onhomeClick(){
-     this.router.navigate([`/home`]);
-     
-}
-   
-onprofileClick(){
-     this.router.navigate([`/profile`]);
-}
-   
+
+  onhomeClick() {
+    this.router.navigate([`/home`]);
+  }
+
+  onprofileClick() {
+    this.router.navigate([`/profile`]);
+  }
+
   ngAfterViewInit() {
     const tooltipList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipList.map((el) => new bootstrap.Tooltip(el));
@@ -113,11 +163,10 @@ onprofileClick(){
     const sidebar = document.querySelector('.custom-sidebar');
     const hamburgerBtn = document.querySelector('.hamburger');
     const sidebarToggleBtn = document.querySelector('.sidebar-toggle-btn');
-    
-    // Check if click is outside sidebar and not on toggle buttons
-    if (this.isSidebarOpen && sidebar && 
-        !sidebar.contains(target) && 
-        !hamburgerBtn?.contains(target) && 
+
+    if (this.isSidebarOpen && sidebar &&
+        !sidebar.contains(target) &&
+        !hamburgerBtn?.contains(target) &&
         !sidebarToggleBtn?.contains(target)) {
       this.isSidebarOpen = false;
     }
@@ -148,7 +197,10 @@ onprofileClick(){
     this.workspaceService.deleteWorkspace(workspaceID).subscribe({
       next: () => {
         this.snackBar.open('Workspace deleted successfully', 'Close', { duration: 2000 });
-        this.workspaceService.loadUserWorkspacesFromApi();
+        // Update local arrays immediately
+        this.workspaces = this.workspaces.filter(w => w.id !== workspaceID);
+        this.workspacesWithProfile = this.workspacesWithProfile.filter(w => w.workspaceId !== workspaceID);
+        this.workspaceService.loadUserWorkspacesFromApi(); // Optional: Refresh from API
       },
       error: (err) => {
         console.error(err);
@@ -212,7 +264,11 @@ onprofileClick(){
     this.workspaceService.deleteWorkspace(workspaceID).subscribe({
       next: () => {
         this.snackBar.open('Workspace deleted successfully', 'Close', { duration: 2000 });
-        this.workspaceService.loadUserWorkspacesFromApi();
+        // Update local arrays immediately
+        this.workspaces = this.workspaces.filter(w => w.id !== workspaceID);
+        this.workspacesWithProfile = this.workspacesWithProfile.filter(w => w.workspaceId !== workspaceID);
+        localStorage.removeItem('workspace_' + workspaceID);
+        this.workspaceService.loadUserWorkspacesFromApi(); // Optional: Refresh from API
       },
       error: (err) => {
         console.error(err);

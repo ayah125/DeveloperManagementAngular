@@ -18,10 +18,11 @@ export interface Developer {
 export interface DeveloperProfile {
 role: string;          
   taskCount: number;
-  skillTags: string[];   
+  skillTags: string;   
   completedTasks: number;
   avilability: string;   
   branch: string;
+  totalScore: number;
   userName: string;
   email: string;
   workspaceName: string;

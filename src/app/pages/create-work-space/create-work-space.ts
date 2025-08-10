@@ -62,7 +62,8 @@ export class Createworkspace {
             next: (tokenResponse: any) => {
               console.log('Token created successfully:', tokenResponse);
 
- 
+              this.workspaceService.loadUserWorkspacesFromApi();
+              
               this.router.navigate(['/workspacee', workspaceID]);
             },
             error: (tokenError: any) => {
@@ -76,5 +77,6 @@ export class Createworkspace {
     });
 
     this.showForm = false;
+    
   }
 }

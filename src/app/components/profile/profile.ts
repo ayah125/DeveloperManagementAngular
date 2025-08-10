@@ -44,6 +44,7 @@ ngOnInit() {
   });
         this.getprofile.GetAllProfiles().subscribe(data => {
       this.profiles = data;
+      console.log('Profiles fetched:', this.profiles);
       this.workspaceStates = new Array(data.length).fill(false);  
     });
 
@@ -64,7 +65,7 @@ ngOnInit() {
     workspaceId: profile.workspaceId,          // Matches WorkspaceId
     userID: userId,                            // Matches UserID exactly
     skillTags: profile.profile.skillTags,      // Matches SkillTags
-    avilability: Boolean(profile.profile.avilability)   // Matches Avilability (misspelled)
+    avilability: profile.profile.avilability   // Matches Avilability (misspelled)
   };
 
   console.log('Sending update request:', request);
