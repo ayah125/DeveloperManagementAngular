@@ -6,12 +6,12 @@ import { Navbar } from '../../Shared Component/navbar/navbar';
 
 @Component({
   selector: 'app-landing-page',
+  standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, Navbar],
   templateUrl: './landing-page.html',
-  styleUrl: './landing-page.css'
+  styleUrls: ['./landing-page.css']
 })
 export class LandingPage {
-
   constructor(private router: Router) {}
 
   features = [
@@ -88,7 +88,6 @@ export class LandingPage {
     }
   ];
 
-  // New professional features
   professionalFeatures = [
     {
       icon: 'fas fa-sync-alt',
@@ -112,26 +111,44 @@ export class LandingPage {
     }
   ];
 
-  // Contact information
   contactInfo = {
-    email: 'Ayahalyy7@gmail.com',
-    phone: '01008938222',
-    address: 'Egypt-Minya'
+    email: 'support@devoops.com',
+    phone: '086 37 85 207',
+    address: 'Bani Mazar, Elminya, Egypt'
   };
 
-  // Contact form model
-  contactForm = {
-    name: '',
-    email: '',
-    message: ''
-  };
-
-  // Social media links
   socialLinks = [
-    { name: 'Facebook', icon: 'fab fa-facebook-f', url: '#' },
-    { name: 'Twitter', icon: 'fab fa-twitter', url: '#' },
-    { name: 'LinkedIn', icon: 'fab fa-linkedin-in', url: '#' },
-    { name: 'GitHub', icon: 'fab fa-github', url: '#' }
+    { icon: 'fab fa-twitter', url: 'https://twitter.com/runtask' },
+    { icon: 'fab fa-linkedin', url: 'https://linkedin.com/company/runtask' },
+    { icon: 'fab fa-github', url: 'https://github.com/runtask' }
+  ];
+
+  teamMembers = [
+    {
+      name: 'Ahmed Taher Mahmoud',
+      description: 'Led the team with a focus on timely delivery and seamless coordination.',
+      photo: 'assets/images/alice.jpg'
+    },
+    {
+      name: 'Mostafa Mohamed Mahmoud',
+      description: 'Crafted intuitive interfaces for an engaging user experience.',
+      photo: 'assets/images/bob.jpg'
+    },
+    {
+      name: 'Ayah Ali Abdelhamid',
+      description: 'Built responsive and scalable app interfaces using Angular.',
+      photo: 'assets/images/charlie.jpg'
+    },
+    {
+      name: 'Mayar Taha Mohamed',
+      description: 'Developed robust APIs and ensured data security for tiered accounts.',
+      photo: 'assets/images/diana.jpg'
+    },
+    {
+      name: 'Wesam Nasr',
+      description: 'Ensured a bug-free app with rigorous testing across all tiers.',
+      photo: 'assets/images/eve.jpg'
+    }
   ];
 
   navigateToSignup() {
@@ -139,24 +156,10 @@ export class LandingPage {
   }
 
   navigateToDemo() {
-    // For now, we can navigate to a demo page or just to the home page
-    // You can adjust this as needed
-    this.router.navigate(['/home']);
+    this.router.navigate(['/demo']);
   }
 
   navigateToCreateWorkspace() {
     this.router.navigate(['/create']);
-  }
-
-  onSubmitContactForm() {
-    // Placeholder for contact form submission
-    console.log('Contact form submitted', this.contactForm);
-    // In a real application, you would send this data to your backend
-    // Reset form after submission
-    this.contactForm = {
-      name: '',
-      email: '',
-      message: ''
-    };
   }
 }
