@@ -127,32 +127,32 @@ export class LandingPage {
     {
       name: 'Ahmed Taher Mahmoud',
       description: 'Led the team with a focus on timely delivery and seamless coordination.',
-      photo: 'assets/images/alice.jpg'
+      photo: 'assets/Taher.jpg'
     },
     {
       name: 'Mostafa Mohamed Mahmoud',
       description: 'Crafted intuitive interfaces for an engaging user experience.',
-      photo: 'assets/images/bob.jpg'
+      photo: 'assets/Mostafa.jpg'
     },
     {
       name: 'Ayah Ali Abdelhameed',
       description: 'Built responsive and scalable app interfaces using Angular.',
-      photo: 'assets/images/charlie.jpg'
+      photo: 'assets/Ayah.jpg'
     },
     {
       name: 'Mayar Taha Mohamed',
       description: 'Developed robust APIs and ensured data security for tiered accounts.',
-      photo: 'assets/images/diana.jpg'
+      photo: 'assets/Mayar.jpg'
     },
     {
       name: 'Wessam Nasr',
       description: 'Ensured a bug-free app with rigorous testing across all tiers.',
-      photo: 'assets/images/eve.jpg'
+      photo: 'public/assets/images/eve.jpg'
     }
   ];
 
   navigateToSignup() {
-    this.router.navigate(['/register']);
+    this.router.navigate(['/docs']);
   }
 
   navigateToDemo() {
