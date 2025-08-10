@@ -1,1 +1,280 @@
-<p>docs works!</p>
+<div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar animate-slide-left">
+      <h3 class="tutorial">Tutorials</h3>
+      <ul>
+        <li><a [routerLink]="['/docs']" fragment="overview">Overview</a></li>
+        <li><a [routerLink]="['/docs']" fragment="get-started">Get started</a></li>
+        <ul class="main-menu">
+          <li>
+            <a [routerLink]="['/docs']" fragment="HowToUse">How To use The Website</a>
+            <ul class="sub-menu">
+              <li><a [routerLink]="['/docs']" fragment="Register&Login">Register and Login</a></li>
+              <li><a [routerLink]="['/docs']" fragment="HomePage">Home Page</a></li>
+              <li><a [routerLink]="['/docs']" fragment="Profile">Profile</a></li>
+              <li><a [routerLink]="['/docs']" fragment="Workspaces">Create Workspaces</a></li>
+              <li><a [routerLink]="['/docs']" fragment="AdminRole">Admin Role</a></li>
+              <li><a [routerLink]="['/docs']" fragment="DeveloperRole">Developer Role</a></li>
+            </ul>
+          </li>
+          <!-- <li><a [routerLink]="['/docs']" fragment="contact">Contact</a></li> -->
+        </ul>
+      </ul>
+    </aside>
+  
+    <!-- Main Content -->
+    <main class="content animate-fade-in">
+      <h1 class="page-title">DevOops Website Documentation</h1>
+      <section id="overview">
+        <!-- Overview Section -->
+        <h2 class="kf-title glow-text">Overview</h2>
+        <div class="kf-inner">
+          <div class="kf-item hover-lift">
+            <p>
+              This project is a collaborative AI-powered code review and task
+              assignment platform that allows teams to streamline development
+              workflows through GitHub integration and intelligent developer-task
+              matching.
+            </p>
+          </div>
+        </div>
+        <!-- Key Features Section -->
+        <section class="key-features" id="key-features">
+          <div class="kf-inner">
+            <h2 class="kf-title glow-text">Key features</h2>
+  
+            <ol class="kf-list">
+              <li class="kf-item hover-lift">
+                <h3 class="kf-item-title">User Authentication</h3>
+                <p class="kf-item-desc">
+                  Sign up and log in with role-based access control and secure
+                  sessions.
+                </p>
+              </li>
+  
+              <li class="kf-item hover-lift">
+                <h3 class="kf-item-title">Workspaces</h3>
+                <p class="kf-item-desc">
+                  Create multiple workspaces; creators become workspace admins and
+                  manage members.
+                </p>
+              </li>
+  
+              <li class="kf-item hover-lift">
+                <h3 class="kf-item-title">Developer Management</h3>
+                <p class="kf-item-desc">
+                  Admins invite developers; developers connect GitHub for review
+                  integration.
+                </p>
+              </li>
+  
+              <li class="kf-item hover-lift">
+                <h3 class="kf-item-title">GitHub Integration for Code Review</h3>
+                <p class="kf-item-desc">
+                  Submit branch + token; AI analyzes code and returns score,
+                  feedback and suggestions.
+                </p>
+              </li>
+  
+              <li class="kf-item hover-lift">
+                <h3 class="kf-item-title">AI-Powered Task Assignment</h3>
+                <p class="kf-item-desc">
+                  Admins send tasks to the AI which recommends the most suitable
+                  developer based on history.
+                </p>
+              </li>
+  
+              <li class="kf-item hover-lift">
+                <h3 class="kf-item-title">Scoring & Performance Tracking</h3>
+                <p class="kf-item-desc">
+                  Every review produces a score saved in developer profile for
+                  future matching and metrics.
+                </p>
+              </li>
+            </ol>
+          </div>
+        </section>
+      </section>
+  
+      <!-- Get started Section -->
+      <section class="Get-started" id="get-started">
+        <h2 class="kf-title glow-text">Get started</h2>
+        <div class="kf-inner">
+          <ol class="kf-list get-started-list">
+            <li class="kf-item hover-lift">
+              <h3 class="kf-item-title">Get Your GitHub Token</h3>
+              <ol class="kf-list inner-get-started-list">
+                <li class="kf-item hover-lift">
+                  <h4 class="kf-item-title">1- Open GitHub Website</h4>
+                  <p class="kf-item-desc">
+                    Go to <a href="https://github.com" target="_blank" rel="noopener">GitHub</a> and log in.
+                  </p>
+                  <img src="assets/OpenGithub.png" alt="OpenGithub" />
+                </li>
+  
+                <li class="kf-item hover-lift">
+                  <h4 class="kf-item-title">2- Navigate to Settings</h4>
+                  <p class="kf-item-desc">
+                    Click on your profile picture in the top right corner, then
+                    select <strong>Settings</strong> from the dropdown menu.
+                  </p>
+                  <img src="assets/goToSettings.png" alt="Settings" />
+                </li>
+  
+                <li class="kf-item hover-lift">
+                  <h4 class="kf-item-title">
+                    3- Generate a Personal Access Token
+                  </h4>
+                  <p class="kf-item-desc">
+                    Navigate to <strong>Developer settings</strong> → <strong>Personal access tokens</strong>. Click on <strong>Generate new token</strong>.
+                  </p>
+                  <img
+                    src="assets/DeveloperSettings.png"
+                    alt="DeveloperSettings"
+                  />
+                  <img
+                    src="assets/GenerateToken.png"
+                    alt="GenerateToken"
+                  />
+                </li>
+  
+                <li class="kf-item hover-lift">
+                  <h4 class="kf-item-title">4- Configure Token Permissions</h4>
+                  <p class="kf-item-desc">
+                    Give your token a descriptive name [User Agent], set an expiration date, and select the necessary scopes (e.g., <strong>repo</strong> for full control of private repositories).
+                  </p>
+                  <img src="assets/ConfigureToken.png" alt="ConfigureToken" />
+                  <img src="assets/UserAgent_And_Repo.png" alt="UserAgent_And_Repo" />
+                </li>
+  
+                <li class="kf-item hover-lift">
+                  <h4 class="kf-item-title" style="margin-left: 10px">Note: Copy Your Token</h4>
+                  <p class="kf-item-desc">
+                    After generating the token, copy it immediately. You won't be able to see it again.
+                  </p>
+                  <img src="assets/Save_Token_And_UserAgent.png" alt="CopyToken" />
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </div>
+      </section>
+  
+      <section id="HowToUse">
+        <div class="glow-text">
+          <h2 class="header">How To Use The Website</h2>
+          <p>Details on the steps of using the website</p>
+        </div>
+        <section id="Register&Login">
+          <h3 class="header">Register and Login</h3>
+          <p>
+            To use the website, you need to register and log in. Click on the
+            "Register" button to create an account, then log in with your
+            credentials,Or you can use the "Login" button if you already have an
+            account.
+          </p>
+          <img src="assets/Register.png" alt="Register" />
+          <p>After registering, you can log in using your email and password.</p>
+          <img src="assets/Login.png" alt="Login" />
+        </section>
+  
+        <section id="HomePage">
+          <h3 class="header">Home Page</h3>
+          <p>
+            Once logged in, you will be directed to the home page. Here, you can
+            see your workspaces, create new ones, and manage your tasks. The home
+            page provides an overview of your recent activities and notifications.
+          </p>
+          <img src="assets/HomePage.png" alt="HomePage" />
+        </section>
+  
+        <section id="Profile">
+          <h3 class="header">Profile</h3>
+          <p>
+            You can access your profile by clicking on profile button in the
+            sidebar. In your profile, you can update your personal information,and
+            view your performance scores.This feature allows you to track your
+            progress and see how you are performing in the workspace.
+          </p>
+          <img src="assets/ProfilePage.png" alt="Profile" />
+        </section>
+  
+        <section id="Workspaces">
+          <h3 class="header">Create Workspace</h3>
+          <p>
+            You can create a new workspace by clicking on the "Create Workspace"
+            button. Enter the workspace name and description, then click
+            "Create".Once created, you can manage the workspace settings, invite
+            members, and assign tasks.
+          </p>
+          <img src="assets/Workspaces.png" alt="Workspace" />
+          <p>
+            When creating the workspace, you will be prompted to enter a spicific
+            data. The workspace creator will automatically become the admin of the
+            workspace.
+          </p>
+          <img src="assets/CreateWorkspace.png" alt="CreateWorkspace" />
+          <p>
+            You should enter the GitHub token and user Agent you generated earlier
+            in the
+            <a [routerLink]="['/docs']" fragment="get-started">"GitHub Token"</a> field. This token is used to
+            integrate your GitHub.Also,The owner name is the name of the user who
+            created the workspace. The repo name is the name of the repository you
+            want to connect to the workspace.
+          </p>
+          <img src="assets/CreateWorkspaceTokens.png" alt="CreateWorkspaceTokens" />
+        </section>
+  
+        <section id="AdminRole">
+          <h3 class="header">Admin Role</h3>
+          <p>
+            As an admin, you have the ability to manage the workspace, invite
+            developers, and assign tasks. You can view the list of members, their
+            roles, and their performance scores.
+          </p>
+          <img src="assets/AdminWorkspace.png" alt="AdminWorkspace" />
+          <p>
+            You can invite developers by clicking on the "Add New Member" button.
+            Enter the developer's email address, and they will receive an
+            invitation to join the workspace. Once they accept, they will be able
+            to access the workspace.
+          </p>
+          <strong>Note: The Branch Name Is The User's Github Branch Name</strong>
+          <img src="assets/AddMemberToWorkspace.png" alt="AddNewMember" />
+          <p>
+            After inviting developers, you can assign tasks to them. Click on the
+            "Assign Task" button, select the developer, and enter the task
+            details. The AI will analyze the developer's performance and suggest
+            the best match for the task.
+          </p>
+          <img src="assets/Assign_Task_To_Developer.png" alt="assignTask" />
+        </section>
+  
+        <section id="DeveloperRole">
+          <h3 class="header">Developer Role</h3>
+          <p>
+            As a developer, you can view the tasks assigned to you, submit code
+            for review, and check your performance scores. You can also see the
+            feedback and suggestions provided by the AI after each code review.
+          </p>
+          <img src="assets/DeveloperWorkspace.png" alt="DeveloperWorkspace" />
+          <p>
+            To submit code for Build Check, click on the "Check Status" button.
+            The AI will analyze your code and Tell You The Code Build Status.
+          </p>
+          <img src="assets/CheckCode.png" alt="CheckStatus" />
+          <p>The Response Will Be The Task Score, Feedback and Suggestion</p>
+          <img src="assets/CodeCheckResponse.png" alt="CheckStatusResponse" />
+          <p>
+            To submit code for review,Choose the task you want to review, click on
+            the "Submit Code" button.The AI will analyze your code and provide
+            feedback.
+          </p>
+          <img src="assets/ReviewCode.png" alt="ReviewCode" />
+          <p>The Response Will Be Either Build Success Or Failed Like This</p>
+          <img src="assets/CodeReviewResponse.png" alt="CodeReviewResponse" />
+        </section>
+      </section>
+    </main>
+  </div>
+  
