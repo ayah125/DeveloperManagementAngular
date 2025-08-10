@@ -1,1 +1,71 @@
-<p>newfeatures works!</p>
+<div class="models-page">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="title">{{ hero.title }}</h1>
+      <p class="subtitle">{{ hero.subtitle }}</p>
+      <div class="hero-badges">
+        <span class="badge">Code Check</span>
+        <span class="badge">Task Review</span>
+        <span class="badge">Smart Assign</span>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="orbit">
+        <div class="planet"></div>
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pro highlights -->
+  <section class="highlights">
+    <div class="card" *ngFor="let h of proHighlights" tabindex="0">
+      <div class="icon-wrap">
+        <i class="bi" [ngClass]="h.icon"></i>
+      </div>
+      <h3>{{ h.title }}</h3>
+      <p>{{ h.desc }}</p>
+    </div>
+  </section>
+
+  <!-- Comparison strip -->
+  <section class="compare">
+    <div class="row header">
+      <div>Feature</div>
+      <div>Free</div>
+      <div>Pro</div>
+    </div>
+    <div class="row" *ngFor="let c of comparisons">
+      <div>{{ c.label }}</div>
+      <div>{{ c.free }}</div>
+      <div>{{ c.pro }}</div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta-card">
+      <div class="cta-left">
+        <h3>Unlock Pro Models</h3>
+        <p>Boost accuracy, speed, and confidence across your workspace. Perfect for teams that ship fast.</p>
+        <ul class="benefits">
+          <li>Bigger context for multi-file reviews</li>
+          <li>Sharper recommendations for assignment</li>
+          <li>Consistent scoring across repos</li>
+        </ul>
+      </div>
+      <div class="cta-right">
+        <div class="price">${{ price }} <span>/ month</span></div>
+        <button class="btn-primary" [disabled]="processing || subscribed" (click)="subscribe()">
+          <span *ngIf="!processing && !subscribed">Start Pro</span>
+          <span *ngIf="processing">Processing…</span>
+          <span *ngIf="subscribed">Subscribed ✓</span>
+        </button>
+        <div class="note">Cancel anytime. Team-wide benefits.</div>
+      </div>
+    </div>
+  </section>
+</div>
