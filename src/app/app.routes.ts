@@ -3,7 +3,7 @@ import { RouterModule, Routes, ExtraOptions } from '@angular/router';
 
 import { Register } from './Register/register/register';
 import { Login } from './pages/login/login';
-import { Home } from './pages/home/home';
+
 import { Layout } from './Shared Component/layout/layout';
 import { CodeReview } from './components/GenAI-models/review/review';
 import { AdminHome } from './pages/admin-home/admin-home';
