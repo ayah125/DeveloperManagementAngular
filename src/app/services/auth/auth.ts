@@ -1,13 +1,12 @@
-import { Injectable, NgZone } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { LoginDTO } from '../../DTO/LoginDTO';
-import { SignupDTO } from '../../DTO/RegisterDTO';
-import { jwtDecode } from 'jwt-decode';
-import { AppUser } from '../../interfaces/appuser';
-import { env } from '../../../enviroment/environment';
-
+import { BehaviorSubject, Observable, tap } from "rxjs";
+import { env } from "../../../enviroment/environment";
+import { AppUser } from "../../interfaces/appuser";
+import { Router } from "@angular/router";
+import { HttpClient } from "@angular/common/http";
+import { Injectable, NgZone } from "@angular/core";
+import { jwtDecode } from "jwt-decode";
+import { SignupDTO } from "../../DTO/RegisterDTO";
+import { LoginDTO } from "../../DTO/LoginDTO";
 
 @Injectable({
   providedIn: 'root',
@@ -17,15 +16,19 @@ export class AuthService {
   private userSubject = new BehaviorSubject<AppUser | null>(null);
   user$ = this.userSubject.asObservable();
 
+  private readonly TOKEN_KEY = 'userToken'; 
+
   constructor(private http: HttpClient, private router: Router, private ngZone: NgZone) {
     const token = this.getToken();
     if (token) {
       this.updateUserFromToken(token);
     }
   }
+
   checkLogin() {
-    return !!localStorage.getItem('token');
+    return !!localStorage.getItem(this.TOKEN_KEY);
   }
+
   private updateUserFromToken(token: string) {
     try {
       const decoded: any = jwtDecode(token);
@@ -50,7 +53,7 @@ export class AuthService {
         tap((response: any) => {
           if (response.token) {
             this.setToken(response.token);
-            this.updateUserFromToken(response.token); // ⬅️ أهم خطوة لتحديث البيانات مباشرة
+            this.updateUserFromToken(response.token); // ✅ تحديث الزرار فورًا
           }
         })
       );
@@ -58,25 +61,25 @@ export class AuthService {
 
   logout() {
     this.removeToken();
-    this.userSubject.next(null);
+    this.userSubject.next(null); // ✅ تحديث فوري للـ Observable
     this.ngZone.run(() => {
       this.router.navigate(['/login']);
     });
   }
 
-  setToken(token: string) {
-    localStorage.setItem('userToken', token);
-  }
+setToken(token: string) {
+  localStorage.setItem(this.TOKEN_KEY, token);
+  this.ngZone.run(() => this.updateUserFromToken(token)); // ✅ يضمن تحديث الـ UI
+}
+
 
   getToken(): string | null {
-    return localStorage.getItem('userToken');
+    return localStorage.getItem(this.TOKEN_KEY); // ✅ مفتاح موحد
   }
 
   removeToken() {
-    localStorage.removeItem('userToken');
+    localStorage.removeItem(this.TOKEN_KEY); // ✅ مفتاح موحد
     localStorage.removeItem('userID');
     localStorage.removeItem('workspaces');
-
-
   }
 }
