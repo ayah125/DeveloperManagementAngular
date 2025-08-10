@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, OnInit, HostListener, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { AuthService } from '../../services/auth/auth';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -35,6 +35,8 @@ export class Navbar implements AfterViewInit, OnInit {
   showEditPopup = false;
   isMobile = false;
   workspacesWithProfile: WorkspaceWithProfile[] = [];
+  isLoggedIn: boolean = false;
+  showLogoutButton: boolean = false;
 
   @ViewChild('sidebar', { static: false }) sidebar!: ElementRef;
 
@@ -43,21 +45,46 @@ export class Navbar implements AfterViewInit, OnInit {
     public authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
-    public profile: Getprofile
+    public profile: Getprofile,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    // Load initial workspaces and tokens
+    this.isLoggedIn = this.authService.checkLogin();
+    if (this.isLoggedIn) {
+      setTimeout(() => {
+        console.log('showLogoutButton set to true');
+        this.showLogoutButton = true;
+        this.cdr.detectChanges();
+      }, 2000);
+    }
+
+    this.authService.user$.subscribe(user => {
+      console.log('Navbar user$:', user);
+      this.isLoggedIn = this.authService.checkLogin();
+      if (this.isLoggedIn) {
+        setTimeout(() => {
+          console.log('showLogoutButton set to true');
+          this.showLogoutButton = true;
+          this.cdr.detectChanges();
+        }, 2000);
+      } else {
+        this.showLogoutButton = false;
+        this.cdr.detectChanges();
+      }
+    });
+
     this.workspaceService.loadUserWorkspacesFromApi();
     this.workspaceService.getAllWorkspaceTokens().subscribe({
-      next: (tokens) => this.workspaceTokens = tokens,
+      next: (tokens) => {
+        this.workspaceTokens = tokens;
+        this.cdr.detectChanges();
+      },
       error: (err) => console.error('Error fetching tokens:', err)
     });
 
-    // Subscribe to workspaces$ to keep workspaces in sync
     this.workspaceService.workspaces$.subscribe(ws => {
       this.workspaces = ws;
-      // Update workspacesWithProfile by combining workspace data with profile data
       this.profile.GetAllProfiles().subscribe({
         next: (profiles: WorkspaceWithProfile[]) => {
           if (!profiles || profiles.length === 0) {
@@ -77,9 +104,9 @@ export class Navbar implements AfterViewInit, OnInit {
                 workspaceName: workspace.name
               }
             }));
+            this.cdr.detectChanges();
             return;
           }
-          // Match workspaces with profiles to update workspacesWithProfile
           this.workspacesWithProfile = ws.map(workspace => {
             const profile = profiles.find(p => p.workspaceId === workspace.id);
             return {
@@ -99,10 +126,10 @@ export class Navbar implements AfterViewInit, OnInit {
               }
             };
           });
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('Error fetching profiles', err);
-          // Fallback to default profile values
           this.workspacesWithProfile = ws.map(workspace => ({
             workspaceId: workspace.id,
             workspaceName: workspace.name,
@@ -119,6 +146,7 @@ export class Navbar implements AfterViewInit, OnInit {
               workspaceName: workspace.name
             }
           }));
+          this.cdr.detectChanges();
         }
       });
     });
@@ -151,6 +179,8 @@ export class Navbar implements AfterViewInit, OnInit {
   allWorkspacesExpanded = false;
   toggleAllWorkspaces() {
     this.allWorkspacesExpanded = !this.allWorkspacesExpanded;
+    console.log('Toggled allWorkspacesExpanded:', this.allWorkspacesExpanded);
+    this.cdr.detectChanges();
   }
 
   toggleSidebar() {
@@ -163,12 +193,23 @@ export class Navbar implements AfterViewInit, OnInit {
     const sidebar = document.querySelector('.custom-sidebar');
     const hamburgerBtn = document.querySelector('.hamburger');
     const sidebarToggleBtn = document.querySelector('.sidebar-toggle-btn');
+    const dropdownMenu = target.closest('.dropdown-menu-custom');
+    const optionsButton = target.closest('.options-button');
 
+    // Close sidebar if click is outside sidebar, hamburger, and toggle button
     if (this.isSidebarOpen && sidebar &&
         !sidebar.contains(target) &&
         !hamburgerBtn?.contains(target) &&
         !sidebarToggleBtn?.contains(target)) {
       this.isSidebarOpen = false;
+      this.cdr.detectChanges();
+    }
+
+    // Close dropdown if click is outside dropdown and options button
+    if (this.activeMenu !== null && !dropdownMenu && !optionsButton) {
+      console.log('Closing dropdown due to outside click');
+      this.activeMenu = null;
+      this.cdr.detectChanges();
     }
   }
 
@@ -181,40 +222,23 @@ export class Navbar implements AfterViewInit, OnInit {
   }
 
   toggleOptions(id: number) {
+    console.log('Toggling options for workspace:', id);
     this.activeMenu = this.activeMenu === id ? null : id;
-  }
-
-  goToWorkspace(id: number) {
-    this.router.navigate(['/workspace', id]);
-    this.closeSidebar();
   }
 
   logout() {
     this.authService.logout();
-  }
-
-  onDelete(workspaceID: number) {
-    this.workspaceService.deleteWorkspace(workspaceID).subscribe({
-      next: () => {
-        this.snackBar.open('Workspace deleted successfully', 'Close', { duration: 2000 });
-        // Update local arrays immediately
-        this.workspaces = this.workspaces.filter(w => w.id !== workspaceID);
-        this.workspacesWithProfile = this.workspacesWithProfile.filter(w => w.workspaceId !== workspaceID);
-        this.workspaceService.loadUserWorkspacesFromApi(); // Optional: Refresh from API
-      },
-      error: (err) => {
-        console.error(err);
-        this.snackBar.open('Failed to delete workspace: ' + (err.error?.message || ''), 'Close', { duration: 3000 });
-      }
-    });
+    this.showLogoutButton = false;
+    this.cdr.detectChanges();
   }
 
   onEdit(workspaceId: number) {
     console.log('Edit clicked for workspaceId:', workspaceId);
-
     if (!this.workspaceTokens || this.workspaceTokens.length === 0) {
       console.error('Workspace tokens not loaded yet');
       this.snackBar.open('Please wait, data is still loading', 'Close', { duration: 2000 });
+      this.activeMenu = null;
+      this.cdr.detectChanges();
       return;
     }
 
@@ -231,9 +255,13 @@ export class Navbar implements AfterViewInit, OnInit {
         Name: workspace.name ?? ''
       };
       this.showEditPopup = true;
+      this.activeMenu = null;
+      this.cdr.detectChanges();
     } else {
       console.error('Token or workspace not found');
       this.snackBar.open('Failed to find workspace data', 'Close', { duration: 2000 });
+      this.activeMenu = null;
+      this.cdr.detectChanges();
     }
   }
 
@@ -252,6 +280,7 @@ export class Navbar implements AfterViewInit, OnInit {
           this.showEditPopup = false;
           this.workspaceService.getAllWorkspaceTokens().subscribe(tokens => this.workspaceTokens = tokens);
           this.workspaceService.loadUserWorkspacesFromApi();
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('Update failed:', err);
@@ -260,28 +289,30 @@ export class Navbar implements AfterViewInit, OnInit {
       });
   }
 
+  confirmDelete(workspaceID: number) {
+    const confirmed = window.confirm('Are you sure you want to delete this workspace?');
+    if (confirmed) {
+      this.onDeleteConfirmed(workspaceID);
+    }
+    this.activeMenu = null;
+    this.cdr.detectChanges();
+  }
+
   onDeleteConfirmed(workspaceID: number) {
     this.workspaceService.deleteWorkspace(workspaceID).subscribe({
       next: () => {
         this.snackBar.open('Workspace deleted successfully', 'Close', { duration: 2000 });
-        // Update local arrays immediately
         this.workspaces = this.workspaces.filter(w => w.id !== workspaceID);
         this.workspacesWithProfile = this.workspacesWithProfile.filter(w => w.workspaceId !== workspaceID);
         localStorage.removeItem('workspace_' + workspaceID);
-        this.workspaceService.loadUserWorkspacesFromApi(); // Optional: Refresh from API
+        this.workspaceService.loadUserWorkspacesFromApi();
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error(err);
         this.snackBar.open('Failed to delete workspace: ' + (err.error?.message || ''), 'Close', { duration: 3000 });
       }
     });
-  }
-
-  confirmDelete(workspaceID: number) {
-    const confirmed = window.confirm('Are you sure you want to delete this workspace?');
-    if (confirmed) {
-      this.onDeleteConfirmed(workspaceID);
-    }
   }
 
   closeEditPopup() {

@@ -15,8 +15,7 @@ export class AuthService {
   private apiUrl = env.apiUrl;
   private userSubject = new BehaviorSubject<AppUser | null>(null);
   user$ = this.userSubject.asObservable();
-
-  private readonly TOKEN_KEY = 'userToken'; 
+  private readonly TOKEN_KEY = 'userToken';
 
   constructor(private http: HttpClient, private router: Router, private ngZone: NgZone) {
     const token = this.getToken();
@@ -32,9 +31,11 @@ export class AuthService {
   private updateUserFromToken(token: string) {
     try {
       const decoded: any = jwtDecode(token);
+      console.log('Decoded token:', decoded); 
       const usernameFromToken =
         decoded['https://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] ||
         decoded['unique_name'] ||
+        decoded['name'] || 
         'User';
       this.userSubject.next({ displayName: usernameFromToken });
     } catch (error) {
@@ -51,9 +52,8 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/api/Authentication/Login`, loginDto)
       .pipe(
         tap((response: any) => {
-          if (response.token) {
-            this.setToken(response.token);
-            this.updateUserFromToken(response.token); // ✅ تحديث الزرار فورًا
+          if (response.userToken) { 
+            this.setToken(response.userToken);
           }
         })
       );
@@ -61,24 +61,23 @@ export class AuthService {
 
   logout() {
     this.removeToken();
-    this.userSubject.next(null); // ✅ تحديث فوري للـ Observable
+    this.userSubject.next(null);
     this.ngZone.run(() => {
       this.router.navigate(['/login']);
     });
   }
 
-setToken(token: string) {
-  localStorage.setItem(this.TOKEN_KEY, token);
-  this.ngZone.run(() => this.updateUserFromToken(token)); // ✅ يضمن تحديث الـ UI
-}
-
+  setToken(token: string) {
+    localStorage.setItem(this.TOKEN_KEY, token);
+    this.ngZone.run(() => this.updateUserFromToken(token));
+  }
 
   getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY); // ✅ مفتاح موحد
+    return localStorage.getItem(this.TOKEN_KEY);
   }
 
   removeToken() {
-    localStorage.removeItem(this.TOKEN_KEY); // ✅ مفتاح موحد
+    localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem('userID');
     localStorage.removeItem('workspaces');
   }

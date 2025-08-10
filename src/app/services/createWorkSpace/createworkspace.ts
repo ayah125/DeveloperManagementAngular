@@ -1,11 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { ElementRef, inject, Injectable, ViewChild } from '@angular/core';
 import { workspaceData } from '../../models/workspaceData';
 import { WorkspaceToken } from '../../models/workspace-token';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AddMemberModel } from '../../interfaces/add-member-model';
 import { env } from '../../../enviroment/environment';
+
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,7 @@ export class Workspace {
       this.workspacesSubject.next(JSON.parse(savedWorkspaces));
     }
   }
+ 
 
   createWorkspace(workspaceData: workspaceData) {
     const token = localStorage.getItem('userToken');
@@ -154,11 +156,6 @@ export class Workspace {
  
   return this.httpclient.delete( `${this.apiUrl}/api/WorkSpaces/DeleteMemberFromWorkspace/${workspaceID}/${userID}`, {headers})
  }
-
-
-
-
-  // (اختياري) تجيب Workspaces من الـ backend وتحدثهم
   loadUserWorkspacesFromApi() {
     const token = localStorage.getItem('userToken');
     const headers = new HttpHeaders({

@@ -12,5 +12,5 @@ export const environment = {
 };
 export const env = {
   production: false,
-  apiUrl: 'https://localhost:7293', // غيّريها حسب السيرفر بتاعك
+  apiUrl: 'http://localhost:5023', // غيّريها حسب السيرفر بتاعك
 };
