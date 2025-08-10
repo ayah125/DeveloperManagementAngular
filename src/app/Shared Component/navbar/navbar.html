@@ -1,79 +1,55 @@
-<!-- Overlay -->
-<div class="overlay" [class.show]="isSidebarOpen" ></div>
-<button class="hamburger" (click)="toggleSidebar()" *ngIf="isMobile">
-  &#9776;
-</button>
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg custom-navbar fixed-top">
   <div class="container-fluid">
     <button class="btn sidebar-toggle-btn text-white me-2" (click)="toggleSidebar()">&#9776;</button>
     <a class="navbar-brand d-flex align-items-center text-white fw-bold" routerLink="/home">
       <img src="https://img.freepik.com/premium-vector/people-rune-logo-design-template_18099-2098.jpg" alt="Logo" />
-    DevOops
+      DevOops
     </a>
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav mb-2 mb-lg-0 gap-2 me-auto">
         <li class="nav-item"><a routerLink="/home" routerLinkActive="active-link" class="nav-link text-white">Home</a></li>
-
-       
+        <li class="nav-item"><a routerLink="/docs" routerLinkActive="active-link" class="nav-link text-white">Docs</a></li>
+        <li class="nav-item"><a routerLink="/models" routerLinkActive="active-link" class="nav-link text-white">Models</a></li>
       </ul>
-      <div class="d-flex align-items-center gap-2 text-white ms-auto" *ngIf="authService.user$ | async as user">
-        
+      <div class="d-flex align-items-center gap-2 text-white ms-auto" *ngIf="showLogoutButton">
         <button class="logout-btn" (click)="logout()">Logout</button>
       </div>
     </div>
   </div>
 </nav>
 
-
 <div class="custom-sidebar" #sidebar [class.show]="isSidebarOpen">
   <div class="sidebar-header text-center">
     <img src="https://img.freepik.com/premium-vector/people-rune-logo-design-template_18099-2098.jpg" alt="Logo" class="sidebar-logo" />
     <div class="sidebar-subtitle">Manage your team easily</div>
   </div>
-
   <ul>
-           <li><a (click)="onprofileClick()">Profile</a></li>
-
-
+    <li><a (click)="onprofileClick()">Profile</a></li>
     <li><a (click)="onhomeClick()">Home</a></li>
-
-   
-
     <li>
       <a routerLink="/create" class="add-icon">
         <i class="fas fa-plus"></i> Create new WorkSpace
       </a>
     </li>
-
     <li>
       <div class="all-workspaces-btn" (click)="toggleAllWorkspaces()">
         <span>All Workspaces</span>
         <i [class]="allWorkspacesExpanded ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
       </div>
     </li>
-
     <ul class="workspace-list" [class.expanded]="allWorkspacesExpanded">
-<li *ngFor="let workspace of workspacesWithProfile" class="workspace-item">
-  <button
-    class="workspace-btn"
-    (click)="onWorkspaceClick(workspace)"
-
-  >
-    {{ workspace.workspaceName }}
-  </button>
-
-
-
-<div class="dropdown-wrapper">
-  <button class="options-button" (click)="toggleOptions(workspace.workspaceId); $event.stopPropagation()">⋮</button>
-  <div *ngIf="activeMenu === workspace.workspaceId" class="dropdown-menu-custom">
-    <button (click)="onEdit(workspace.workspaceId)">Edit</button>
-    <button (click)="confirmDelete(workspace.workspaceId)">Delete</button>
-  </div>
-</div>
-</li>
-
+      <li *ngFor="let workspace of workspacesWithProfile; let i = index" class="workspace-item" [class.last-item]="i === workspacesWithProfile.length - 1">
+        <button class="workspace-btn" (click)="onWorkspaceClick(workspace)">
+          {{ workspace.workspaceName }}
+        </button>
+        <div class="dropdown-wrapper">
+          <button class="options-button" (click)="toggleOptions(workspace.workspaceId); $event.stopPropagation()">⋮</button>
+          <div *ngIf="activeMenu === workspace.workspaceId" class="dropdown-menu-custom">
+            <button (click)="onEdit(workspace.workspaceId)">Edit</button>
+            <button (click)="confirmDelete(workspace.workspaceId)">Delete</button>
+          </div>
+        </div>
+      </li>
     </ul>
   </ul>
 </div>
@@ -88,8 +64,7 @@
       <input type="text" [(ngModel)]="selectedToken!.OwnerName" name="OwnerName" placeholder="Owner Name" required>
       <input type="text" [(ngModel)]="selectedToken!.UserAgent" name="UserAgent" placeholder="User Agent" required>
       <div class="popup-actions">
-        <button type="submit" class="btn btn-primary" >Save</button>
-        
+        <button type="submit" class="btn btn-primary">Save</button>
         <button type="button" class="btn btn-secondary" (click)="closeEditPopup()">Cancel</button>
       </div>
     </form>
