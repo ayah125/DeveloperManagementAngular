@@ -17,7 +17,7 @@ import { WorkspaceToken } from '../../models/workspace-token';
 export class Createworkspace {
   constructor(private http: HttpClient) {}
   workspaceService = inject(Workspace);
-  router = inject(Router); // استخدمي inject بدل constructor لو بتحبي
+  router = inject(Router); 
 
   showForm = false;
   workspaceData: workspaceData = {
